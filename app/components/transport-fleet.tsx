@@ -12,25 +12,34 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   const root = useRef<HTMLElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
   const manualSelection = useRef(false);
-  const previousTab = useRef(0);
+  const visualPosition = useRef(0);
   useLayoutEffect(() => {
-    const previous = previousTab.current;
-    previousTab.current = active;
-    if (previous === active || !root.current) return;
-    const incoming = root.current.querySelector<HTMLElement>(`#fleet-panel-${active}`);
-    const outgoing = root.current.querySelector<HTMLElement>(`#fleet-panel-${previous}`);
-    if (!incoming || !outgoing) return;
-    const direction = active > previous ? 1 : -1;
+    const panels = Array.from(root.current?.querySelectorAll<HTMLElement>(".fleet-showcase") ?? []);
+    if (!panels.length) return;
     const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      const transition = gsap.timeline({ defaults: { duration: .55, ease: "power3.inOut" } });
-      transition.set(outgoing, { visibility: "visible", zIndex: 1 })
-        .set(incoming, { zIndex: 2 })
-        .fromTo(outgoing, { xPercent: 0, opacity: 1 }, { xPercent: -100 * direction, opacity: .7 }, 0)
-        .fromTo(incoming, { xPercent: 100 * direction, opacity: .85 }, { xPercent: 0, opacity: 1 }, 0)
-        .set(outgoing, { visibility: "hidden" });
+    media.add({ motion: "(prefers-reduced-motion: no-preference)", reduced: "(prefers-reduced-motion: reduce)" }, context => {
+      if (context.conditions?.reduced) { visualPosition.current = active; return; }
+      const position = { value: visualPosition.current };
+      const render = () => {
+        visualPosition.current = position.value;
+        panels.forEach((panel, index) => gsap.set(panel, {
+          xPercent: (index - position.value) * 100,
+          visibility: Math.abs(index - position.value) < 1.01 ? "visible" : "hidden",
+        }));
+      };
+      render();
+      gsap.to(position, {
+        value: active, duration: Math.min(1, .65 + Math.abs(active - position.value) * .08),
+        ease: "power2.inOut", onUpdate: render,
+        onComplete: () => panels.forEach((panel, index) => gsap.set(panel, { visibility: index === active ? "visible" : "hidden" })),
+      });
     });
-    return () => media.revert();
+    return () => {
+      // Preserve the in-flight position so rapid tab changes never snap back.
+      const current = visualPosition.current;
+      media.revert();
+      visualPosition.current = current;
+    };
   }, [active]);
   const icons = [Ship, BusFront, Waves, CarFront];
   const images = ["/assets/transport.webp", "/assets/bridge.webp", "/assets/conventional-ferry.webp", "/assets/male-taxi-fleet.webp"];
