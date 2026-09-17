@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { assetPath } from "../lib/asset-path";
+
+const favicon = "https://mtcc.mv/wp-content/uploads/2019/11/mtcc-favicon.png";
 
 export const metadata: Metadata = {
   title: "MTCC Profiles 2026",
   description: "Corporate and investor profiles for Maldives Transport & Contracting Company PLC.",
   icons: {
-    icon: [
-      { url: assetPath("/favicon.ico?v=mtcc-2"), sizes: "32x32", type: "image/x-icon" },
-      { url: assetPath("/favicon-32.png?v=mtcc-2"), sizes: "32x32", type: "image/png" },
-    ],
-    shortcut: assetPath("/favicon.ico?v=mtcc-2"),
-    apple: { url: assetPath("/apple-touch-icon.png?v=mtcc-2"), sizes: "180x180", type: "image/png" },
+    icon: { url: favicon, type: "image/png" },
+    shortcut: favicon,
+    apple: { url: favicon, type: "image/png" },
   },
 };
 
