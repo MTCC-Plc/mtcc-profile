@@ -1629,3 +1629,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 @media (prefers-reduced-motion: no-preference) {
   .timeline-focused :is(time, h3, p), .timeline-focused time::after { transition: color .3s ease, background-color .3s ease; }
 }
+
+.timeline-scroll-mobile { background: white; }
+.timeline-scroll-mobile .timeline { scroll-snap-type: none; scrollbar-width: none; }
+.timeline-scroll-mobile .timeline::-webkit-scrollbar { display: none; }

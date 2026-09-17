@@ -117,6 +117,20 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
         }
       }
 
+      if (!desktop && milestoneTrack && milestoneWindow && milestoneWindow.offsetHeight < window.innerHeight - 100) {
+        milestoneWindow.classList.add("timeline-scroll-mobile");
+        gsap.fromTo(milestoneTrack, { scrollLeft: 0 }, {
+          scrollLeft: () => milestoneTrack.scrollWidth - milestoneTrack.clientWidth,
+          ease: "none", onUpdate: highlightMilestone,
+          scrollTrigger: {
+            trigger: milestoneWindow,
+            start: () => `top ${(page.querySelector(".site-header")?.getBoundingClientRect().height ?? 64) + 24}px`,
+            end: () => `+=${window.innerHeight * Math.max(1, milestones.length - 1) * .9}`,
+            pin: true, scrub: .5, invalidateOnRefresh: true,
+          },
+        });
+      }
+
       gsap.fromTo(".reading-progress", { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger: {
         trigger: page, start: "top top", end: "bottom bottom", scrub: true,
       } });
@@ -215,6 +229,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
       return () => {
         mobileObserver?.disconnect();
+        milestoneWindow?.classList.remove("timeline-scroll-mobile");
         values?.classList.remove("values-light-active");
         page.classList.remove("motion-desktop", "motion-purpose");
         counters.forEach((element) => { element.textContent = element.dataset.count!; });
