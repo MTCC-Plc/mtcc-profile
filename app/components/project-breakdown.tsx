@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import type { CSSProperties, KeyboardEvent } from "react";
 import type { ProfileSection } from "../types/profile";
+
+function AnimatedFigure({ value }: { value: string }) {
+  return <><span className="sr-only">{value}</span><span aria-hidden="true" data-breakdown-value={value}>{value}</span></>;
+}
 
 export function ProjectBreakdown({ section }: { section: Extract<ProfileSection, { type: "content" }> }) {
   const tables = section.blocks.filter(block => block.type === "table");
@@ -27,6 +31,39 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   const explorer = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
   const manualSelection = useRef(false);
+  useLayoutEffect(() => {
+    const panel = explorer.current?.querySelector<HTMLElement>('[role="tabpanel"]:not([hidden])');
+    if (!panel) return;
+    const figures = Array.from(panel.querySelectorAll<HTMLElement>("[data-breakdown-value]"));
+    const restore = () => figures.forEach(element => { element.textContent = element.dataset.breakdownValue!; });
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      const animation = gsap.timeline({ defaults: { duration: .8, ease: "power3.out" } });
+      const ring = panel.querySelector<HTMLElement>(".breakdown-ring");
+      if (ring) {
+        animation.fromTo(ring, { "--completed": "0%", scale: .96 }, {
+          "--completed": ring.dataset.completed!, scale: 1,
+        }, 0);
+      }
+      figures.forEach((element, index) => {
+        const original = element.dataset.breakdownValue!;
+        if (!/^\d[\d,]*(?:\.\d+)?$/.test(original)) return;
+        const decimals = original.split(".")[1]?.length ?? 0;
+        const number = { value: 0 };
+        const format = new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: original.includes(","),
+        });
+        element.textContent = format.format(0);
+        animation.to(number, {
+          value: Number(original.replaceAll(",", "")),
+          onUpdate: () => { element.textContent = format.format(number.value); },
+          onComplete: () => { element.textContent = original; },
+        }, Math.min(index * .035, .18));
+      });
+      return restore;
+    });
+    return () => { media.revert(); restore(); };
+  }, [active]);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
@@ -87,10 +124,10 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
           return <article key={category.title} id={`${prefix}-panel-${index}`} role="tabpanel" aria-labelledby={`${prefix}-tab-${index}`} hidden={active !== index} tabIndex={0} className="breakdown-panel">
             <h3>{category.title}</h3>
             {count && <div className="breakdown-counts">
-              <div className="breakdown-ring" style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong>{count[3]}</strong><span>{counts.columns[3]} projects</span></div></div>
-              <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd>{value}</dd></div>)}</dl>
+              <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={count[3]} /></strong><span>{counts.columns[3]} projects</span></div></div>
+              <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl>
             </div>}
-            <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt>{category.columns[i + 1]}</dt><dd>{value}</dd></div>)}</dl></div>)}</div>
+            <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt>{category.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
             {category.note && <p>{category.note}</p>}
           </article>;
         })}</div>

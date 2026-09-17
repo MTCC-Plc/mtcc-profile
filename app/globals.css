@@ -1573,3 +1573,5 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .values-light-active :is(.purpose-values-heading h3, .move-letter, .move-values h4, .move-values p) { background: none; -webkit-text-fill-color: CanvasText; }
 }
 .values-light-active .move-values :is(h4, p) { background-image: linear-gradient(110deg, var(--value-ink, #102435) 36%, #006278 44%, #00758b 49%, #006278 54%, var(--value-ink, #102435) 62%); }
+.breakdown-panel [data-breakdown-value] { font-variant-numeric: tabular-nums; }
+.breakdown-ring strong > span { margin: 0; font: inherit; color: inherit; }
