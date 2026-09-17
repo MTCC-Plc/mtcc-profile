@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { ProfileSection } from "../types/profile";
 
+import { FlagshipProjectCard } from "./flagship-project-card";
+
 const filters = ["All projects", "Airports", "Reclamation", "Roads"] as const;
 type Filter = typeof filters[number];
 function category(name: string): Filter {
@@ -107,6 +109,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
     if (next === filter) return;
     const trigger = scroll.current;
     if (trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2) window.scrollTo({top: trigger.start, behavior: "instant"});
+    setActive(0);
     setFilter(next);
   }
   function navigate(index: number) {
@@ -135,10 +138,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
         if (event.target !== event.currentTarget) return;
         const next = event.key === "Home" ? 0 : event.key === "End" ? visible.length - 1 : event.key === "ArrowRight" ? active + 1 : event.key === "ArrowLeft" ? active - 1 : null;
         if (next !== null) { event.preventDefault(); navigate(next); }
-      }}>{visible.map((project, index) => <article key={project.name} className={`flagship-card ${index === 0 ? "flagship-featured" : ""}`} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${visible.length}: ${project.name}`}>
-        <div className="flagship-project-copy"><div className="flagship-card-top"><span>{String(project.index + 1).padStart(2, "0")}</span><span>{project.category}</span></div><h3>{project.name}</h3></div>
-        <dl className="flagship-amounts"><div><dt>MVR <span>million</span></dt><dd>{project.mvr}</dd></div><div><dt>USD <span>million</span></dt><dd>{project.usd}</dd></div></dl>
-      </article>)}</div>
+      }}>{visible.map((project, index) => <FlagshipProjectCard key={project.name} project={project} index={index} total={visible.length} active={active === index} />)}</div>
       <div className="flagship-gallery-controls"><p aria-live="polite" aria-atomic="true">Project {active + 1} of {visible.length}</p><div><button type="button" aria-label="Previous flagship project" aria-controls="flagship-grid" disabled={active === 0} onClick={() => navigate(active - 1)}><ChevronLeft aria-hidden="true" /></button><button type="button" aria-label="Next flagship project" aria-controls="flagship-grid" disabled={active === visible.length - 1} onClick={() => navigate(active + 1)}><ChevronRight aria-hidden="true" /></button></div></div>
       </div>
     </div>
