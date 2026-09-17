@@ -11,6 +11,7 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const root = useRef<HTMLElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
+  const manualSelection = useRef(false);
   const icons = [Ship, BusFront, Waves, CarFront];
   const images = ["/assets/transport.webp", "/assets/bridge.webp", "/assets/conventional-ferry.webp", "/assets/male-taxi-fleet.webp"];
   const imageDescriptions = ["RTL ferry travelling across the sea", "RTL buses travelling on a bridge", "Boarding an MTCC conventional ferry", "Malé Taxi Line electric vehicles displayed at the fleet launch"];
@@ -28,10 +29,10 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          if (self.isActive) setActive(Math.min(block.rows.length - 1, Math.floor(self.progress * block.rows.length)));
+          if (self.isActive && !manualSelection.current) setActive(Math.min(block.rows.length - 1, Math.floor(self.progress * block.rows.length)));
         },
-        onLeave: () => setActive(block.rows.length - 1),
-        onLeaveBack: () => setActive(0),
+        onLeave: () => { manualSelection.current = false; setActive(block.rows.length - 1); },
+        onLeaveBack: () => { manualSelection.current = false; setActive(0); },
       });
       scroll.current = trigger;
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
@@ -41,6 +42,7 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   }, [block.rows.length]);
   function select(index: number) {
     const trigger = scroll.current;
+    manualSelection.current = Boolean(trigger && !trigger.vars.pin);
     if (trigger?.isActive && trigger.vars.pin) {
       // Keep the scroll chapter aligned with manual selection, so it does not snap back.
       window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * (index + .5) / block.rows.length, behavior: "instant" });

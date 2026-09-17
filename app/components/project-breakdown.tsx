@@ -11,9 +11,22 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   const counts = tables[0];
   const categories = tables.slice(1);
   const [active, setActive] = useState(0);
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 999px)");
+    const update = () => setCompact(media.matches);
+    update(); media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    if (!compact) return;
+    const tab = tabs.current[active];
+    if (tab?.parentElement) tab.parentElement.scrollTo({left: tab.offsetLeft - tab.parentElement.offsetLeft, behavior: "instant"});
+  }, [active, compact]);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const explorer = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
+  const manualSelection = useRef(false);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
@@ -28,10 +41,10 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          if (self.isActive) setActive(Math.min(categories.length - 1, Math.floor(self.progress * categories.length)));
+          if (self.isActive && !manualSelection.current) setActive(Math.min(categories.length - 1, Math.floor(self.progress * categories.length)));
         },
-        onLeave: () => setActive(categories.length - 1),
-        onLeaveBack: () => setActive(0),
+        onLeave: () => { manualSelection.current = false; setActive(categories.length - 1); },
+        onLeaveBack: () => { manualSelection.current = false; setActive(0); },
       });
       scroll.current = trigger;
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
@@ -44,6 +57,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
 
   function select(index: number) {
     const trigger = scroll.current;
+    manualSelection.current = Boolean(trigger && !trigger.vars.pin);
     if (trigger?.isActive && trigger.vars.pin) {
       window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * (index + .5) / categories.length, behavior: "instant" });
     }
@@ -64,7 +78,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
     <div className="shell">
       <header className="breakdown-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id={`${prefix}-title`}>{section.title}<span>.</span></h2></header>
       <div ref={explorer} className="breakdown-explorer">
-        <div className="breakdown-sidebar"><p>Explore by category</p><div className="breakdown-tabs" role="tablist" aria-label="Project categories" aria-orientation="vertical">
+        <div className="breakdown-sidebar"><p>Explore by category</p><div className="breakdown-tabs" role="tablist" aria-label="Project categories" aria-orientation={compact ? "horizontal" : "vertical"}>
           {categories.map((category, index) => <button key={category.title} ref={el => { tabs.current[index] = el; }} type="button" id={`${prefix}-tab-${index}`} role="tab" aria-selected={active === index} aria-controls={`${prefix}-panel-${index}`} tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span aria-hidden="true">0{index + 1}</span>{category.title}<span className="breakdown-tab-arrow" aria-hidden="true">↗</span></button>)}
         </div></div>
         <div className="breakdown-panels">{categories.map((category, index) => {

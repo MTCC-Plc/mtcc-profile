@@ -8,7 +8,6 @@ import {
   Globe2,
   Mail,
   MapPin,
-  Menu,
   Phone,
 } from "lucide-react";
 import type { ProfilePageData, ProfileSection } from "../types/profile";
@@ -16,6 +15,7 @@ import { ScrollExperience } from "./scroll-experience";
 import { InvestmentHighlights } from "./investment-highlights";
 import { FlagshipProjects } from "./flagship-projects";
 import { GrowthStrategy } from "./growth-strategy";
+import { MobileMenu } from "./mobile-menu";
 import { ContentSection, LeadershipSection, ProfileContents } from "./publication-sections";
 
 function SiteHeader({ active }: { active: ProfilePageData["theme"] }) {
@@ -31,14 +31,7 @@ function SiteHeader({ active }: { active: ProfilePageData["theme"] }) {
           <Link className={active === "investor" ? "active" : ""} href="/investor-profile">Investor profile</Link>
           <a href="#contact">Contact</a>
         </nav>
-        <details className="mobile-menu">
-          <summary aria-label="Open menu"><Menu size={22} /></summary>
-          <nav aria-label="Mobile profile navigation">
-            <Link href="/corporate-profile">Corporate profile</Link>
-            <Link href="/investor-profile">Investor profile</Link>
-            <a href="#contact">Contact</a>
-          </nav>
-        </details>
+        <MobileMenu />
       </div>
     </header>
   );
