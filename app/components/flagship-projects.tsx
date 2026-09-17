@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -23,9 +23,10 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
   const rail = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
   const manualSelection = useRef(false);
+  const resetPinnedPosition = useRef(false);
   const projects = section.projects.map((project, index) => ({ ...project, index, category: category(project.name) }));
   const visible = projects.filter(project => filter === "All projects" || project.category === filter);
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const element = rail.current;
     if (!element) return;
@@ -50,8 +51,10 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       const desktop = Boolean(context.conditions.desktop);
       const pinned = Boolean(desktop || context.conditions.mobile);
       if (!pinned) return;
-      manualSelection.current = false;
+      manualSelection.current = resetPinnedPosition.current;
+      let userScrolled = false;
       const holdSelection = () => {
+        userScrolled = true;
         if (!desktop) gsap.killTweensOf(element, "scrollLeft");
       };
       container.classList.add("flagship-scroll-driven");
@@ -63,9 +66,8 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       }
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
-      let drivenAt = 0;
       const drive = (progress: number) => {
-        drivenAt = performance.now();
+        userScrolled = false;
         const distance = element.scrollWidth - element.clientWidth;
         if (desktop) element.scrollTo({ left: progress * distance, behavior: "instant" });
         else gsap.to(element, { scrollLeft: progress * distance, duration: .35, ease: "power2.out", overwrite: "auto" });
@@ -79,30 +81,45 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       });
       scroll.current = trigger;
       const syncSwipe = () => {
-        if (!pinned || window.scrollY < trigger.start - 2 || window.scrollY > trigger.end + 2 || performance.now() - drivenAt < 150) return;
+        if (!userScrolled || manualSelection.current || window.scrollY < trigger.start - 2 || window.scrollY > trigger.end + 2) return;
+        userScrolled = false;
         const distance = element.scrollWidth - element.clientWidth;
         if (distance <= 0) return;
         const progress = element.scrollLeft / distance;
         if (Math.abs(progress - trigger.progress) > .001) window.scrollTo({top: trigger.start + progress * (trigger.end - trigger.start), behavior: "instant"});
       };
       element.addEventListener("scrollend", syncSwipe);
-      const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
       return () => {
-        cancelAnimationFrame(frame); element.removeEventListener("scrollend", syncSwipe); scroll.current = null;
+        element.removeEventListener("scrollend", syncSwipe); scroll.current = null;
         gsap.killTweensOf(element, "scrollLeft");
         element.removeEventListener("pointerdown", holdSelection);
         element.removeEventListener("wheel", holdSelection);
         container.classList.remove("flagship-scroll-driven", "flagship-scroll-pinned", "flagship-scroll-mobile");
       };
     });
-    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    const frame = requestAnimationFrame(() => {
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+      const trigger = scroll.current;
+      if (resetPinnedPosition.current && trigger?.vars.pin) {
+        gsap.killTweensOf(element, "scrollLeft");
+        window.scrollTo({ top: trigger.start, behavior: "instant" });
+        element.scrollTo({ left: 0, behavior: "instant" });
+        setActive(0);
+      }
+      resetPinnedPosition.current = false;
+      manualSelection.current = false;
+    });
     return () => { cancelAnimationFrame(frame); media.revert(); element.removeEventListener("scroll", update); observer.disconnect(); };
   }, [filter]);
 
   function changeFilter(next: Filter) {
     if (next === filter) return;
     const trigger = scroll.current;
-    if (trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2) window.scrollTo({top: trigger.start, behavior: "instant"});
+    resetPinnedPosition.current = Boolean(trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2);
+    manualSelection.current = true;
+    if (rail.current) gsap.killTweensOf(rail.current, "scrollLeft");
+    if (resetPinnedPosition.current && trigger) window.scrollTo({top: trigger.start, behavior: "instant"});
     setActive(0);
     setFilter(next);
   }
