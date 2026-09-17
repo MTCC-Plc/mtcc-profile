@@ -17,13 +17,33 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
     media.add({
       desktop: "(min-width: 1000px) and (min-height: 700px)",
+      tall: "(min-height: 600px)",
       reduced: "(prefers-reduced-motion: reduce)",
       motion: "(prefers-reduced-motion: no-preference)",
     }, (context) => {
       if (context.conditions?.reduced) return;
       const desktop = context.conditions?.desktop;
+      const pinPurpose = Boolean(desktop || context.conditions?.tall);
       let mobileObserver: IntersectionObserver | undefined;
       if (desktop) page.classList.add("motion-desktop");
+
+      const purpose = page.querySelector<HTMLElement>(".purpose-stage");
+      if (purpose && pinPurpose) {
+        page.classList.add("motion-purpose");
+        const scenes = Array.from(purpose.querySelectorAll<HTMLElement>(".purpose-scene"));
+        gsap.set(scenes[1], { autoAlpha: 0 });
+        const story = gsap.timeline({ scrollTrigger: {
+          trigger: purpose, start: () => desktop ? "top top" : `top ${page.querySelector(".site-header")?.getBoundingClientRect().height ?? 64}px`, end: () => `+=${window.innerHeight * (desktop ? 1.6 : 1.45)}`,
+          pin: true, scrub: desktop ? 0.7 : 0.4, invalidateOnRefresh: true,
+        } });
+        story.to(scenes[0].querySelector("img"), { scale: desktop ? 1.12 : 1.06, duration: 1.6, ease: "none" }, 0)
+          .to(scenes[0].querySelector(".purpose-statement"), { y: desktop ? -45 : -20, opacity: 0, duration: 0.45 }, 0.55)
+          .to(scenes[0], { autoAlpha: 0, duration: 0.5 }, 0.75)
+          .to(scenes[1], { autoAlpha: 1, duration: 0.5 }, 0.75)
+          .from(scenes[1].querySelector(".purpose-statement"), { y: desktop ? 45 : 20, duration: 0.6 }, 0.75)
+          .fromTo(scenes[1].querySelector("img"), { scale: desktop ? 1.12 : 1.06 }, { scale: 1, duration: 1, ease: "none" }, 0.75)
+          .fromTo(purpose.querySelector(".purpose-chapters i"), { scaleX: 0 }, { scaleX: 1, duration: 1.75, ease: "none" }, 0);
+      }
 
       // Establish pinned sections first so later triggers include their scroll space.
       if (desktop) {
@@ -36,23 +56,6 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
           .to(".hero-shade", { opacity: 0.55, duration: 1 }, 0)
           .to(".hero-scroll-cue", { opacity: 0, duration: 0.2 }, 0)
           .fromTo(".hero-scene-caption", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.5);
-
-        const purpose = page.querySelector<HTMLElement>(".purpose-stage");
-        if (purpose) {
-          const scenes = Array.from(purpose.querySelectorAll<HTMLElement>(".purpose-scene"));
-          gsap.set(scenes[1], { autoAlpha: 0 });
-          const story = gsap.timeline({ scrollTrigger: {
-            trigger: purpose, start: "top top", end: () => `+=${window.innerHeight * 1.6}`,
-            pin: true, scrub: 0.7, invalidateOnRefresh: true,
-          } });
-          story.to(scenes[0].querySelector("img"), { scale: 1.12, duration: 1.6, ease: "none" }, 0)
-            .to(scenes[0].querySelector(".purpose-statement"), { y: -45, opacity: 0, duration: 0.45 }, 0.55)
-            .to(scenes[0], { autoAlpha: 0, duration: 0.5 }, 0.75)
-            .to(scenes[1], { autoAlpha: 1, duration: 0.5 }, 0.75)
-            .from(scenes[1].querySelector(".purpose-statement"), { y: 45, duration: 0.6 }, 0.75)
-            .fromTo(scenes[1].querySelector("img"), { scale: 1.12 }, { scale: 1, duration: 1, ease: "none" }, 0.75)
-            .fromTo(purpose.querySelector(".purpose-chapters i"), { scaleX: 0 }, { scaleX: 1, duration: 1.75, ease: "none" }, 0);
-        }
 
         const stage = page.querySelector<HTMLElement>(".services-stage");
         if (stage) {
@@ -105,7 +108,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       reveals.push(...select<HTMLElement>(".trading-intro > div:first-child, .trading-story, .trading-block-heading, .trading-brand-grid article, .trading-revenue-table"));
       reveals.push(...select<HTMLElement>(".transport-hero-copy, .transport-story, .transport-network-stat, .transport-block-heading, .transport-fleet-card, .transport-passenger-grid > div, .transport-passenger-total"));
       reveals.push(...select<HTMLElement>(".transport-opening-copy, .transport-opening-caption, .transport-total-feature"));
-      if (!desktop) reveals.push(...select<HTMLElement>(".purpose-statement"));
+      if (!pinPurpose) reveals.push(...select<HTMLElement>(".purpose-statement"));
       if (desktop) {
         reveals.forEach((element) => {
           gsap.from(element, { y: 38, opacity: 0, duration: 0.85, ease: "power2.out", scrollTrigger: {
@@ -117,7 +120,8 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
         // Avoid animating nested blocks twice, which compounds their movement.
         const mobileReveals = [...new Set(reveals)].filter(element =>
           !reveals.some(parent => parent !== element && parent.contains(element)));
-        const visuals = select<HTMLElement>(".story-visual > img, .about-landscape > img, .purpose-scene > img, .transport-opening-scene > img");
+        const visuals = select<HTMLElement>(".story-visual > img, .about-landscape > img, .transport-opening-scene > img");
+        if (!pinPurpose) visuals.push(...select<HTMLElement>(".purpose-backdrop img"));
         gsap.set(mobileReveals, { y: 16, opacity: 0 });
         gsap.set(visuals, { scale: 1.045 });
         mobileObserver = new IntersectionObserver(entries => {
@@ -166,7 +170,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
       return () => {
         mobileObserver?.disconnect();
-        page.classList.remove("motion-desktop");
+        page.classList.remove("motion-desktop", "motion-purpose");
         counters.forEach((element) => { element.textContent = element.dataset.count!; });
       };
     }, page);

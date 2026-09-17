@@ -441,9 +441,9 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .move-values article { min-width: 0; }
 .move-values h4 { margin: 32px 0 12px; padding-top: 25px; border-top: 1px solid #d1d9df; font-size: 1.2rem; letter-spacing: -.02em; }
 .move-values p { margin: 0; max-width: 230px; color: #526270; line-height: 1.6; font-size: 1rem; }
-.motion-desktop .purpose-stage { height: 100svh; min-height: 600px; }
-.motion-desktop .purpose-scene { position: absolute; inset: 0; min-height: 0; height: 100%; }
-.motion-desktop .purpose-chapters { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 24px; color: white; font-size: .7rem; letter-spacing: .07em; white-space: nowrap; }
+.motion-purpose .purpose-stage { height: 100svh; min-height: 600px; }
+.motion-purpose .purpose-scene { position: absolute; inset: 0; min-height: 0; height: 100%; }
+.motion-purpose .purpose-chapters { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 24px; color: white; font-size: .7rem; letter-spacing: .07em; white-space: nowrap; }
 .purpose-chapters > div { width: 110px; height: 2px; background: #ffffff40; }
 .purpose-chapters i { display: block; height: 100%; background: #47dff1; transform-origin: left; }
 @media (max-width: 760px) {
@@ -1545,4 +1545,13 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .mobile-drawer[open] { animation: mobile-menu-enter .26s cubic-bezier(.2,.7,.2,1) both; }
   .mobile-menu-trigger, .mobile-drawer-close { transition: background .2s, transform .2s; }
   .mobile-menu-trigger:active, .mobile-drawer-close:active { transform: scale(.96); }
+}
+
+@media (max-width: 999px) {
+  .motion-purpose .purpose-stage { height: calc(100svh - 64px - env(safe-area-inset-top, 0px)); min-height: 0; }
+  .motion-purpose .purpose-statement { padding-block: 48px 80px; }
+  .motion-purpose .purpose-statement h3 { font-size: clamp(2.4rem, 10vw, 4.5rem); }
+  .motion-purpose .purpose-index { margin-top: 26px; }
+  .motion-purpose .purpose-chapters { bottom: 24px; gap: 14px; font-size: .65rem; }
+  .motion-purpose .purpose-chapters > div { width: 72px; }
 }
