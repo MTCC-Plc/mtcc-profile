@@ -13,6 +13,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
   const rail = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
+  const manualSelection = useRef(false);
   const [active, setActive] = useState(0);
   const count = section.metrics.length;
 
@@ -24,6 +25,10 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       const container = stage.current;
       if (!context.conditions?.motion || !element || !container) return;
       const pinned = Boolean(context.conditions.desktop);
+      manualSelection.current = false;
+      const holdSelection = () => { if (!pinned) manualSelection.current = true; };
+      element.addEventListener("pointerdown", holdSelection);
+      element.addEventListener("wheel", holdSelection, { passive: true });
       container.classList.add("investment-scroll-driven");
       container.classList.toggle("investment-scroll-pinned", pinned);
       let drivenAt = 0;
@@ -37,9 +42,9 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
         end: pinned ? () => `+=${window.innerHeight * (count - 1) * .65}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
-        onUpdate: self => { if (self.isActive) drive(self.progress); },
-        onLeave: () => drive(1),
-        onLeaveBack: () => drive(0),
+        onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
+        onLeave: () => { if (!manualSelection.current) drive(1); manualSelection.current = false; },
+        onLeaveBack: () => { if (!manualSelection.current) drive(0); manualSelection.current = false; },
       });
       scroll.current = trigger;
       // Native horizontal swipes remain aligned with the vertical scroll story.
@@ -56,6 +61,8 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
         cancelAnimationFrame(frame);
         element.removeEventListener("scrollend", syncSwipe);
         scroll.current = null;
+        element.removeEventListener("pointerdown", holdSelection);
+        element.removeEventListener("wheel", holdSelection);
         container.classList.remove("investment-scroll-driven", "investment-scroll-pinned");
       };
     });
@@ -93,6 +100,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
     const card = element.children[target] as HTMLElement;
     const first = element.children[0] as HTMLElement;
     const trigger = scroll.current;
+    if (trigger && !trigger.vars.pin) manualSelection.current = true;
     if (trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2) {
       const distance = element.scrollWidth - element.clientWidth;
       const progress = distance > 0 ? Math.min(1, (card.offsetLeft - first.offsetLeft) / distance) : 0;

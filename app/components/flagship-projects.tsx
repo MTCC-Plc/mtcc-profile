@@ -20,6 +20,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
   const stage = useRef<HTMLDivElement>(null);
   const rail = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
+  const manualSelection = useRef(false);
   const projects = section.projects.map((project, index) => ({ ...project, index, category: category(project.name) }));
   const visible = projects.filter(project => filter === "All projects" || project.category === filter);
   useEffect(() => {
@@ -45,6 +46,10 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       const container = stage.current;
       if (!context.conditions?.motion || !container) return;
       const pinned = Boolean(context.conditions.desktop);
+      manualSelection.current = false;
+      const holdSelection = () => { if (!pinned) manualSelection.current = true; };
+      element.addEventListener("pointerdown", holdSelection);
+      element.addEventListener("wheel", holdSelection, { passive: true });
       container.classList.add("flagship-scroll-driven");
       container.classList.toggle("flagship-scroll-pinned", pinned);
       let drivenAt = 0;
@@ -56,8 +61,8 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
         trigger: container, start: pinned ? "top 80px" : "top 35%",
         end: pinned ? () => `+=${window.innerHeight * (element.children.length - 1) * .65}` : "bottom 65%",
         pin: pinned, invalidateOnRefresh: true,
-        onUpdate: self => { if (self.isActive) drive(self.progress); },
-        onLeave: () => drive(1), onLeaveBack: () => drive(0),
+        onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
+        onLeave: () => { if (!manualSelection.current) drive(1); manualSelection.current = false; }, onLeaveBack: () => { if (!manualSelection.current) drive(0); manualSelection.current = false; },
       });
       scroll.current = trigger;
       const syncSwipe = () => {
@@ -71,6 +76,8 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
       return () => {
         cancelAnimationFrame(frame); element.removeEventListener("scrollend", syncSwipe); scroll.current = null;
+        element.removeEventListener("pointerdown", holdSelection);
+        element.removeEventListener("wheel", holdSelection);
         container.classList.remove("flagship-scroll-driven", "flagship-scroll-pinned");
       };
     });
@@ -92,6 +99,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
     const card = element.children[target] as HTMLElement;
     const left = card.offsetLeft - first.offsetLeft;
     const trigger = scroll.current;
+    if (trigger && !trigger.vars.pin) manualSelection.current = true;
     if (trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2) {
       const distance = element.scrollWidth - element.clientWidth;
       window.scrollTo({top: trigger.start + Math.min(1, left / distance) * (trigger.end - trigger.start), behavior: "instant"});

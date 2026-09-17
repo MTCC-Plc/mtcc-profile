@@ -18,7 +18,7 @@ import { GrowthStrategy } from "./growth-strategy";
 import { MobileMenu } from "./mobile-menu";
 import { ContentSection, LeadershipSection, ProfileContents } from "./publication-sections";
 
-function SiteHeader({ active }: { active: ProfilePageData["theme"] }) {
+function SiteHeader({ active, sections }: { active: ProfilePageData["theme"]; sections: { id: string; title: string }[] }) {
   return (
     <header className="site-header">
       <div className="shell header-inner">
@@ -31,7 +31,7 @@ function SiteHeader({ active }: { active: ProfilePageData["theme"] }) {
           <Link className={active === "investor" ? "active" : ""} href="/investor-profile">Investor profile</Link>
           <a href="#contact">Contact</a>
         </nav>
-        <MobileMenu />
+        <MobileMenu active={active} sections={sections} />
       </div>
     </header>
   );
@@ -264,5 +264,5 @@ function Footer({ investor }: { investor: boolean }) {
 }
 
 export function ProfilePage({ data }: { data: ProfilePageData }) {
-  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader active={data.theme} /><main id="profile-content"><Hero data={data} /><ProfileContents data={data} />{data.sections.map((section) => <SectionRenderer key={section.id} section={section} />)}</main><Footer investor={data.theme === "investor"} /></ScrollExperience>;
+  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader active={data.theme} sections={data.sections.map(({ id, title }) => ({ id, title }))} /><main id="profile-content"><Hero data={data} /><ProfileContents data={data} />{data.sections.map((section) => <SectionRenderer key={section.id} section={section} />)}</main><Footer investor={data.theme === "investor"} /></ScrollExperience>;
 }

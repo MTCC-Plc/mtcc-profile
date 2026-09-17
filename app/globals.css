@@ -1464,3 +1464,38 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 @media (hover: none) {
   .investment-card:hover > img, .sector-card:hover .sector-visual img, .difference-card:hover .difference-image img, .service-card:hover .service-image img { transform: none; }
 }
+
+/* A persistent mobile index keeps long profiles easy to explore. */
+.menu-close-icon { display: none; }
+.mobile-menu[open] .menu-open-icon { display: none; }
+.mobile-menu[open] .menu-close-icon { display: block; }
+.mobile-menu nav a[aria-current="page"] { background: #eaf4f8; color: #00539b; font-weight: 700; }
+.mobile-section-links { border-block: 1px solid var(--line); margin-block: 8px; padding-block: 12px; }
+.mobile-section-links > p { margin: 0; padding: 8px 12px; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.mobile-section-links a { gap: 12px; line-height: 1.35; font-size: .9rem; }
+.mobile-section-links a span { font-size: .7rem; color: #627785; font-variant-numeric: tabular-nums; }
+@media (max-width: 999px) {
+  .site-header { position: fixed; background: #021e38f2; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+  .header-inner { min-height: 64px; padding-top: env(safe-area-inset-top, 0px); }
+  .brand img { width: 54px; height: 36px; }
+  .brand strong { font-size: .9rem; }
+  .mobile-menu nav { top: 54px; width: min(360px, calc(100vw - 32px)); max-height: calc(100dvh - 100px - env(safe-area-inset-top, 0px)); overflow-y: auto; overscroll-behavior-y: contain; padding: 12px; }
+  .profile-page [id] { scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px)); }
+  .mobile-menu summary:focus-visible, .mobile-menu nav a:focus-visible { outline: 3px solid #00aeef; outline-offset: 3px; }
+}
+@media (max-width: 760px) {
+  .shell { width: calc(100% - 40px); }
+  .hero-copy h1 { text-wrap: balance; margin-bottom: 24px; }
+  .hero-metrics { width: calc(100% - 40px); }
+  .hero-metrics > div > span { text-transform: none; font-size: .75rem; letter-spacing: 0; color: #c3d5e0; }
+  .section-heading h2, .investment-heading h2, .breakdown-heading h2, .flagship-heading h2 { text-wrap: balance; }
+  .section-heading > p:last-child:not(.eyebrow) { font-size: 1rem; line-height: 1.7; }
+  .investment-rail { padding-left: 20px; padding-right: calc(15vw - 20px); scroll-padding-inline: 20px; }
+  .flagship-filters { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; }
+  .flagship-filters button { justify-content: space-between; border-radius: 14px; min-height: 48px; }
+  .flagship-rail .flagship-card { min-height: 370px; padding: 26px 22px; }
+  .breakdown-tabs { scroll-snap-type: x proximity; }
+  .breakdown-tabs button { scroll-snap-align: start; }
+  .story-grid, .people-grid { gap: 36px; }
+  .footer-bottom { padding-bottom: max(24px, env(safe-area-inset-bottom, 0px)); }
+}
