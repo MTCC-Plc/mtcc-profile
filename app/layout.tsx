@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "MTCC Profiles 2026",
   description: "Corporate and investor profiles for Maldives Transport & Contracting Company PLC.",
   icons: {
-    icon: assetPath("/favicon.svg"),
-    shortcut: assetPath("/favicon.svg"),
+    icon: assetPath("/favicon.svg?v=mtcc-2026"),
+    shortcut: assetPath("/favicon.svg?v=mtcc-2026"),
   },
 };
 
