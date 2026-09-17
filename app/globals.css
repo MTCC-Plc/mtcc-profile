@@ -1555,3 +1555,21 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .motion-purpose .purpose-chapters { bottom: 24px; gap: 14px; font-size: .65rem; }
   .motion-purpose .purpose-chapters > div { width: 72px; }
 }
+
+/* Scroll carries a cyan highlight through the values, without duplicating text. */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .values-light-active :is(.purpose-values-heading h3, .move-letter, .move-values h4, .move-values p) {
+    background-image: linear-gradient(110deg, var(--value-ink, #102435) 36%, #007f9c 44%, #00a0bc 49%, #007f9c 54%, var(--value-ink, #102435) 62%);
+    background-size: 300% 100%;
+    background-position: var(--values-light-x, 100%) 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .values-light-active .move-letter { --value-ink: #07527a; background-image: linear-gradient(110deg, #07527a 36%, #00a4bd 44%, #b3f7ff 49%, #00a4bd 54%, #07527a 62%); }
+  .values-light-active .move-values p { --value-ink: #526270; }
+}
+@media (forced-colors: active) {
+  .values-light-active :is(.purpose-values-heading h3, .move-letter, .move-values h4, .move-values p) { background: none; -webkit-text-fill-color: CanvasText; }
+}
+.values-light-active .move-values :is(h4, p) { background-image: linear-gradient(110deg, var(--value-ink, #102435) 36%, #006278 44%, #00758b 49%, #006278 54%, var(--value-ink, #102435) 62%); }

@@ -94,6 +94,24 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
         trigger: page, start: "top top", end: "bottom bottom", scrub: true,
       } });
 
+      const values = page.querySelector<HTMLElement>(".purpose-values");
+      if (values) {
+        values.classList.add("values-light-active");
+        const passages = Array.from(values.querySelectorAll<HTMLElement>(".purpose-values-heading, .move-values article"));
+        gsap.set(passages, { "--values-light-x": "100%" });
+        if (desktop) {
+          gsap.to(passages, { "--values-light-x": "0%", duration: 1, stagger: .25, ease: "none", scrollTrigger: {
+            trigger: values, start: "top 75%", end: "bottom 40%", scrub: .35,
+          } });
+        } else {
+          passages.forEach((passage, index) => {
+            gsap.to(passage, { "--values-light-x": "0%", ease: "none", scrollTrigger: {
+              trigger: passage, start: `top ${index % 2 ? 85 : 75}%`, end: "bottom 30%", scrub: .3,
+            } });
+          });
+        }
+      }
+
       const reveals = select<HTMLElement>(".section-heading, .body-copy, blockquote, .purpose-top, .values-grid article, .people-grid .text-link, .metrics-grid article, .portfolio-grid article, .projects-list article, .strategy-grid article, .report-block, .leadership-grid article, .footer-grid > div, .footer-grid address");
       if (!desktop) reveals.push(...select<HTMLElement>(".service-card"));
       reveals.push(...select<HTMLElement>(".purpose-intro, .purpose-values-heading, .move-values article"));
@@ -170,6 +188,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
       return () => {
         mobileObserver?.disconnect();
+        values?.classList.remove("values-light-active");
         page.classList.remove("motion-desktop", "motion-purpose");
         counters.forEach((element) => { element.textContent = element.dataset.count!; });
       };
