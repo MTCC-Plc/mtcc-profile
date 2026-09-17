@@ -1610,3 +1610,22 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .breakdown-scroll-mobile .breakdown-value h4 { margin-bottom: 10px; font-size: .85rem; }
   .breakdown-scroll-mobile .breakdown-value dd { font-size: 1.7rem; }
 }
+
+/* The milestone at the center owns the color; adjacent chapters stay quiet. */
+.timeline-window { container-type: inline-size; }
+.timeline { --milestone-width: clamp(220px, 72cqw, 280px); grid-auto-columns: var(--milestone-width); padding-inline: max(0px, calc((100cqw - var(--milestone-width)) / 2)); scroll-snap-type: x mandatory; }
+.timeline article { padding-inline: 20px; text-align: center; scroll-snap-align: center; }
+.timeline-focused article time { background: #e4e9ed; color: #657583; }
+.timeline-focused article h3, .timeline-focused article p { color: #697784; }
+.timeline-focused article[data-active="true"] time { background: var(--navy); color: white; }
+.timeline-focused article[data-active="true"] h3 { color: var(--blue); }
+.timeline-focused article[data-active="true"] p { color: var(--ink); }
+.motion-desktop .timeline { --milestone-width: 320px; grid-auto-columns: var(--milestone-width); padding-inline: max(0px, calc((100cqw - var(--milestone-width)) / 2)); scroll-snap-type: none; }
+.motion-desktop .timeline article { padding-inline: 28px; }
+.motion-desktop .timeline-focused article time { background: none; color: #87939e; }
+.motion-desktop .timeline-focused article time::after { margin-inline: auto; background: #c6cfd7; }
+.motion-desktop .timeline-focused article[data-active="true"] time { color: var(--blue); }
+.motion-desktop .timeline-focused article[data-active="true"] time::after { background: var(--cyan); }
+@media (prefers-reduced-motion: no-preference) {
+  .timeline-focused :is(time, h3, p), .timeline-focused time::after { transition: color .3s ease, background-color .3s ease; }
+}

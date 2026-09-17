@@ -14,6 +14,32 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
     const select = <T extends HTMLElement>(selector: string) => Array.from(page.querySelectorAll<T>(selector));
+    const milestoneTrack = page.querySelector<HTMLElement>(".timeline");
+    const milestoneWindow = page.querySelector<HTMLElement>(".timeline-window");
+    const milestones = select<HTMLElement>(".timeline article");
+    let focusedMilestone = -1;
+    const highlightMilestone = () => {
+      if (!milestoneWindow || !milestones.length) return;
+      const bounds = milestoneWindow.getBoundingClientRect();
+      const center = bounds.left + bounds.width / 2;
+      let nearest = 0, distance = Infinity;
+      milestones.forEach((milestone, index) => {
+        const rect = milestone.getBoundingClientRect();
+        const gap = Math.abs(rect.left + rect.width / 2 - center);
+        if (gap < distance) { distance = gap; nearest = index; }
+      });
+      if (nearest === focusedMilestone) return;
+      focusedMilestone = nearest;
+      milestones.forEach((milestone, index) => {
+        milestone.dataset.active = String(index === nearest);
+        if (index === nearest) milestone.setAttribute("aria-current", "step");
+        else milestone.removeAttribute("aria-current");
+      });
+    };
+    milestoneTrack?.classList.add("timeline-focused");
+    milestoneTrack?.addEventListener("scroll", highlightMilestone, { passive: true });
+    const milestoneResize = new ResizeObserver(highlightMilestone);
+    if (milestoneWindow) milestoneResize.observe(milestoneWindow);
 
     media.add({
       desktop: "(min-width: 1000px) and (min-height: 700px)",
@@ -21,6 +47,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       reduced: "(prefers-reduced-motion: reduce)",
       motion: "(prefers-reduced-motion: no-preference)",
     }, (context) => {
+      highlightMilestone();
       if (context.conditions?.reduced) return;
       const desktop = context.conditions?.desktop;
       const pinPurpose = Boolean(desktop || context.conditions?.tall);
@@ -83,7 +110,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
         const timelineWindow = page.querySelector<HTMLElement>(".timeline-window");
         if (timeline && timelineWindow) {
           const distance = () => Math.max(0, timeline.scrollWidth - timelineWindow.clientWidth);
-          gsap.to(timeline, { x: () => -distance(), ease: "none", scrollTrigger: {
+          gsap.to(timeline, { x: () => -distance(), ease: "none", onUpdate: highlightMilestone, scrollTrigger: {
             trigger: ".timeline-section", start: "top top", end: () => `+=${Math.max(distance(), window.innerHeight)}`,
             pin: true, scrub: 0.7, invalidateOnRefresh: true,
           } });
@@ -198,7 +225,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
     const refresh = (event?: Event) => {
       if (event?.target instanceof Element && event.target.closest(".mobile-menu")) return;
       cancelAnimationFrame(refreshFrame);
-      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+      refreshFrame = requestAnimationFrame(() => { ScrollTrigger.refresh(); highlightMilestone(); });
     };
     page.addEventListener("toggle", refresh, true);
     const pendingImages = select<HTMLImageElement>("img").filter((image) => !image.complete);
@@ -206,6 +233,10 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
     refresh();
     return () => {
       cancelAnimationFrame(refreshFrame);
+      milestoneResize.disconnect();
+      milestoneTrack?.removeEventListener("scroll", highlightMilestone);
+      milestoneTrack?.classList.remove("timeline-focused");
+      milestones.forEach(milestone => { delete milestone.dataset.active; milestone.removeAttribute("aria-current"); });
       pendingImages.forEach((image) => image.removeEventListener("load", refresh));
       page.removeEventListener("toggle", refresh, true);
       media.revert();
