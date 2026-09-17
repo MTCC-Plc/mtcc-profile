@@ -20,43 +20,37 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)" }, context => {
+    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
       const element = rail.current;
       const container = stage.current;
       if (!context.conditions?.motion || !element || !container) return;
-      const pinned = Boolean(context.conditions.desktop);
+      const desktop = Boolean(context.conditions.desktop);
+      const pinned = Boolean(desktop || context.conditions.mobile);
+      if (!pinned) return;
       manualSelection.current = false;
       const holdSelection = () => {
-        if (!pinned) { manualSelection.current = true; gsap.killTweensOf(element, "scrollLeft"); }
+        if (!desktop) gsap.killTweensOf(element, "scrollLeft");
       };
+      container.classList.add("investment-scroll-driven");
+      container.classList.toggle("investment-scroll-pinned", desktop);
+      container.classList.toggle("investment-scroll-mobile", !desktop);
+      if (!desktop && container.offsetHeight > window.innerHeight - 96) {
+        container.classList.remove("investment-scroll-mobile", "investment-scroll-driven");
+        return;
+      }
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
-      container.classList.add("investment-scroll-driven");
-      container.classList.toggle("investment-scroll-pinned", pinned);
       let drivenAt = 0;
-      let mobileChapter = -1;
       const drive = (progress: number) => {
         drivenAt = performance.now();
         const distance = element.scrollWidth - element.clientWidth;
-        if (pinned) {
-          element.scrollTo({ left: progress * distance, behavior: "instant" });
-          return;
-        }
-        // Land on a complete card instead of sweeping through clipped cards.
-        const chapter = Math.round(progress * (element.children.length - 1));
-        if (chapter === mobileChapter) return;
-        mobileChapter = chapter;
-        const card = element.children[chapter] as HTMLElement;
-        const first = element.children[0] as HTMLElement;
-        if (card && first) gsap.to(element, {
-          scrollLeft: Math.min(distance, card.offsetLeft - first.offsetLeft),
-          duration: .48, ease: "power3.out", overwrite: "auto",
-        });
+        if (desktop) element.scrollTo({ left: progress * distance, behavior: "instant" });
+        else gsap.to(element, { scrollLeft: progress * distance, duration: .35, ease: "power2.out", overwrite: "auto" });
       };
       const trigger = ScrollTrigger.create({
         trigger: container,
         start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * (count - 1) * .65}` : "bottom 65%",
+        end: pinned ? () => `+=${window.innerHeight * (count - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
@@ -81,7 +75,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
         gsap.killTweensOf(element, "scrollLeft");
         element.removeEventListener("pointerdown", holdSelection);
         element.removeEventListener("wheel", holdSelection);
-        container.classList.remove("investment-scroll-driven", "investment-scroll-pinned");
+        container.classList.remove("investment-scroll-driven", "investment-scroll-pinned", "investment-scroll-mobile");
       };
     });
     return () => media.revert();

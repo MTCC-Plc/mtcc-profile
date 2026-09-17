@@ -18,14 +18,21 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)" }, context => {
+    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
       if (!context.conditions?.motion || !root.current) return;
-      const pinned = Boolean(context.conditions.desktop);
-      root.current.classList.toggle("fleet-scroll-pinned", pinned);
+      const desktop = Boolean(context.conditions.desktop);
+      const pinned = Boolean(desktop || context.conditions.mobile);
+      if (!pinned) return;
+      root.current.classList.toggle("fleet-scroll-pinned", desktop);
+      root.current.classList.toggle("fleet-scroll-mobile", !desktop);
+      if (!desktop && root.current.offsetHeight > window.innerHeight - 96) {
+        root.current.classList.remove("fleet-scroll-mobile", "fleet-scroll-driven");
+        return;
+      }
       const trigger = ScrollTrigger.create({
         trigger: root.current,
         start: pinned ? "top 64px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * block.rows.length * .65}` : "bottom 65%",
+        end: pinned ? () => `+=${window.innerHeight * block.rows.length * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
@@ -36,7 +43,7 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
       });
       scroll.current = trigger;
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
-      return () => { cancelAnimationFrame(frame); scroll.current = null; root.current?.classList.remove("fleet-scroll-pinned"); };
+      return () => { cancelAnimationFrame(frame); scroll.current = null; root.current?.classList.remove("fleet-scroll-pinned", "fleet-scroll-mobile"); };
     });
     return () => media.revert();
   }, [block.rows.length]);

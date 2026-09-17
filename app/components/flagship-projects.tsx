@@ -44,41 +44,35 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
     const observer = new ResizeObserver(update);
     observer.observe(element);
     const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)" }, context => {
+    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
       const container = stage.current;
       if (!context.conditions?.motion || !container) return;
-      const pinned = Boolean(context.conditions.desktop);
+      const desktop = Boolean(context.conditions.desktop);
+      const pinned = Boolean(desktop || context.conditions.mobile);
+      if (!pinned) return;
       manualSelection.current = false;
       const holdSelection = () => {
-        if (!pinned) { manualSelection.current = true; gsap.killTweensOf(element, "scrollLeft"); }
+        if (!desktop) gsap.killTweensOf(element, "scrollLeft");
       };
+      container.classList.add("flagship-scroll-driven");
+      container.classList.toggle("flagship-scroll-pinned", desktop);
+      container.classList.toggle("flagship-scroll-mobile", !desktop);
+      if (!desktop && container.offsetHeight > window.innerHeight - 96) {
+        container.classList.remove("flagship-scroll-mobile", "flagship-scroll-driven");
+        return;
+      }
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
-      container.classList.add("flagship-scroll-driven");
-      container.classList.toggle("flagship-scroll-pinned", pinned);
       let drivenAt = 0;
-      let mobileChapter = -1;
       const drive = (progress: number) => {
         drivenAt = performance.now();
         const distance = element.scrollWidth - element.clientWidth;
-        if (pinned) {
-          element.scrollTo({ left: progress * distance, behavior: "instant" });
-          return;
-        }
-        // Land on a complete card instead of sweeping through clipped cards.
-        const chapter = Math.round(progress * (element.children.length - 1));
-        if (chapter === mobileChapter) return;
-        mobileChapter = chapter;
-        const card = element.children[chapter] as HTMLElement;
-        const first = element.children[0] as HTMLElement;
-        if (card && first) gsap.to(element, {
-          scrollLeft: Math.min(distance, card.offsetLeft - first.offsetLeft),
-          duration: .48, ease: "power3.out", overwrite: "auto",
-        });
+        if (desktop) element.scrollTo({ left: progress * distance, behavior: "instant" });
+        else gsap.to(element, { scrollLeft: progress * distance, duration: .35, ease: "power2.out", overwrite: "auto" });
       };
       const trigger = ScrollTrigger.create({
         trigger: container, start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * (element.children.length - 1) * .65}` : "bottom 65%",
+        end: pinned ? () => `+=${window.innerHeight * (element.children.length - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned, invalidateOnRefresh: true,
         onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
         onLeave: () => { if (!manualSelection.current) drive(1); manualSelection.current = false; }, onLeaveBack: () => { if (!manualSelection.current) drive(0); manualSelection.current = false; },
@@ -98,7 +92,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
         gsap.killTweensOf(element, "scrollLeft");
         element.removeEventListener("pointerdown", holdSelection);
         element.removeEventListener("wheel", holdSelection);
-        container.classList.remove("flagship-scroll-driven", "flagship-scroll-pinned");
+        container.classList.remove("flagship-scroll-driven", "flagship-scroll-pinned", "flagship-scroll-mobile");
       };
     });
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());

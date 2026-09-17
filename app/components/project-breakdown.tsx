@@ -67,14 +67,21 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)" }, context => {
+    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
       if (!context.conditions?.motion || !explorer.current || !categories.length) return;
-      const pinned = Boolean(context.conditions.desktop);
-      explorer.current.classList.toggle("breakdown-scroll-pinned", pinned);
+      const desktop = Boolean(context.conditions.desktop);
+      const pinned = Boolean(desktop || context.conditions.mobile);
+      if (!pinned) return;
+      explorer.current.classList.toggle("breakdown-scroll-pinned", desktop);
+      explorer.current.classList.toggle("breakdown-scroll-mobile", !desktop);
+      if (!desktop && explorer.current.offsetHeight > window.innerHeight - 96) {
+        explorer.current.classList.remove("breakdown-scroll-mobile", "breakdown-scroll-driven");
+        return;
+      }
       const trigger = ScrollTrigger.create({
         trigger: explorer.current,
         start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * categories.length * .65}` : "bottom 65%",
+        end: pinned ? () => `+=${window.innerHeight * categories.length * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
@@ -85,7 +92,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
       });
       scroll.current = trigger;
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
-      return () => { cancelAnimationFrame(frame); scroll.current = null; explorer.current?.classList.remove("breakdown-scroll-pinned"); };
+      return () => { cancelAnimationFrame(frame); scroll.current = null; explorer.current?.classList.remove("breakdown-scroll-pinned", "breakdown-scroll-mobile"); };
     });
     return () => media.revert();
   }, [categories.length]);
