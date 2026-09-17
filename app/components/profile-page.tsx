@@ -1,5 +1,5 @@
 import Image from "./site-image";
-import Link from "next/link";
+import { ProfileLink as Link } from "./profile-link";
 import { assetPath } from "../../lib/asset-path";
 import {
   ArrowDown,
@@ -22,13 +22,13 @@ function SiteHeader({ active, sections }: { active: ProfilePageData["theme"]; se
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link href="/corporate-profile" className="brand" aria-label="MTCC home">
+        <Link href="/corporate-profile#top" className="brand" aria-label="MTCC home">
           <Image src="/assets/mtcc-logo.png" width={140} height={94} alt="MTCC" priority />
           <span><strong>MTCC</strong><small>Maldives Transport & Contracting Company</small></span>
         </Link>
         <nav className="desktop-nav" aria-label="Profile navigation">
-          <Link className={active === "corporate" ? "active" : ""} href="/corporate-profile">Corporate profile</Link>
-          <Link className={active === "investor" ? "active" : ""} href="/investor-profile">Investor profile</Link>
+          <Link className={active === "corporate" ? "active" : ""} href="/corporate-profile#top">Corporate profile</Link>
+          <Link className={active === "investor" ? "active" : ""} href="/investor-profile#top">Investor profile</Link>
           <a href="#contact">Contact</a>
         </nav>
         <MobileMenu active={active} sections={sections} />

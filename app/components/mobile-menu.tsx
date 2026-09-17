@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ProfileLink as Link } from "./profile-link";
 import { ArrowDown, ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -66,8 +66,8 @@ export function MobileMenu({ active, sections }: { active: "corporate" | "invest
     }}>
       <div className="mobile-drawer-heading"><div><p>MTCC · 2026</p><h2 id="mobile-menu-title">Explore MTCC.</h2></div><button type="button" className="mobile-drawer-close" aria-label="Close profile menu" onClick={closeMenu} autoFocus><X size={24} aria-hidden="true" /></button></div>
       <nav className="mobile-profile-switch" aria-label="Choose a profile">
-        <Link href="/corporate-profile" aria-current={active === "corporate" ? "page" : undefined} onClick={closeMenu}>Corporate<span>Who we are</span></Link>
-        <Link href="/investor-profile" aria-current={active === "investor" ? "page" : undefined} onClick={closeMenu}>Investor<span>Our business</span></Link>
+        <Link href="/corporate-profile#top" aria-current={active === "corporate" ? "page" : undefined} onClick={closeMenu}>Corporate<span>Who we are</span></Link>
+        <Link href="/investor-profile#top" aria-current={active === "investor" ? "page" : undefined} onClick={closeMenu}>Investor<span>Our business</span></Link>
       </nav>
       <div className="mobile-drawer-label"><span>Inside this profile</span><span>{String(sections.length).padStart(2, "0")} sections <ArrowDown size={12} aria-hidden="true" /></span></div>
       <nav className="mobile-drawer-sections" aria-label="Profile sections">{sections.map((section, index) => <a key={section.id} id={`mobile-link-${section.id}`} href={`#${section.id}`} aria-current={current === section.id ? "location" : undefined} onClick={() => {
