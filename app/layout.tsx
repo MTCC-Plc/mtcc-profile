@@ -6,8 +6,12 @@ export const metadata: Metadata = {
   title: "MTCC Profiles 2026",
   description: "Corporate and investor profiles for Maldives Transport & Contracting Company PLC.",
   icons: {
-    icon: assetPath("/favicon.svg?v=mtcc-2026"),
-    shortcut: assetPath("/favicon.svg?v=mtcc-2026"),
+    icon: [
+      { url: assetPath("/favicon.ico?v=mtcc-2"), sizes: "32x32", type: "image/x-icon" },
+      { url: assetPath("/favicon-32.png?v=mtcc-2"), sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: assetPath("/favicon.ico?v=mtcc-2"),
+    apple: { url: assetPath("/apple-touch-icon.png?v=mtcc-2"), sizes: "180x180", type: "image/png" },
   },
 };
 
