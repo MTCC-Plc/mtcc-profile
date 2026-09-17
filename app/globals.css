@@ -1633,3 +1633,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .timeline-scroll-mobile { background: white; }
 .timeline-scroll-mobile .timeline { scroll-snap-type: none; scrollbar-width: none; }
 .timeline-scroll-mobile .timeline::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .timeline-focused article { transform: scale(1); transform-origin: center; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .timeline-focused article[data-active="true"] { transform: scale(1.06); z-index: 2; }
+}
