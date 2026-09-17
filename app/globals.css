@@ -1659,3 +1659,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 @media (prefers-reduced-motion: no-preference) {
   .flagship-rail .flagship-card { animation-name: flagship-fade; }
 }
+
+/* Figures interpolate in place; a panel fade would make every digit blink. */
+.breakdown-panels .breakdown-panel { animation: none; }

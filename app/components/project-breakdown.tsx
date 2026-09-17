@@ -31,38 +31,54 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   const explorer = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
   const manualSelection = useRef(false);
+  const displayedFigures = useRef<number[]>([]);
+  const displayedRing = useRef<number | null>(null);
   useLayoutEffect(() => {
     const panel = explorer.current?.querySelector<HTMLElement>('[role="tabpanel"]:not([hidden])');
     if (!panel) return;
     const figures = Array.from(panel.querySelectorAll<HTMLElement>("[data-breakdown-value]"));
+    const previousFigures = [...displayedFigures.current];
+    displayedFigures.current = figures.map(element => Number(element.dataset.breakdownValue!.replaceAll(",", "")));
+    const ring = panel.querySelector<HTMLElement>(".breakdown-ring");
+    const targetRing = parseFloat(ring?.dataset.completed ?? "0");
+    const previousRing = displayedRing.current ?? targetRing;
+    displayedRing.current = targetRing;
     const restore = () => figures.forEach(element => { element.textContent = element.dataset.breakdownValue!; });
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      const animation = gsap.timeline({ defaults: { duration: .8, ease: "power3.out" } });
-      const ring = panel.querySelector<HTMLElement>(".breakdown-ring");
+      const animation = gsap.timeline({ defaults: { duration: .6, ease: "power2.out" } });
       if (ring) {
-        animation.fromTo(ring, { "--completed": "0%", scale: .96 }, {
-          "--completed": ring.dataset.completed!, scale: 1,
+        animation.fromTo(ring, { "--completed": `${previousRing}%` }, {
+          "--completed": ring.dataset.completed!,
+          onUpdate: () => { displayedRing.current = parseFloat(ring.style.getPropertyValue("--completed")); },
         }, 0);
       }
       figures.forEach((element, index) => {
         const original = element.dataset.breakdownValue!;
         if (!/^\d[\d,]*(?:\.\d+)?$/.test(original)) return;
         const decimals = original.split(".")[1]?.length ?? 0;
-        const number = { value: 0 };
+        const number = { value: previousFigures[index] ?? displayedFigures.current[index] };
         const format = new Intl.NumberFormat("en-US", {
           minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: original.includes(","),
         });
-        element.textContent = format.format(0);
+        element.textContent = format.format(number.value);
+        displayedFigures.current[index] = number.value;
         animation.to(number, {
           value: Number(original.replaceAll(",", "")),
-          onUpdate: () => { element.textContent = format.format(number.value); },
+          onUpdate: () => { displayedFigures.current[index] = number.value; element.textContent = format.format(number.value); },
           onComplete: () => { element.textContent = original; },
-        }, Math.min(index * .035, .18));
+        }, 0);
       });
       return restore;
     });
-    return () => { media.revert(); restore(); };
+    return () => {
+      const currentFigures = [...displayedFigures.current];
+      const currentRing = displayedRing.current;
+      media.revert();
+      displayedFigures.current = currentFigures;
+      displayedRing.current = currentRing;
+      restore();
+    };
   }, [active]);
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
