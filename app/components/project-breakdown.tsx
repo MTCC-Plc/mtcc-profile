@@ -64,7 +64,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
     });
     return () => { media.revert(); restore(); };
   }, [active]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();
     media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
@@ -78,14 +78,25 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
         explorer.current.classList.remove("breakdown-scroll-mobile", "breakdown-scroll-driven");
         return;
       }
+      // Keep mobile browser toolbar resizing from changing chapter boundaries.
+      const mobileChapterHeight = window.innerHeight;
       const trigger = ScrollTrigger.create({
         trigger: explorer.current,
         start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * categories.length * (desktop ? .65 : .95)}` : "bottom 65%",
+        end: pinned ? () => `+=${(desktop ? window.innerHeight : mobileChapterHeight) * categories.length * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          if (self.isActive && !manualSelection.current) setActive(Math.min(categories.length - 1, Math.floor(self.progress * categories.length)));
+          if (self.isActive && !manualSelection.current) {
+            const position = self.progress * categories.length;
+            setActive(previous => {
+              const next = Math.min(categories.length - 1, Math.floor(position));
+              // Small finger movements near a boundary should not replay two panels.
+              if (next > previous && position < previous + 1.025) return previous;
+              if (next < previous && position > previous - .025) return previous;
+              return next;
+            });
+          }
         },
         onLeave: () => { manualSelection.current = false; setActive(categories.length - 1); },
         onLeaveBack: () => { manualSelection.current = false; setActive(0); },

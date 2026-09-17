@@ -1638,3 +1638,13 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .timeline-focused article { transform: scale(1); transform-origin: center; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
   .timeline-focused article[data-active="true"] { transform: scale(1.06); z-index: 2; }
 }
+
+/* Keep category changes in place: all panels share the tallest card's space. */
+.breakdown-panels { display: grid; }
+.breakdown-panels .breakdown-panel { grid-area: 1 / 1; }
+.breakdown-panels .breakdown-panel[hidden] { display: block; visibility: hidden; pointer-events: none; animation: none; }
+.breakdown-scroll-mobile .breakdown-panel > h3 { min-height: 2.24em; }
+@keyframes breakdown-fade { from { opacity: .65; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .breakdown-panel { animation-name: breakdown-fade; }
+}
