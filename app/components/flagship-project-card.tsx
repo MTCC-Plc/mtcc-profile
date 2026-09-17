@@ -7,9 +7,10 @@ type Project = { name: string; mvr: number; usd: number; index: number; category
 
 export function FlagshipProjectCard({ project, index, total, active }: { project: Project; index: number; total: number; active: boolean }) {
   const card = useRef<HTMLElement>(null);
+  const animatedProject = useRef<string | null>(null);
   useLayoutEffect(() => {
     const element = card.current;
-    if (!element || !active) return;
+    if (!element || !active || animatedProject.current === project.name) return;
     const figures = Array.from(element.querySelectorAll<HTMLElement>("[data-project-figure]"));
     const restore = () => figures.forEach(figure => { figure.textContent = figure.dataset.projectFigure!; });
     const media = gsap.matchMedia();
@@ -17,9 +18,9 @@ export function FlagshipProjectCard({ project, index, total, active }: { project
       const observer = new IntersectionObserver(entries => {
         if (!entries.some(entry => entry.isIntersecting)) return;
         observer.disconnect();
+        animatedProject.current = project.name;
         context.add(() => {
           const animation = gsap.timeline({ defaults: { ease: "power3.out" } });
-          animation.fromTo(element.querySelector(".flagship-project-copy"), { y: 12, opacity: .5 }, { y: 0, opacity: 1, duration: .55 }, 0);
           animation.fromTo(element.querySelector(".flagship-card-accent span"), { scaleX: 0 }, { scaleX: 1, duration: .85 }, .05);
           figures.forEach((figure, order) => {
             const original = figure.dataset.projectFigure!;

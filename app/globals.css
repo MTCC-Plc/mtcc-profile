@@ -1654,3 +1654,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .fleet-panels .fleet-showcase { grid-area: 1 / 1; animation: none; min-width: 0; }
 .fleet-panels .fleet-showcase[hidden] { display: grid; visibility: hidden; pointer-events: none; }
 @media (max-width: 760px) { .fleet-panels { border-radius: 22px; } }
+
+@keyframes flagship-fade { from { opacity: .7; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .flagship-rail .flagship-card { animation-name: flagship-fade; }
+}
