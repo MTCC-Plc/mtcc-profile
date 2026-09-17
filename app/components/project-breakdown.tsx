@@ -21,7 +21,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   useEffect(() => {
     if (!compact) return;
     const tab = tabs.current[active];
-    if (tab?.parentElement) tab.parentElement.scrollTo({left: tab.offsetLeft - tab.parentElement.offsetLeft, behavior: "instant"});
+    if (tab?.parentElement) tab.parentElement.scrollTo({left: tab.offsetLeft - tab.parentElement.offsetLeft, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"});
   }, [active, compact]);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const explorer = useRef<HTMLDivElement>(null);

@@ -47,15 +47,32 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       if (!context.conditions?.motion || !container) return;
       const pinned = Boolean(context.conditions.desktop);
       manualSelection.current = false;
-      const holdSelection = () => { if (!pinned) manualSelection.current = true; };
+      const holdSelection = () => {
+        if (!pinned) { manualSelection.current = true; gsap.killTweensOf(element, "scrollLeft"); }
+      };
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
       container.classList.add("flagship-scroll-driven");
       container.classList.toggle("flagship-scroll-pinned", pinned);
       let drivenAt = 0;
+      let mobileChapter = -1;
       const drive = (progress: number) => {
         drivenAt = performance.now();
-        element.scrollTo({left: progress * (element.scrollWidth - element.clientWidth), behavior: "instant"});
+        const distance = element.scrollWidth - element.clientWidth;
+        if (pinned) {
+          element.scrollTo({ left: progress * distance, behavior: "instant" });
+          return;
+        }
+        // Land on a complete card instead of sweeping through clipped cards.
+        const chapter = Math.round(progress * (element.children.length - 1));
+        if (chapter === mobileChapter) return;
+        mobileChapter = chapter;
+        const card = element.children[chapter] as HTMLElement;
+        const first = element.children[0] as HTMLElement;
+        if (card && first) gsap.to(element, {
+          scrollLeft: Math.min(distance, card.offsetLeft - first.offsetLeft),
+          duration: .48, ease: "power3.out", overwrite: "auto",
+        });
       };
       const trigger = ScrollTrigger.create({
         trigger: container, start: pinned ? "top 80px" : "top 35%",
@@ -76,6 +93,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
       return () => {
         cancelAnimationFrame(frame); element.removeEventListener("scrollend", syncSwipe); scroll.current = null;
+        gsap.killTweensOf(element, "scrollLeft");
         element.removeEventListener("pointerdown", holdSelection);
         element.removeEventListener("wheel", holdSelection);
         container.classList.remove("flagship-scroll-driven", "flagship-scroll-pinned");
@@ -99,7 +117,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
     const card = element.children[target] as HTMLElement;
     const left = card.offsetLeft - first.offsetLeft;
     const trigger = scroll.current;
-    if (trigger && !trigger.vars.pin) manualSelection.current = true;
+    if (trigger && !trigger.vars.pin) { manualSelection.current = true; gsap.killTweensOf(element, "scrollLeft"); }
     if (trigger?.vars.pin && window.scrollY >= trigger.start - 2 && window.scrollY <= trigger.end + 2) {
       const distance = element.scrollWidth - element.clientWidth;
       window.scrollTo({top: trigger.start + Math.min(1, left / distance) * (trigger.end - trigger.start), behavior: "instant"});

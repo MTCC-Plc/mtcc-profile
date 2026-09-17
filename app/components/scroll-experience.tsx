@@ -22,6 +22,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
     }, (context) => {
       if (context.conditions?.reduced) return;
       const desktop = context.conditions?.desktop;
+      let mobileObserver: IntersectionObserver | undefined;
       if (desktop) page.classList.add("motion-desktop");
 
       // Establish pinned sections first so later triggers include their scroll space.
@@ -105,11 +106,34 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       reveals.push(...select<HTMLElement>(".transport-hero-copy, .transport-story, .transport-network-stat, .transport-block-heading, .transport-fleet-card, .transport-passenger-grid > div, .transport-passenger-total"));
       reveals.push(...select<HTMLElement>(".transport-opening-copy, .transport-opening-caption, .transport-total-feature"));
       if (!desktop) reveals.push(...select<HTMLElement>(".purpose-statement"));
-      reveals.forEach((element) => {
-        gsap.from(element, { y: desktop ? 38 : 18, opacity: 0, duration: 0.85, ease: "power2.out", scrollTrigger: {
-          trigger: element, start: "top 94%", once: true,
-        } });
-      });
+      if (desktop) {
+        reveals.forEach((element) => {
+          gsap.from(element, { y: 38, opacity: 0, duration: 0.85, ease: "power2.out", scrollTrigger: {
+            trigger: element, start: "top 94%", once: true,
+          } });
+        });
+      } else {
+        // One observer handles phone reveals without a scroll listener per card.
+        // Avoid animating nested blocks twice, which compounds their movement.
+        const mobileReveals = [...new Set(reveals)].filter(element =>
+          !reveals.some(parent => parent !== element && parent.contains(element)));
+        const visuals = select<HTMLElement>(".story-visual > img, .about-landscape > img, .purpose-scene > img, .transport-opening-scene > img");
+        gsap.set(mobileReveals, { y: 16, opacity: 0 });
+        gsap.set(visuals, { scale: 1.045 });
+        mobileObserver = new IntersectionObserver(entries => {
+          const entering = entries.filter(entry => entry.isIntersecting).map(entry => entry.target);
+          if (!entering.length) return;
+          entering.forEach(element => mobileObserver?.unobserve(element));
+          context.add(() => {
+            const text = entering.filter(element => !visuals.includes(element as HTMLElement));
+            const images = entering.filter(element => visuals.includes(element as HTMLElement));
+            if (text.length) gsap.to(text, { y: 0, opacity: 1, duration: .58, stagger: { each: .055, amount: Math.min(.18, (text.length - 1) * .055) }, ease: "power3.out", clearProps: "transform,opacity" });
+            if (images.length) gsap.to(images, { scale: 1, duration: 1.15, ease: "power2.out", clearProps: "transform" });
+          });
+        }, { rootMargin: "0px 0px -28px 0px", threshold: 0 });
+        [...mobileReveals, ...visuals].forEach(element => mobileObserver!.observe(element));
+        gsap.from(".hero-copy > *", { y: 12, opacity: 0, duration: .7, stagger: .09, ease: "power3.out", clearProps: "transform,opacity" });
+      }
 
       if (desktop) {
         select<HTMLElement>(".story-visual, .people-images > div, .transport-hero-image, .about-landscape, .trading-product-image").forEach((visual) => {
@@ -127,7 +151,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
         const [, prefix, number, suffix] = match;
         const decimals = number.split(".")[1]?.length ?? 0;
         const counter = { value: 0 };
-        gsap.to(counter, { value: Number(number.replaceAll(",", "")), duration: 1.6, ease: "power2.out", scrollTrigger: {
+        gsap.to(counter, { value: Number(number.replaceAll(",", "")), duration: desktop ? 1.6 : .95, ease: "power2.out", scrollTrigger: {
           trigger: element, start: "top 96%", once: true,
         }, onUpdate: () => {
           element.textContent = prefix + counter.value.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: number.includes(",") }) + suffix;
@@ -141,18 +165,24 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       });
 
       return () => {
+        mobileObserver?.disconnect();
         page.classList.remove("motion-desktop");
         counters.forEach((element) => { element.textContent = element.dataset.count!; });
       };
     }, page);
 
-    const refresh = () => ScrollTrigger.refresh();
+    let refreshFrame = 0;
+    const refresh = (event?: Event) => {
+      if (event?.target instanceof Element && event.target.closest(".mobile-menu")) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
     page.addEventListener("toggle", refresh, true);
     const pendingImages = select<HTMLImageElement>("img").filter((image) => !image.complete);
     pendingImages.forEach((image) => image.addEventListener("load", refresh, { once: true }));
-    const frame = requestAnimationFrame(refresh);
+    refresh();
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(refreshFrame);
       pendingImages.forEach((image) => image.removeEventListener("load", refresh));
       page.removeEventListener("toggle", refresh, true);
       media.revert();
