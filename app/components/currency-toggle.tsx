@@ -1,7 +1,9 @@
 "use client";
 
+import { CurrencySymbol } from "./currency-symbol";
+
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { currencySymbols, type Currency } from "../../lib/currency";
+import { type Currency } from "../../lib/currency";
 
 const CurrencyContext = createContext<{ currency: Currency; setCurrency: (currency: Currency) => void }>({ currency: "MVR", setCurrency: () => {} });
 
@@ -22,6 +24,6 @@ export const useCurrency = () => useContext(CurrencyContext);
 export function CurrencyToggle() {
   const { currency, setCurrency } = useCurrency();
   return <div className="currency-toggle" role="group" aria-label="Display currency">
-    {(["MVR", "USD"] as const).map(code => <button key={code} type="button" aria-pressed={currency === code} aria-label={`Show amounts in ${code === "MVR" ? "Maldivian rufiyaa (MVR)" : "US dollars (USD)"}`} onClick={() => setCurrency(code)}><span className="currency-symbol" aria-hidden="true">{currencySymbols[code]}</span><span>{code}</span></button>)}
+    {(["MVR", "USD"] as const).map(code => <button key={code} type="button" aria-pressed={currency === code} aria-label={`Show amounts in ${code === "MVR" ? "Maldivian rufiyaa (MVR)" : "US dollars (USD)"}`} onClick={() => setCurrency(code)}><span className="currency-symbol" aria-hidden="true"><CurrencySymbol currency={code} /></span><span>{code}</span></button>)}
   </div>;
 }

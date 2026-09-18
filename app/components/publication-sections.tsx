@@ -1,3 +1,4 @@
+import { CurrencyText } from "./currency-symbol";
 import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
 import { TransportSection } from "./transport-section";
@@ -18,10 +19,10 @@ function ReportBlock({ block }: { block: ContentBlock }) {
       {block.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       {block.items && <ul className="report-list">{block.items.map((item) => <li key={item}>{item}</li>)}</ul>}
     </>}
-    {block.type === "metrics" && <dl className="report-metrics">{block.metrics.map((metric, index) => <div key={`${metric.label}-${index}`}><dt>{metric.label}</dt><dd>{metric.value}</dd>{metric.note && <p>{metric.note}</p>}</div>)}</dl>}
+    {block.type === "metrics" && <dl className="report-metrics">{block.metrics.map((metric, index) => <div key={`${metric.label}-${index}`}><dt>{metric.label}</dt><dd><CurrencyText value={metric.value} /></dd>{metric.note && <p><CurrencyText value={metric.note ?? ""} /></p>}</div>)}</dl>}
     {block.type === "table" && <>
       <div className="report-table-scroll" role="region" aria-label={block.title} tabIndex={0}>
-        <table><caption className="sr-only">{block.title}</caption><thead><tr>{block.columns.map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
+        <table><caption className="sr-only">{block.title}</caption><thead><tr>{block.columns.map((column) => <th key={column} scope="col"><CurrencyText value={column} /></th>)}</tr></thead>
           <tbody>{block.rows.map((row, index) => <tr key={index}>{row.map((cell, column) => column === 0 ? <th scope="row" key={column}>{cell}</th> : <td key={column}>{cell}</td>)}</tr>)}</tbody>
         </table>
       </div>
@@ -106,7 +107,7 @@ function FinancialSection({ section }: { section: Extract<ProfileSection, { type
           {variant === "pipeline" && <><div className="financial-backdrop" aria-hidden="true"><Image src="/assets/infrastructure.webp" alt="" fill sizes="(max-width: 760px) 100vw, 1200px" /></div><div className="financial-shade" /></>}
           <div className="financial-chapter-heading"><span aria-hidden="true">0{index}</span><h3>{block.title}</h3></div>
           <dl className="financial-metrics">{block.metrics.map((metric, metricIndex) => <div className={`financial-stat ${metric.label === "Annual passengers" ? "financial-stat-wide" : ""}`} key={`${metric.label}-${metricIndex}`}>
-            <dt>{metric.label}</dt><dd data-count={isMoney(metric.value) ? undefined : metric.value}>{metric.value}</dd>{metric.note && <p>{metric.note}</p>}
+            <dt>{metric.label}</dt><dd data-count={isMoney(metric.value) ? undefined : metric.value}><CurrencyText value={metric.value} /></dd>{metric.note && <p><CurrencyText value={metric.note ?? ""} /></p>}
           </div>)}</dl>
         </article>;
       })}

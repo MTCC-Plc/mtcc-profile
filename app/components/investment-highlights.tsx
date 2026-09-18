@@ -1,5 +1,8 @@
 "use client";
 
+import { CurrencyText } from "./currency-symbol";
+
+
 import Image from "./site-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -137,7 +140,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       {section.metrics.map((metric, index) => <article className="investment-card" key={`${metric.label}-${index}`} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${count}: ${metric.label}`}>
         <Image src={images[index % images.length]} alt="" fill sizes="(max-width: 760px) 85vw, 460px" />
         <div className="investment-card-shade" />
-        <div className="investment-card-content"><h3>{metric.label}</h3><p className={`investment-value ${metric.value.length > 6 ? "investment-value-long" : ""}`}><MoneyValue value={metric.value} /></p><div className="investment-card-footer">{metric.note && <p>{metric.note}</p>}<span aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span></div></div>
+        <div className="investment-card-content"><h3>{metric.label}</h3><p className={`investment-value ${metric.value.length > 6 ? "investment-value-long" : ""}`}><MoneyValue value={metric.value} /></p><div className="investment-card-footer">{metric.note && <p><CurrencyText value={metric.note ?? ""} /></p>}<span aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span></div></div>
       </article>)}
     </div>
     <div className="shell investment-controls">

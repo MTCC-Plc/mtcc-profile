@@ -1678,3 +1678,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .header-inner { min-height: 76px; }
   .profile-page [id] { scroll-margin-top: 96px; }
 }
+
+/* MMA rufiyaa outline: preserve proportions and align with the numeral cap height. */
+.rufiyaa-symbol { display: inline-block; width: 1.2em; height: .78em; vertical-align: -.02em; flex-shrink: 0; overflow: visible; }

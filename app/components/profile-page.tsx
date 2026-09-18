@@ -1,5 +1,8 @@
 "use client";
 
+import { CurrencyText } from "./currency-symbol";
+
+
 import { useEffect, useMemo } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CurrencyToggle, useCurrency } from "./currency-toggle";
@@ -70,7 +73,7 @@ function Hero({ data }: { data: ProfilePageData }) {
 }
 
 function MetricValue({ value }: { value: string }) {
-  return <strong><span className="sr-only">{value}</span><span data-count={isMoney(value) ? undefined : value} aria-hidden="true">{value}</span></strong>;
+  return <strong><span className="sr-only">{value}</span><span data-count={isMoney(value) ? undefined : value} aria-hidden="true"><CurrencyText value={value} /></span></strong>;
 }
 
 function SectionHeading({ eyebrow, title, intro, invert = false }: { eyebrow?: string; title: string; intro?: string; invert?: boolean }) {
@@ -191,7 +194,7 @@ function MetricsSection({ section }: { section: Extract<ProfileSection, { type: 
         <div className="metrics-grid">
           {section.metrics.map((metric, index) => (
             <article key={`${metric.label}-${index}`} className={index === 0 ? "feature" : ""}>
-              <span>{metric.label}</span><MetricValue value={metric.value} />{metric.note && <p>{metric.note}</p>}
+              <span>{metric.label}</span><MetricValue value={metric.value} />{metric.note && <p><CurrencyText value={metric.note ?? ""} /></p>}
             </article>
           ))}
         </div>

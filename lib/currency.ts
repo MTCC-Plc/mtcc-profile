@@ -1,6 +1,7 @@
 import type { ContentBlock, Metric, ProfilePageData } from "../app/types/profile";
 
 export type Currency = "MVR" | "USD";
+// Rf is an internal text token; CurrencyText renders the official MMA vector.
 export const currencySymbols: Record<Currency, string> = { MVR: "Rf", USD: "$" };
 // Presentation rate only; existing amounts supplied in both currencies take priority.
 export const MVR_PER_USD = 15.42;

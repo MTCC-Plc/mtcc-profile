@@ -1,3 +1,4 @@
+import { CurrencyText } from "./currency-symbol";
 import Image from "./site-image";
 import { Cylinder, Wrench, Anchor } from "lucide-react";
 import type { ProfileSection } from "../types/profile";
@@ -17,7 +18,7 @@ export function TradingSection({ section }: { section: Extract<ProfileSection, {
       </article>)}
       {section.blocks.filter(block => block.type === "table").map((block,index) => <article className="trading-revenue" key={index}>
         <div className="trading-block-heading"><p className="eyebrow">Financial performance</p><h3>{block.title}</h3></div>
-        <div className="trading-revenue-table" role="region" aria-label={block.title} tabIndex={0}><table><caption className="sr-only">{block.title}</caption><thead><tr>{block.columns.map(column=><th key={column} scope="col">{column}</th>)}</tr></thead><tbody>{block.rows.map(row=><tr key={row[0]}><th scope="row">{row[0]}</th>{row.slice(1).map((value,i)=><td key={i}><span className="trading-revenue-value">{value}</span><div className="bar-track" aria-hidden="true"><span style={{width:`${Number(value) / Math.max(...block.rows.map(entry=>Number(entry[i+1]))) * 100}%`}} /></div></td>)}</tr>)}</tbody></table></div>
+        <div className="trading-revenue-table" role="region" aria-label={block.title} tabIndex={0}><table><caption className="sr-only">{block.title}</caption><thead><tr>{block.columns.map(column=><th key={column} scope="col"><CurrencyText value={column} /></th>)}</tr></thead><tbody>{block.rows.map(row=><tr key={row[0]}><th scope="row">{row[0]}</th>{row.slice(1).map((value,i)=><td key={i}><span className="trading-revenue-value">{value}</span><div className="bar-track" aria-hidden="true"><span style={{width:`${Number(value) / Math.max(...block.rows.map(entry=>Number(entry[i+1]))) * 100}%`}} /></div></td>)}</tr>)}</tbody></table></div>
         {block.note&&<p>{block.note}</p>}
       </article>)}
     </div>

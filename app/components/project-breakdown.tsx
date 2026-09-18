@@ -1,5 +1,8 @@
 "use client";
 
+import { CurrencyText } from "./currency-symbol";
+
+
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useCurrency } from "./currency-toggle";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -166,13 +169,13 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
               <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={count[3]} /></strong><span>{counts.columns[3]} projects</span></div></div>
               <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl>
             </div>}
-            <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt>{category.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
+            <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt><CurrencyText value={category.columns[i + 1]} /></dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
             {category.note && <p>{category.note}</p>}
           </article>;
         })}</div>
       </div>
       <details className="breakdown-comparison"><summary><span>{counts.title}<small>Compare all five categories</small></span><span className="breakdown-expand" aria-hidden="true">+</span></summary>
-        <div className="report-table-scroll" role="region" aria-label="Project counts comparison" tabIndex={0}><table><caption className="sr-only">{counts.title}</caption><thead><tr>{counts.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead><tbody>{counts.rows.map(row => <tr key={row[0]}>{row.map((cell, i) => i === 0 ? <th scope="row" key={i}>{cell}</th> : <td key={i}>{cell}</td>)}</tr>)}</tbody></table></div>
+        <div className="report-table-scroll" role="region" aria-label="Project counts comparison" tabIndex={0}><table><caption className="sr-only">{counts.title}</caption><thead><tr>{counts.columns.map(column => <th scope="col" key={column}><CurrencyText value={column} /></th>)}</tr></thead><tbody>{counts.rows.map(row => <tr key={row[0]}>{row.map((cell, i) => i === 0 ? <th scope="row" key={i}>{cell}</th> : <td key={i}>{cell}</td>)}</tr>)}</tbody></table></div>
         {counts.note && <p>{counts.note}</p>}
       </details>
     </div>
