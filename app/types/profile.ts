@@ -22,7 +22,7 @@ export type ProfileSection =
   | { type: "people"; id: string; eyebrow: string; title: string; intro: string; body?: string[]; images: string[] }
   | { type: "strategy"; id: string; eyebrow: string; title: string; pillars: { title: string; items: string[] }[] }
   | { type: "content"; id: string; eyebrow: string; title: string; intro?: string; blocks: ContentBlock[]; serviceDetails?: Service[]; dark?: boolean }
-  | { type: "leadership"; id: string; title: string; people: { name: string; role: string; division?: string; image: string }[] };
+  | { type: "leadership"; id: string; title: string; people: { name: string; role: string; division?: string; image: string }[]; team?: Extract<ProfileSection, { type: "people" }> };
 
 export type ProfilePageData = {
   slug: string;

@@ -28,7 +28,8 @@ import { FlagshipProjects } from "./flagship-projects";
 import { GrowthStrategy } from "./growth-strategy";
 import { MilestonesSection } from "./milestones-section";
 import { MobileMenu } from "./mobile-menu";
-import { ContentSection, LeadershipSection, ProfileContents } from "./publication-sections";
+import { ContentSection, ProfileContents } from "./publication-sections";
+import { OrganisationSection } from "./organisation-section";
 
 function SiteHeader({ sections }: { sections: { id: string; title: string }[] }) {
   return (
@@ -228,7 +229,7 @@ function SectionRenderer({ section }: { section: ProfileSection }) {
     case "projects": return <FlagshipProjects section={section} />;
     case "strategy": return <GrowthStrategy section={section} />;
     case "content": return <ContentSection section={section} />;
-    case "leadership": return <LeadershipSection section={section} />;
+    case "leadership": return <OrganisationSection section={section} />;
   }
 }
 

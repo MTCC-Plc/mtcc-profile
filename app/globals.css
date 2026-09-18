@@ -1886,3 +1886,73 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .breakdown-total > small { font-size: .65rem; }
   .breakdown-panel .breakdown-ring { width: 96px; height: 96px; }
 }
+
+/* Organisation and the people who make it work. */
+.organisation-section { padding: 110px 0; background: #f4f6f8; scroll-margin-top: 90px; }
+.organisation-heading { max-width: 850px; }
+.organisation-heading h2 { margin: 22px 0; font-size: clamp(3rem, 6vw, 6rem); font-weight: 600; line-height: 1.04; letter-spacing: -.055em; }
+.organisation-heading h2 span { color: #008da5; }
+.organisation-heading > p:last-child { max-width: 570px; font-size: 1.15rem; line-height: 1.6; color: #526270; }
+.organisation-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 52px 0 30px; }
+.organisation-toolbar > span { font-size: .9rem; color: #526270; }
+.organisation-view { display: flex; padding: 5px; background: #e4eaef; border-radius: 30px; }
+.organisation-view button { border: 0; border-radius: 24px; padding: 12px 22px; font: inherit; font-size: .85rem; color: #526270; background: transparent; cursor: pointer; }
+.organisation-view button[aria-pressed=true] { background: #fff; color: #052e54; box-shadow: 0 2px 8px #052e5410; }
+.organisation-explorer { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 36px; align-items: start; }
+.organisation-functions { display: grid; gap: 12px; }
+.organisation-functions button { display: flex; align-items: center; gap: 15px; padding: 22px 18px; border: 1px solid #dce4ea; border-radius: 18px; background: transparent; color: #526270; text-align: left; font: inherit; cursor: pointer; transition: background .2s, color .2s; }
+.organisation-functions button[aria-pressed=true] { background: #062c47; border-color: #062c47; color: white; }
+.organisation-functions button > svg { flex-shrink: 0; }
+.organisation-functions button > svg:last-child { margin-left: auto; width: 16px; color: #00a2b9; }
+.organisation-functions strong { display: block; font-size: .95rem; font-weight: 500; }
+.organisation-functions small { display: block; margin-top: 6px; font-size: .75rem; opacity: .75; }
+.organisation-functions > p { font-size: .75rem; color: #697985; margin: 4px 12px; }
+.organisation-people { min-width: 0; padding: 32px; border-radius: 28px; background: white; }
+.organisation-people > header { margin-bottom: 30px; }
+.organisation-people h3 { margin: 12px 0; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 600; letter-spacing: -.04em; }
+.organisation-people > header > p:last-child { font-size: .9rem; line-height: 1.5; color: #526270; margin-bottom: 0; }
+.organisation-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 20px; animation: organisation-enter .35s ease both; }
+.organisation-portrait { border-radius: 16px; overflow: hidden; background: #edf2f5; aspect-ratio: 1 / 1.12; }
+.organisation-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.organisation-person-copy { padding: 16px 2px 0; }
+.organisation-person h4 { font-size: 1rem; line-height: 1.35; font-weight: 600; margin: 0 0 8px; letter-spacing: -.02em; }
+.organisation-person p { font-size: .8rem; line-height: 1.5; color: #526270; margin: 0; }
+.organisation-person-copy > span { display: block; color: #007d94; font-size: .8rem; line-height: 1.5; margin-top: 4px; }
+.organisation-all { grid-template-columns: 1fr; }
+.organisation-all .organisation-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.organisation-section button:focus-visible { outline: 3px solid #008da5; outline-offset: 4px; }
+.organisation-team { margin-top: 90px; padding-top: 55px; border-top: 1px solid #d5e0e7; scroll-margin-top: 95px; }
+.organisation-team-heading { max-width: 650px; margin-bottom: 35px; }
+.organisation-team h3 { font-size: clamp(2rem, 3.6vw, 3.5rem); font-weight: 600; line-height: 1.1; letter-spacing: -.045em; margin: 18px 0; }
+.organisation-team-story { display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: start; }
+.organisation-team-images { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.organisation-team-images img { width: 100%; height: 350px; object-fit: cover; border-radius: 20px; }
+.organisation-team-images img:nth-child(2) { margin-top: 45px; }
+.organisation-team-story p { font-size: .95rem; line-height: 1.75; color: #526270; margin: 0 0 20px; }
+@keyframes organisation-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 1000px) {
+  .organisation-explorer { grid-template-columns: 1fr; gap: 25px; }
+  .organisation-functions { grid-template-columns: 1fr 1fr; }
+  .organisation-functions > p { grid-column: 1 / -1; }
+  .organisation-all .organisation-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .organisation-section { padding: 75px 0; }
+  .organisation-heading h2 { font-size: clamp(2.4rem, 10vw, 3.8rem); }
+  .organisation-heading > p:last-child { font-size: 1rem; }
+  .organisation-toolbar { align-items: flex-start; flex-direction: column; gap: 18px; margin-top: 32px; }
+  .organisation-functions { gap: 10px; }
+  .organisation-functions button { padding: 16px 12px; flex-wrap: wrap; gap: 10px; align-content: start; }
+  .organisation-functions button > span { width: 100%; }
+  .organisation-functions button > svg:last-child { display: none; }
+  .organisation-functions strong { font-size: .85rem; }
+  .organisation-people { padding: 24px 16px; border-radius: 22px; }
+  .organisation-grid, .organisation-all .organisation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  .organisation-person h4 { font-size: .88rem; }
+  .organisation-person p, .organisation-person-copy > span { font-size: .73rem; }
+  .organisation-team { margin-top: 55px; padding-top: 35px; }
+  .organisation-team-story { grid-template-columns: 1fr; gap: 32px; }
+  .organisation-team-images img { height: 240px; }
+  .organisation-team-images img:nth-child(2) { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .organisation-grid { animation: none; } .organisation-functions button { transition: none; } }

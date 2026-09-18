@@ -49,10 +49,16 @@ if (coreServices?.type === "services") {
   if (portfolio?.type === "portfolio") sections.set(portfolio.id, { ...portfolio, intro: `${portfolio.intro} ${coreServices.intro}` });
 }
 
+const management = sections.get("management");
+const team = sections.get("team");
+if (management?.type === "leadership" && team?.type === "people") {
+  sections.set(management.id, { ...management, title: "Our organisation & people", team });
+}
+
 const order = [
   "about-mtcc", "purpose", "milestones", "highlights", "financials", "portfolio",
   "infrastructure", "project-breakdown", "projects", "transport-network", "shipbuilding", "general-trading",
-  "team", "management", "competitive-differentiators", "sustainability", "strategy", "partnership",
+  "management", "competitive-differentiators", "sustainability", "strategy", "partnership",
 ];
 
 export const companyProfile: ProfilePageData = {
