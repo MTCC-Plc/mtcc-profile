@@ -38,7 +38,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
       {!all && <nav className="organisation-functions" aria-label="Organisation functions">{groups.map(group => {
         const Icon = group.icon;
         return <button type="button" key={group.id} aria-pressed={active === group.id} aria-controls="organisation-people" onClick={() => setActive(group.id)}><Icon size={25} strokeWidth={1.5} aria-hidden="true" /><span><strong>{group.title}</strong><small>{section.people.filter(person => groupFor(person) === group.id).length} people</small></span><ArrowUpRight size={18} aria-hidden="true" /></button>;
-      })}<p>Grouped by role and function.</p></nav>}
+      })}</nav>}
       <div id="organisation-people" className="organisation-people" aria-labelledby="organisation-group-title">
         <header><p className="eyebrow">{all ? "The full management team" : "People & responsibilities"}</p><h3 id="organisation-group-title">{all ? "Meet the team." : selected.title}</h3><p>{all ? "The people behind our progress, across every function." : selected.description}</p></header>
         <div className="organisation-grid" key={all ? "all" : active}>{people.map(person => <article className="organisation-person" key={person.name}>
