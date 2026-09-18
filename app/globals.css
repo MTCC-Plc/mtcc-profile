@@ -828,7 +828,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .flagship-filters button:hover:not([aria-pressed="true"]) { background: #e0e7eb; color: #12212f; }
 .flagship-filters button:focus-visible { outline: 3px solid #008fa9; outline-offset: 4px; }
 .flagship-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.flagship-card { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 38px; padding: 38px; border-radius: 26px; background: #f5f5f7; animation: flagship-enter .35s ease both; }
+.flagship-card { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 38px; padding: 38px; border-radius: 26px; background: #f5f5f7; }
 .flagship-card-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 26px; font-size: .75rem; letter-spacing: .05em; color: #526270; }
 .flagship-card-top > span:first-child { display: grid; place-items: center; width: 35px; height: 35px; border: 1px solid #cbd7df; border-radius: 50%; font-size: .65rem; }
 .flagship-card h3 { margin: 0; font-size: clamp(1.5rem, 2.4vw, 2.2rem); font-weight: 500; letter-spacing: -.035em; line-height: 1.2; text-wrap: balance; }
@@ -846,7 +846,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .flagship-featured .flagship-amounts > div:first-child dd { color: #5de4f1; font-size: clamp(6rem, 10vw, 9rem); }
 .flagship-featured .flagship-amounts > div:last-child { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-top: 1px solid #ffffff35; padding-top: 20px; }
 .flagship-featured .flagship-amounts > div:last-child dd { font-size: 2.8rem; margin: 0; }
-@keyframes flagship-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 760px) {
   .flagship-section { padding: 75px 0; }
   .flagship-heading { gap: 20px; align-items: start; margin-bottom: 35px; }
@@ -1511,7 +1510,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 }
 @media (max-width: 999px) and (prefers-reduced-motion: no-preference) {
   .mobile-menu[open] nav { animation: mobile-menu-enter .22s cubic-bezier(.2,.7,.2,1) both; }
-  .fleet-showcase, .breakdown-panel, .flagship-card { animation: mobile-panel-enter .28s cubic-bezier(.2,.7,.2,1) both; }
+  .fleet-showcase, .breakdown-panel { animation: mobile-panel-enter .28s cubic-bezier(.2,.7,.2,1) both; }
   .mobile-menu summary, .fleet-mode-tabs button, .breakdown-tabs button, .flagship-filters button, .investment-arrows button, .flagship-gallery-controls button { transition: transform .18s ease, background-color .2s ease, color .2s ease; }
   .mobile-menu summary:active, .fleet-mode-tabs button:active, .breakdown-tabs button:active, .flagship-filters button:active, .investment-arrows button:active, .flagship-gallery-controls button:active { transform: scale(.97); }
 }
@@ -1654,11 +1653,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .fleet-panels .fleet-showcase { grid-area: 1 / 1; animation: none; min-width: 0; }
 .fleet-panels .fleet-showcase[hidden] { display: grid; visibility: hidden; pointer-events: none; }
 @media (max-width: 760px) { .fleet-panels { border-radius: 22px; } }
-
-@keyframes flagship-fade { from { opacity: .7; } to { opacity: 1; } }
-@media (prefers-reduced-motion: no-preference) {
-  .flagship-rail .flagship-card { animation-name: flagship-fade; }
-}
 
 /* Figures interpolate in place; a panel fade would make every digit blink. */
 .breakdown-panels .breakdown-panel { animation: none; }
