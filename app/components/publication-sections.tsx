@@ -1,3 +1,4 @@
+import { SectionLink } from "./section-link";
 import { CurrencyText } from "./currency-symbol";
 import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
@@ -62,28 +63,34 @@ export function ContentSection({ section }: { section: Extract<ProfileSection, {
 }
 
 function AboutSection({ section }: { section: Extract<ProfileSection, { type: "content" }> }) {
-  const foundation = section.blocks.find(block => block.type === "text");
-  const year = foundation?.title?.match(/\b\d{4}\b/)?.[0];
-  return <section id={section.id} className="about-section" aria-labelledby="about-title">
+  const paragraphs = section.blocks.flatMap(block => block.type === "text" ? block.paragraphs ?? [] : []);
+  const roles = paragraphs.filter(text => /^(Infrastructure Development|Nationwide Connectivity|Fisheries Industry Modernization|Economic Enablement):/.test(text));
+  const introduction = paragraphs.find(text => text.startsWith("For over"));
+  const images = ["/assets/infrastructure.webp", "/assets/transport.webp", "/assets/team-engineering.webp", "/assets/shipbuilding.webp"];
+  return <section id={section.id} className="about-section about-editorial" aria-labelledby="about-title">
     <div className="shell">
-      <header className="about-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id="about-title">{section.title}<span>.</span></h2></header>
-      <div className="about-landscape">
-        <Image src="/assets/corporate-hero.webp" alt="Aerial view of coastal infrastructure in the Maldives" fill sizes="(max-width: 760px) 100vw, 1200px" />
-        <div className="about-landscape-shade" />
-        {year && <div className="about-year" aria-hidden="true"><span>Our story began in</span><strong>{year}</strong></div>}
-        <span className="about-location">The Maldives</span>
+      <header className="about-editorial-heading"><p className="eyebrow">{section.title}</p><h2 id="about-title"><span className="about-reveal-line">A nation of islands.</span><br /><span className="about-reveal-line">Connected by possibility.</span></h2><p className="about-editorial-intro">Infrastructure. Mobility. Marine expertise.<br />Working together to move the Maldives forward.</p></header>
+      <div className="about-editorial-visual">
+        <Image src="/assets/bridge.webp" alt="Transport infrastructure linking communities in the Maldives" fill sizes="(max-width: 760px) 100vw, 1200px" />
+        <div className="about-editorial-shade" />
+        <div className="about-editorial-caption"><span>Our purpose, in every project.</span><strong>Closer communities.<br />Greater possibilities.</strong></div>
       </div>
-      <div className="about-narrative">{section.blocks.map((block, index) => {
-        if (block.type !== "text") return <ReportBlock block={block} key={index} />;
-        return <article className="about-story" key={index}>
-          <h3>{block.title}</h3>
-          <div>{block.paragraphs?.map(paragraph => {
-            const sentenceEnd = paragraph.indexOf(". ");
-            return <p key={paragraph}>{sentenceEnd >= 0 ? <><span className="about-lead">{paragraph.slice(0, sentenceEnd + 1)}</span>{" "}<span className="about-detail">{paragraph.slice(sentenceEnd + 2)}</span></> : <span className="about-lead">{paragraph}</span>}</p>;
-          })}{block.items && <ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul>}</div>
+      {introduction && <p className="about-editorial-summary">{introduction}</p>}
+      <div className="about-contribution-heading"><p className="eyebrow">Our contribution</p><h3>Progress, in every direction.</h3></div>
+      <div className="about-contribution-grid">{roles.map((paragraph, index) => {
+        const separator = paragraph.indexOf(":");
+        return <article className="about-contribution" key={paragraph}>
+          <div className="about-contribution-image"><Image src={images[index]} alt="" fill sizes="(max-width: 760px) 100vw, 600px" /><span aria-hidden="true">0{index + 1}</span></div>
+          <div className="about-contribution-copy"><h4>{paragraph.slice(0, separator)}</h4><p>{paragraph.slice(separator + 1).trim()}</p></div>
         </article>;
       })}</div>
-      <a className="about-journey-link" href="#milestones">Explore our journey <span aria-hidden="true">↓</span></a>
+      <details className="about-full-story"><summary><span>Our story, in full.<small>From our beginnings to our national role today.</small></span><span className="about-story-expand" aria-hidden="true">+</span></summary><div className="about-full-story-content">{section.blocks.map((block, index) => {
+        if (block.type !== "text") return <ReportBlock block={block} key={index} />;
+        const copy = block.paragraphs?.filter(text => text !== introduction && !roles.includes(text));
+        if (!copy?.length && !block.items?.length) return null;
+        return <article key={index}><h3>{block.title}</h3>{copy?.map(text => <p key={text}>{text}</p>)}{block.items && <ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul>}</article>;
+      })}</div></details>
+      <SectionLink className="about-editorial-journey" href="#milestones">Explore the milestones <span aria-hidden="true">↓</span></SectionLink>
     </div>
   </section>;
 }

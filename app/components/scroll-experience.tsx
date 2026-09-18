@@ -72,18 +72,25 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
           .fromTo(purpose.querySelector(".purpose-chapters i"), { scaleX: 0 }, { scaleX: 1, duration: 1.75, ease: "none" }, 0);
       }
 
+      const panorama = page.querySelector<HTMLElement>(".company-hero-panorama");
+      if (panorama) {
+        gsap.fromTo(panorama, { scale: desktop ? .94 : .98 }, { scale: 1, ease: "none", scrollTrigger: {
+          trigger: panorama, start: "top 95%", end: "top 20%", scrub: .5,
+        } });
+        gsap.fromTo(panorama.querySelector("img"), { scale: desktop ? 1.1 : 1.04 }, { scale: 1, ease: "none", scrollTrigger: {
+          trigger: panorama, start: "top bottom", end: "bottom top", scrub: .5,
+        } });
+      }
+      const aboutVisual = page.querySelector<HTMLElement>(".about-editorial-visual img");
+      if (aboutVisual) gsap.fromTo(aboutVisual, { scale: desktop ? 1.08 : 1.035 }, { scale: 1, ease: "none", scrollTrigger: {
+        trigger: ".about-editorial-visual", start: "top bottom", end: "bottom 25%", scrub: .5,
+      } });
+      select<HTMLElement>(".about-reveal-line").forEach(line => gsap.fromTo(line, { color: "#778b99" }, { color: "#102b3b", ease: "none", scrollTrigger: {
+        trigger: line, start: "top 90%", end: "top 55%", scrub: .35,
+      } }));
+
       // Establish pinned sections first so later triggers include their scroll space.
       if (desktop) {
-        const hero = page.querySelector<HTMLElement>(".profile-hero")!;
-        const heroMotion = gsap.timeline({ scrollTrigger: {
-          trigger: hero, start: "top top", end: "bottom bottom", scrub: 0.7,
-        } });
-        heroMotion.to(".hero-image", { scale: 1.17, ease: "none", duration: 1 }, 0)
-          .to(".hero-copy, .hero-edition", { y: -65, opacity: 0, duration: 0.45 }, 0.05)
-          .to(".hero-shade", { opacity: 0.55, duration: 1 }, 0)
-          .to(".hero-scroll-cue", { opacity: 0, duration: 0.2 }, 0)
-          .fromTo(".hero-scene-caption", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.5);
-
         const stage = page.querySelector<HTMLElement>(".services-stage");
         if (stage) {
           const cards = select<HTMLElement>(".service-card");
@@ -157,7 +164,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       if (!desktop) reveals.push(...select<HTMLElement>(".service-card"));
       reveals.push(...select<HTMLElement>(".purpose-intro, .purpose-values-heading, .move-values article"));
       reveals.push(...select<HTMLElement>(".financial-intro, .financial-position, .financial-chapter"));
-      reveals.push(...select<HTMLElement>(".about-heading, .about-year, .about-story, .about-journey-link"));
+      reveals.push(...select<HTMLElement>(".about-editorial-intro, .about-editorial-summary, .about-contribution-heading, .about-contribution, .about-editorial-journey"));
       reveals.push(...select<HTMLElement>(".portfolio-heading, .sector-card"));
       reveals.push(...select<HTMLElement>(".difference-heading, .difference-subtitle, .difference-card"));
       reveals.push(...select<HTMLElement>(".infra-heading, .infra-capacity, .infra-vessels > div, .infra-firsts, .infra-block-heading, .infra-capability-grid article, .infra-projects dl > div"));
@@ -195,7 +202,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
           });
         }, { rootMargin: "0px 0px -28px 0px", threshold: 0 });
         [...mobileReveals, ...visuals].forEach(element => mobileObserver!.observe(element));
-        gsap.from(".hero-copy > *", { y: 12, opacity: 0, duration: .7, stagger: .09, ease: "power3.out", clearProps: "transform,opacity" });
+        gsap.from(".company-hero-copy > *", { y: 12, opacity: 0, duration: .7, stagger: .09, ease: "power3.out", clearProps: "transform,opacity" });
       }
 
       if (desktop) {

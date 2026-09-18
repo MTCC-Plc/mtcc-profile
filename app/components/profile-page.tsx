@@ -1,9 +1,10 @@
 "use client";
 
+import { SectionLink } from "./section-link";
 import { CurrencyText } from "./currency-symbol";
 
 
-import { useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CurrencyToggle, useCurrency } from "./currency-toggle";
 import { isMoney, profileInCurrency } from "../../lib/currency";
@@ -45,31 +46,21 @@ function SiteHeader({ sections }: { sections: { id: string; title: string }[] })
 }
 
 function Hero({ data }: { data: ProfilePageData }) {
-  return (
-    <section className={`profile-hero ${data.theme}`}>
-      <div className="hero-stage">
-      <Image className="hero-image" src={data.hero.image} alt="MTCC operations in the Maldives" fill sizes="100vw" priority />
-      <div className="hero-shade" />
-      <div className="wave-lines" />
-      <div className="shell hero-content">
-        <div className="hero-copy">
-          <p className="eyebrow light">{data.hero.eyebrow}</p>
-          <h1>{data.hero.title}</h1>
-          <p className="hero-lead">{data.hero.description}</p>
-          <a className="section-jump" href={`#${data.sections[0].id}`}>Explore profile <ArrowDown size={17} /></a>
-        </div>
-        <div className="hero-edition"><span>{data.hero.year}</span><strong>MTCC</strong></div>
-      </div>
-      <div className="hero-scene-caption" aria-hidden="true"><span>Across the islands.</span><strong>Moving a nation forward.</strong></div>
-      <div className="shell hero-metrics">
-        {data.hero.metrics.map((metric) => (
-          <div key={metric.label}><MetricValue value={metric.value} /><span>{metric.label}</span></div>
-        ))}
-      </div>
-      <div className="hero-scroll-cue" aria-hidden="true"><span>Scroll to discover</span><span className="scroll-cue-line" /></div>
-      </div>
-    </section>
-  );
+  return <section className="company-hero" aria-labelledby="company-hero-title">
+    <div className="shell company-hero-copy">
+      <p className="company-hero-edition">MTCC <span>·</span> {data.hero.year}</p>
+      <h1 id="company-hero-title">Building a<br /><span>connected nation.</span></h1>
+      <p className="company-hero-lead">{data.hero.description}</p>
+      <div className="company-hero-actions"><SectionLink className="company-primary-action" href="#about-mtcc">Discover MTCC <ArrowDown size={17} aria-hidden="true" /></SectionLink><SectionLink className="company-secondary-action" href="#portfolio">Our businesses <ArrowUpRight size={18} aria-hidden="true" /></SectionLink></div>
+    </div>
+    <div className="company-hero-panorama">
+      <Image src={data.hero.image} alt="Aerial view of MTCC coastal infrastructure and turquoise Maldivian waters" fill sizes="100vw" priority />
+      <div className="company-hero-image-shade" />
+      <div className="company-hero-caption"><span>Across the islands.</span><strong>Moving a nation forward.</strong></div>
+      <span className="company-hero-location">The Maldives <span aria-hidden="true">↗</span></span>
+    </div>
+    <div className="shell company-hero-metrics">{data.hero.metrics.map(metric => <div key={metric.label}><MetricValue value={metric.value} /><span>{metric.label}</span></div>)}</div>
+  </section>;
 }
 
 function MetricValue({ value }: { value: string }) {
@@ -277,5 +268,5 @@ export function ProfilePage({ data: original }: { data: ProfilePageData }) {
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(frame);
   }, [currency]);
-  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader sections={data.sections.map(({ id, title }) => ({ id, title }))} /><main id="profile-content"><Hero data={data} /><ProfileContents data={data} />{data.sections.map((section) => <SectionRenderer key={section.id} section={section} />)}</main><Footer investor /></ScrollExperience>;
+  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader sections={data.sections.map(({ id, title }) => ({ id, title }))} /><main id="profile-content"><Hero data={data} />{data.sections.map((section) => <Fragment key={section.id}><SectionRenderer section={section} />{section.id === "about-mtcc" && <ProfileContents data={data} />}</Fragment>)}</main><Footer investor /></ScrollExperience>;
 }
