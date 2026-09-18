@@ -153,27 +153,33 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
     event.preventDefault(); select(next); tabs.current[next]?.focus({ preventScroll: true });
   }
 
+  function renderPanel(category: (typeof categories)[number], index: number, measurement = false) {
+    const count = counts.rows.find(row => row[0] === category.title);
+    const completed = Number(count?.[1] ?? 0), total = Number(count?.[3] ?? 0);
+    return <article key={measurement ? category.title : "active-panel"} id={measurement ? undefined : `${prefix}-panel`} role={measurement ? undefined : "tabpanel"} aria-labelledby={measurement ? undefined : `${prefix}-tab-${index}`} aria-hidden={measurement || undefined} inert={measurement || undefined} tabIndex={measurement ? undefined : 0} className={`breakdown-panel${measurement ? " breakdown-measurement" : ""}`}>
+      <h3>{category.title}</h3>
+      {count && <div className="breakdown-counts">
+        <div className="breakdown-total"><span>Total projects</span><strong><AnimatedFigure value={count[3]} /></strong><small>Across this category</small></div>
+        <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={String(Math.round(total ? completed / total * 100 : 0))} /><em>%</em></strong><span>Completed</span></div></div>
+        <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl>
+      </div>}
+      <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt><CurrencyText value={category.columns[i + 1]} /></dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
+      {category.note && <p>{category.note}</p>}
+    </article>;
+  }
+
   return <section id={section.id} className="breakdown-section" aria-labelledby={`${prefix}-title`}>
     <div className="shell">
       <header className="breakdown-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id={`${prefix}-title`}>{section.title}<span>.</span></h2></header>
       <div ref={explorer} className="breakdown-explorer">
         <div className="breakdown-sidebar"><p>Explore by category</p><div className="breakdown-tabs" role="tablist" aria-label="Project categories" aria-orientation={compact ? "horizontal" : "vertical"}>
-          {categories.map((category, index) => <button key={category.title} ref={el => { tabs.current[index] = el; }} type="button" id={`${prefix}-tab-${index}`} role="tab" aria-selected={active === index} aria-controls={`${prefix}-panel-${index}`} tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span aria-hidden="true">0{index + 1}</span>{category.title}<span className="breakdown-tab-arrow" aria-hidden="true">↗</span></button>)}
+          {categories.map((category, index) => <button key={category.title} ref={el => { tabs.current[index] = el; }} type="button" id={`${prefix}-tab-${index}`} role="tab" aria-selected={active === index} aria-controls={`${prefix}-panel`} tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span aria-hidden="true">0{index + 1}</span>{category.title}<span className="breakdown-tab-arrow" aria-hidden="true">↗</span></button>)}
         </div></div>
-        <div className="breakdown-panels">{categories.map((category, index) => {
-          const count = counts.rows.find(row => row[0] === category.title);
-          const completed = Number(count?.[1] ?? 0), total = Number(count?.[3] ?? 0);
-          return <article key={category.title} id={`${prefix}-panel-${index}`} role="tabpanel" aria-labelledby={`${prefix}-tab-${index}`} hidden={active !== index} tabIndex={0} className="breakdown-panel">
-            <h3>{category.title}</h3>
-            {count && <div className="breakdown-counts">
-              <div className="breakdown-total"><span>Total projects</span><strong><AnimatedFigure value={count[3]} /></strong><small>Across this category</small></div>
-              <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={String(Math.round(total ? completed / total * 100 : 0))} /><em>%</em></strong><span>Completed</span></div></div>
-              <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl>
-            </div>}
-            <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt><CurrencyText value={category.columns[i + 1]} /></dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
-            {category.note && <p>{category.note}</p>}
-          </article>;
-        })}</div>
+        {/* Invisible sizing copies keep every category in the same footprint. */}
+        <div className="breakdown-panels">
+          {categories.map((category, index) => renderPanel(category, index, true))}
+          {categories[active] && renderPanel(categories[active], active)}
+        </div>
       </div>
       <details className="breakdown-comparison"><summary><span>{counts.title}<small>Compare all five categories</small></span><span className="breakdown-expand" aria-hidden="true">+</span></summary>
         <div className="report-table-scroll" role="region" aria-label="Project counts comparison" tabIndex={0}><table><caption className="sr-only">{counts.title}</caption><thead><tr>{counts.columns.map(column => <th scope="col" key={column}><CurrencyText value={column} /></th>)}</tr></thead><tbody>{counts.rows.map(row => <tr key={row[0]}>{row.map((cell, i) => i === 0 ? <th scope="row" key={i}>{cell}</th> : <td key={i}>{cell}</td>)}</tr>)}</tbody></table></div>

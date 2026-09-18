@@ -1641,6 +1641,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 /* Keep category changes in place: all panels share the tallest card's space. */
 .breakdown-panels { display: grid; }
 .breakdown-panels .breakdown-panel { grid-area: 1 / 1; }
+.breakdown-panels .breakdown-measurement { visibility: hidden; pointer-events: none; user-select: none; }
 .breakdown-panels .breakdown-panel[hidden] { display: block; visibility: hidden; pointer-events: none; animation: none; }
 .breakdown-scroll-mobile .breakdown-panel > h3 { min-height: 2.24em; }
 @keyframes breakdown-fade { from { opacity: .65; } to { opacity: 1; } }
