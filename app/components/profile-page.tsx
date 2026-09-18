@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionLink } from "./section-link";
+import { HeroLogo } from "./hero-logo";
 import { CurrencyText } from "./currency-symbol";
 
 
@@ -57,6 +58,7 @@ function Hero({ data }: { data: ProfilePageData }) {
     <div className="company-hero-panorama">
       <Image src={data.hero.image} alt="Aerial view of MTCC coastal infrastructure and turquoise Maldivian waters" fill sizes="100vw" priority />
       <div className="company-hero-image-shade" />
+      <HeroLogo />
       <div className="company-hero-caption"><span>Across the islands.</span><strong>Moving a nation forward.</strong></div>
       <span className="company-hero-location">The Maldives <span aria-hidden="true">↗</span></span>
     </div>
