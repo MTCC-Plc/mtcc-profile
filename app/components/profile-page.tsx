@@ -25,6 +25,7 @@ import { ScrollExperience } from "./scroll-experience";
 import { InvestmentHighlights } from "./investment-highlights";
 import { FlagshipProjects } from "./flagship-projects";
 import { GrowthStrategy } from "./growth-strategy";
+import { MilestonesSection } from "./milestones-section";
 import { MobileMenu } from "./mobile-menu";
 import { ContentSection, LeadershipSection, ProfileContents } from "./publication-sections";
 
@@ -194,19 +195,6 @@ function MetricsSection({ section }: { section: Extract<ProfileSection, { type: 
   );
 }
 
-function TimelineSection({ section }: { section: Extract<ProfileSection, { type: "timeline" }> }) {
-  return (
-    <section id={section.id} className="section timeline-section">
-      <div className="shell">
-        <SectionHeading eyebrow="Our journey" title={section.title} />
-        <div className="timeline-window"><div className="timeline">
-          {section.items.map((item) => <article key={item.year}><time>{item.year}</time><div><h3>{item.title}</h3><p>{item.detail}</p></div></article>)}
-        </div></div>
-      </div>
-    </section>
-  );
-}
-
 function PortfolioSection({ section }: { section: Extract<ProfileSection, { type: "portfolio" }> }) {
   const visuals = ["/assets/infrastructure.webp", "/assets/bridge.webp", "/assets/transport.webp", "/assets/team-welding.webp", "/assets/shipbuilding.webp"];
   const destinations = ["infrastructure", "transport-network", "transport-network", "shipbuilding", "general-trading"];
@@ -233,7 +221,7 @@ function SectionRenderer({ section }: { section: ProfileSection }) {
     case "services": return <ServicesSection section={section} />;
     case "people": return <PeopleSection section={section} />;
     case "metrics": return <MetricsSection section={section} />;
-    case "timeline": return <TimelineSection section={section} />;
+    case "timeline": return <MilestonesSection section={section} />;
     case "portfolio": return <PortfolioSection section={section} />;
     case "projects": return <FlagshipProjects section={section} />;
     case "strategy": return <GrowthStrategy section={section} />;

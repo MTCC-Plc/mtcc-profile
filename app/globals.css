@@ -1796,3 +1796,53 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 @media (prefers-reduced-motion: reduce) { .company-hero-panorama, .company-hero-panorama > img, .about-editorial-visual > img { transform: none !important; } }
 
 @media (max-width: 380px) { .company-hero-actions { gap: 12px; } .company-hero-actions a { font-size: .78rem; } .company-primary-action { padding-inline: 12px; } }
+
+/* Milestones: an accordion of eras paired with a changing visual. */
+.milestones-section { padding-block: 110px; background: #fff; color: #12212f; }
+.milestones-heading { margin-bottom: 46px; max-width: 850px; }
+.milestones-heading h2 { margin: 0; font-size: clamp(2.5rem, 4.6vw, 4.4rem); letter-spacing: -.055em; line-height: 1.05; font-weight: 600; }
+.milestones-heading h2 > span { color: #008fa9; }
+.milestones-heading > p:last-child { margin: 20px 0 0; color: #647684; font-size: 1.05rem; }
+.milestones-explorer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 50px; padding: 52px; border-radius: 32px; background: #f5f5f7; align-items: start; }
+.milestone-chapter { border-bottom: 1px solid #d5dce1; }
+.milestone-chapter:last-child { border-bottom: 0; }
+.milestone-chapter h3 { margin: 0; }
+.milestone-chapter h3 button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 24px 0; border: 0; background: transparent; color: #52616c; font: inherit; font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1.2; font-weight: 600; letter-spacing: -.035em; text-align: left; cursor: pointer; scroll-margin-top: 100px; }
+.milestone-chapter h3 small { display: block; margin-bottom: 8px; font-size: .72rem; font-weight: 500; letter-spacing: .06em; color: #6b7b85; }
+.milestone-chapter h3 button[aria-expanded="true"] { color: #102b3b; }
+.milestone-chapter h3 button[aria-expanded="true"] small { color: #007f9c; }
+.milestone-chapter h3 svg { flex-shrink: 0; transition: transform .3s ease; color: #71838f; }
+.milestone-chapter h3 button[aria-expanded="true"] svg { transform: rotate(180deg); }
+.milestone-chapter h3 button:focus-visible { outline: 3px solid #00aeef; outline-offset: 6px; border-radius: 4px; }
+.milestone-disclosure { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .35s ease, visibility .35s; }
+.milestone-disclosure[data-open="true"] { grid-template-rows: 1fr; visibility: visible; }
+.milestone-disclosure-clip { overflow: hidden; min-height: 0; }
+.milestone-events { list-style: none; padding: 0 0 24px; margin: 0; display: grid; gap: 22px; }
+.milestone-events li { display: grid; grid-template-columns: 42px minmax(0,1fr); gap: 16px; }
+.milestone-events time { color: #007f9c; font-size: .8rem; font-weight: 600; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.milestone-events h4 { margin: 0 0 6px; font-size: .95rem; line-height: 1.35; font-weight: 600; letter-spacing: -.015em; }
+.milestone-events p { margin: 0; color: #576873; font-size: .86rem; line-height: 1.65; }
+.milestone-visuals { position: sticky; top: 104px; height: min(700px, calc(100svh - 140px)); min-height: 430px; overflow: hidden; border-radius: 24px; background: #12384a; }
+.milestone-visual { position: absolute; inset: 0; margin: 0; opacity: 0; visibility: hidden; transition: opacity .55s ease, visibility .55s; }
+.milestone-visual[data-active="true"] { opacity: 1; visibility: visible; }
+.milestone-visual > img { object-fit: cover; transform: scale(1.04); transition: transform .7s ease; }
+.milestone-visual[data-active="true"] > img { transform: scale(1); }
+.milestone-visual-shade { position: absolute; inset: 0; background: linear-gradient(transparent 20%, #001d35cf); }
+.milestone-visual figcaption { position: absolute; inset: auto 32px 32px; color: white; }
+.milestone-visual figcaption > span { font-size: clamp(3.2rem, 5vw, 4.7rem); letter-spacing: -.055em; font-weight: 500; line-height: 1.05; white-space: nowrap; }
+.milestone-visual strong { display: block; font-size: 1.4rem; font-weight: 500; line-height: 1.3; letter-spacing: -.025em; margin-top: 20px; }
+.milestone-visual small { display: block; margin-top: 30px; opacity: .7; font-size: .7rem; }
+.milestone-mobile-image { display: none; }
+@media (min-width: 761px) and (max-width: 1100px) { .milestones-explorer { gap: 30px; padding: 32px; } .milestone-visual figcaption { inset-inline: 20px; } .milestone-visual figcaption > span { font-size: 2.8rem; } }
+@media (max-width: 760px) {
+  .milestones-section { padding-block: 70px; }
+  .milestones-heading { margin-bottom: 30px; }
+  .milestones-explorer { grid-template-columns: 1fr; padding: 10px 24px; border-radius: 24px; gap: 0; }
+  .milestone-chapter h3 button { font-size: 1.3rem; padding-block: 24px; }
+  .milestone-visuals { display: none; }
+  .milestone-mobile-image { display: block; position: relative; height: 220px; overflow: hidden; border-radius: 16px; margin: 0 0 24px; }
+  .milestone-mobile-image img { object-fit: cover; }
+  .milestone-events { gap: 22px; }
+  .milestone-events li { grid-template-columns: 38px minmax(0,1fr); gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .milestone-disclosure, .milestone-chapter h3 svg, .milestone-visual, .milestone-visual > img { transition: none; } .milestone-visual > img { transform: none; } }
