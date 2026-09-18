@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Building2, ShieldCheck, Users } from "lucide-react";
+import { Building2, ShieldCheck } from "lucide-react";
 import Image from "./site-image";
 import { TeamPortrait } from "./team-portrait";
 import type { ProfileSection } from "../types/profile";
@@ -41,7 +41,6 @@ export function OrganisationSection({ section }: { section: Leadership }) {
       <div className="organisation-portrait"><TeamPortrait src={person.image} name={person.name} /></div>
       <div className="organisation-person-copy"><h4>{person.name}</h4><p>{person.role}</p>{person.division && <span>{person.division}</span>}</div>
     </article>)}</div></div></div> : <div className="org-chart">
-      <div className="org-chart-intro"><span><Users size={17} aria-hidden="true" />Our organisation</span><p>Select a role to meet its leader.</p></div>
       <div className="org-board"><Building2 size={21} aria-hidden="true" /><strong>Board of Directors</strong></div>
       <div className="org-top-level">
         <div className="org-risk">{risk && node(risk, "Risk Management")}</div>

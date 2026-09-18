@@ -2005,9 +2005,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 
 /* People and structure share one interactive organisation chart. */
 .org-chart { background: white; color: var(--ink); padding: 40px; border-radius: 28px; }
-.org-chart-intro { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .8rem; margin-bottom: 32px; }
-.org-chart-intro > span, .org-advisory > span { display: flex; align-items: center; gap: 8px; }
-.org-chart-intro p { margin: 0; }
+.org-advisory > span { display: flex; align-items: center; gap: 8px; }
 .org-board { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; width: 32%; min-height: 76px; padding: 20px; margin: 0 auto 60px; background: var(--navy-deep); color: white; border: 1px solid var(--navy-deep); border-radius: 16px; text-align: center; }
 .org-board::after { content: ""; position: absolute; width: 1px; height: 61px; top: 100%; left: 50%; background: #b9ccd8; }
 .org-top-level { position: relative; display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 28px; align-items: stretch; margin: 0 6% 64px; }
@@ -2061,7 +2059,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 }
 @media (max-width: 600px) {
   .org-chart { padding: 18px 14px; border-radius: 22px; }
-  .org-chart-intro { flex-direction: column; gap: 8px; margin-bottom: 24px; }
   .org-board { width: 90%; font-size: .85rem; margin-bottom: 28px; min-height: 64px; }
   .org-board::after { height: 29px; }
   .org-top-level { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
