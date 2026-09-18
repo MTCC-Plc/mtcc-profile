@@ -437,7 +437,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .purpose-values { padding-block: 110px 130px; }
 .purpose-values-heading h3 { margin: 20px 0 60px; font-size: clamp(2.8rem, 5.5vw, 5rem); letter-spacing: -.055em; font-weight: 600; line-height: 1.05; }
 .move-values { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px; }
-.move-letter { display: block; width: fit-content; font-size: clamp(6rem, 13vw, 12rem); line-height: 1; letter-spacing: -.075em; font-weight: 650; color: #007f9c; background: linear-gradient(150deg, #052e54 15%, #009fc0 90%); background-clip: text; -webkit-text-fill-color: transparent; }
+.move-letter { display: block; width: fit-content; padding-inline: .04em; margin-inline: -.04em; font-size: clamp(6rem, 13vw, 12rem); line-height: 1.1; letter-spacing: 0; font-weight: 650; color: #007f9c; background: linear-gradient(150deg, #052e54 15%, #009fc0 90%); background-clip: text; -webkit-text-fill-color: transparent; }
 .move-values article { min-width: 0; }
 .move-values h4 { margin: 32px 0 12px; padding-top: 25px; border-top: 1px solid #d1d9df; font-size: 1.2rem; letter-spacing: -.02em; }
 .move-values p { margin: 0; max-width: 230px; color: #526270; line-height: 1.6; font-size: 1rem; }
