@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Building2, Compass, ShieldCheck, Users } from "lucide-react";
 import Image from "./site-image";
+import { TeamPortrait } from "./team-portrait";
 import type { ProfileSection } from "../types/profile";
 
 type Leadership = Extract<ProfileSection, { type: "leadership" }>;
@@ -42,7 +43,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
       <div id="organisation-people" className="organisation-people" aria-labelledby="organisation-group-title">
         <header><p className="eyebrow">{all ? "The full management team" : "People & responsibilities"}</p><h3 id="organisation-group-title">{all ? "Meet the team." : selected.title}</h3><p>{all ? "The people behind our progress, across every function." : selected.description}</p></header>
         <div className="organisation-grid" key={all ? "all" : active}>{people.map(person => <article className="organisation-person" key={person.name}>
-          <div className="organisation-portrait"><Image src={person.image} alt={person.name} width={300} height={336} sizes="(max-width: 600px) 44vw, (max-width: 1000px) 28vw, 240px" /></div>
+          <div className="organisation-portrait"><TeamPortrait src={person.image} name={person.name} /></div>
           <div className="organisation-person-copy"><h4>{person.name}</h4><p>{person.role}</p>{person.division && <span>{person.division}</span>}</div>
         </article>)}</div>
       </div>

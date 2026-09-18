@@ -1984,3 +1984,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .site-header:has(:focus-visible), .site-header:has(dialog[open]) { transform: translateY(0); pointer-events: auto; }
 .site-header:has(:focus-visible) { transition: none; }
 @media (prefers-reduced-motion: reduce) { .site-header { transition: none; } }
+
+/* Official team portraits are square; preserve the complete photograph. */
+.organisation-portrait { aspect-ratio: 1; background: white; }
+.organisation-portrait img { object-fit: contain; }

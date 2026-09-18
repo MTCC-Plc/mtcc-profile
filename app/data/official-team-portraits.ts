@@ -1,0 +1,24 @@
+// Exact portrait URLs from the user-supplied MTCC team page.
+// Retain local profile images as fallbacks when the origin blocks a request.
+export const officialTeamPortraits: Record<string, string> = {
+  "/assets/leadership/01.webp": "https://mtcc.mv/wp-content/uploads/2025/01/MD-Saudee-300x300.jpg",
+  "/assets/leadership/02.webp": "https://mtcc.mv/wp-content/uploads/2025/01/DMD-300x300.jpg",
+  "/assets/leadership/03.webp": "https://mtcc.mv/wp-content/uploads/2026/05/DMD-Ahmed-Mubeen-300x300.jpg",
+  "/assets/leadership/04.webp": "https://mtcc.mv/wp-content/uploads/2024/12/SInan-300x300.jpg",
+  "/assets/leadership/05.webp": "https://mtcc.mv/wp-content/uploads/2025/01/DCOO.jpg",
+  "/assets/leadership/06.webp": "https://mtcc.mv/wp-content/uploads/2025/01/Ahmed-Fikury-CS-300x300.jpg",
+  "/assets/leadership/07.webp": "https://mtcc.mv/wp-content/uploads/2025/01/CIA.jpg",
+  "/assets/leadership/08.webp": "https://mtcc.mv/wp-content/uploads/2025/01/CFO-Manik2.jpg",
+  "/assets/leadership/09.webp": "https://mtcc.mv/wp-content/uploads/2025/01/CPMO-Latheef.jpg",
+  "/assets/leadership/10.webp": "https://mtcc.mv/wp-content/uploads/2024/12/Gm-Ali-Fathih-300x300.jpg",
+  "/assets/leadership/11.webp": "https://mtcc.mv/wp-content/uploads/2025/01/CETO-Thiham.jpg",
+  "/assets/leadership/12.webp": "https://mtcc.mv/wp-content/uploads/2025/01/GM-Fathimath-Jabeen3.jpg",
+  "/assets/leadership/13.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Mohamed-Rasil.jpg",
+  "/assets/leadership/14.webp": "https://mtcc.mv/wp-content/uploads/2024/12/CPO-Iruhas-300x300.jpg",
+  "/assets/leadership/15.webp": "https://mtcc.mv/wp-content/uploads/2025/01/CPO-Ibrahim-Latheef2-300x300.jpg",
+  "/assets/leadership/16.webp": "https://mtcc.mv/wp-content/uploads/2025/01/Hussain-Shaaz-300x300.jpg",
+  "/assets/leadership/17.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Wahid-300x300.jpg",
+  "/assets/leadership/18.webp": "https://mtcc.mv/wp-content/uploads/2024/12/CRO-Mohamed-Shamil-300x300.jpg",
+  "/assets/leadership/19.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Bushra-300x300.jpg",
+  "/assets/leadership/20.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Umar-Zahir-300x300.jpg"
+};
