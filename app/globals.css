@@ -2034,12 +2034,12 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .org-division-group header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 20px; }
 .org-division-group h3 { margin: 0; font-size: 1rem; color: var(--navy); font-weight: 600; }
 .org-division-group header > span { font-size: .7rem; color: var(--muted); }
-.org-division-group > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.org-division-group .org-chart-node { border: 0; border-bottom: 1px solid #dce6ed; border-radius: 0; background: transparent; padding: 18px 14px; }
+.org-division-group > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.org-division-group .org-chart-node { border: 1px solid #d9e3ea; border-radius: 12px; background: #f7fafc; min-height: 112px; padding: 20px 16px; }
 .org-corporate { padding-left: 30px; border-left: 1px solid #e0e8ee; }
 .org-corporate h3 { color: var(--navy); }
 .org-corporate > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.org-division-group .org-chart-node[aria-pressed="true"] { background: var(--navy); border-radius: 10px; }
+.org-division-group .org-chart-node[aria-pressed="true"] { background: var(--navy); border-color: transparent; box-shadow: none; }
 .org-advisory { display: flex; align-items: center; gap: 24px; margin: 24px 0; }
 .org-advisory > span { color: var(--muted); font-size: .8rem; }
 .org-advisory .org-chart-node { width: min(340px, 100%); min-height: 76px; }
