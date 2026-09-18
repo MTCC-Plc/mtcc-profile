@@ -1,3 +1,4 @@
+import { BusinessDetails } from "./business-details";
 import Image from "./site-image";
 import { CarFront } from "lucide-react";
 import { TransportFleet } from "./transport-fleet";
@@ -29,6 +30,7 @@ export function TransportSection({ section }: { section: Extract<ProfileSection,
         </article>;
         return null;
       })}
+      <BusinessDetails services={section.serviceDetails} />
     </div>
   </section>;
 }

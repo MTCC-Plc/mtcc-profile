@@ -1,3 +1,4 @@
+import { BusinessDetails } from "./business-details";
 import { CurrencyText } from "./currency-symbol";
 import Image from "./site-image";
 import { Anchor, ScanLine, Plane, ArrowDownRight } from "lucide-react";
@@ -27,5 +28,6 @@ export function InfrastructureSection({ section }: { section: Extract<ProfileSec
       {block.paragraphs?.map(text => <p key={text}>{text}</p>)}
     </div> : <article className="infra-firsts" key={index}><div><p className="eyebrow">{block.title}</p><h3>Experience that<br />moves us forward.</h3></div><div>{block.items?.map((item, i) => <p key={item}><span aria-hidden="true">0{i + 1}</span>{item}</p>)}{block.paragraphs?.map(text => <p key={text}>{text}</p>)}</div></article>)}
     {projects?.type === "metrics" && <div className="infra-projects"><div className="infra-block-heading"><p className="eyebrow">Delivery at scale</p><h3>{projects.title}</h3></div><dl>{projects.metrics.map((metric, i) => <div key={`${metric.label}-${i}`}><dt>{metric.label}</dt><dd><CurrencyText value={metric.value} /></dd>{metric.note && <p><CurrencyText value={metric.note ?? ""} /></p>}</div>)}</dl><a href="#project-breakdown">Explore the project portfolio <ArrowDownRight size={20} aria-hidden="true" /></a></div>}
+    <BusinessDetails services={section.serviceDetails} />
   </div></section>;
 }

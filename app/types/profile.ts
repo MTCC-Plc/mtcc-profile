@@ -1,5 +1,5 @@
 export type Metric = { value: string; label: string; note?: string };
-export type Service = { title: string; description: string; image: string; capabilities: string[]; body?: string[] };
+export type Service = { id?: string; title: string; description: string; image: string; capabilities: string[]; body?: string[] };
 export type TimelineItem = { year: string; title: string; detail: string };
 
 export type ContentBlock =
@@ -21,7 +21,7 @@ export type ProfileSection =
   | { type: "projects"; id: string; eyebrow: string; title: string; projects: { name: string; mvr: number; usd: number }[] }
   | { type: "people"; id: string; eyebrow: string; title: string; intro: string; body?: string[]; images: string[] }
   | { type: "strategy"; id: string; eyebrow: string; title: string; pillars: { title: string; items: string[] }[] }
-  | { type: "content"; id: string; eyebrow: string; title: string; intro?: string; blocks: ContentBlock[]; dark?: boolean }
+  | { type: "content"; id: string; eyebrow: string; title: string; intro?: string; blocks: ContentBlock[]; serviceDetails?: Service[]; dark?: boolean }
   | { type: "leadership"; id: string; title: string; people: { name: string; role: string; division?: string; image: string }[] };
 
 export type ProfilePageData = {

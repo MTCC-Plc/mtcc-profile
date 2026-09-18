@@ -28,8 +28,29 @@ if (highlights.type === "metrics") {
   sections.set(highlights.id, { ...highlights, intro: `${investorProfile.hero.description} ${highlights.intro}` });
 }
 
+// Keep the detailed corporate service copy inside its corresponding business.
+const coreServices = sections.get("services");
+const serviceDestinations: Record<string, string> = {
+  "Dredging & Reclamation": "infrastructure",
+  "Infrastructure Development": "infrastructure",
+  "Public Transport": "transport-network",
+  "Ship Building & Repair": "shipbuilding",
+  "General Trading": "general-trading",
+};
+if (coreServices?.type === "services") {
+  coreServices.items.forEach((service, index) => {
+    const destination = sections.get(serviceDestinations[service.title]);
+    if (destination?.type !== "content") throw new Error(`Missing business for ${service.title}`);
+    sections.set(destination.id, { ...destination, serviceDetails: [
+      ...(destination.serviceDetails ?? []), { ...service, id: `service-detail-${index + 1}` },
+    ] });
+  });
+  const portfolio = sections.get("portfolio");
+  if (portfolio?.type === "portfolio") sections.set(portfolio.id, { ...portfolio, intro: `${portfolio.intro} ${coreServices.intro}` });
+}
+
 const order = [
-  "about-mtcc", "purpose", "milestones", "highlights", "financials", "portfolio", "services",
+  "about-mtcc", "purpose", "milestones", "highlights", "financials", "portfolio",
   "infrastructure", "project-breakdown", "projects", "transport-network", "shipbuilding", "general-trading",
   "team", "management", "competitive-differentiators", "sustainability", "strategy", "partnership",
 ];

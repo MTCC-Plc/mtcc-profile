@@ -42,3 +42,5 @@ Local PDFs, working files, hosting backups, browser captures, and environment fi
 The persistent currency toggle uses the **official rufiyaa symbol with MVR** and **$ USD**, and saves the preference locally. Supplied MVR/USD pairs are displayed exactly as provided. When only one currency was supplied, the equivalent is marked approximate using MVR 15.42 per USD ([MMA reference](https://database.mma.gov.mv/viya/series/4039)); this is a presentation rate, not a live exchange-rate feed. Original table units are retained.
 
 The rufiyaa artwork is an inline SVG extracted from page 2 of the [MMA Currency Symbol Guideline](https://www.mma.gov.mv/files/currency/Currency%20Symbol%20Guideline.pdf). It inherits text color, keeps its original proportions, and precedes amounts. SVG avoids relying on device fonts for this symbol.
+
+The business overview links to each dedicated business section. Detailed corporate service narratives and capabilities are grouped in expandable panels within those sections, avoiding a duplicate core-services carousel.

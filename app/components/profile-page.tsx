@@ -222,7 +222,7 @@ function PortfolioSection({ section }: { section: Extract<ProfileSection, { type
   return (
     <section id={section.id} className="portfolio-showcase" aria-labelledby="portfolio-title">
       <div className="shell">
-        <header className="portfolio-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id="portfolio-title">{section.title}<span>.</span></h2><p>{section.intro}</p></header>
+        <span id="services" className="section-anchor-alias" aria-hidden="true" /><span id="service-details" className="section-anchor-alias" aria-hidden="true" /><header className="portfolio-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id="portfolio-title">{section.title}<span>.</span></h2><p>{section.intro}</p></header>
         <div className="sector-grid">
           {section.items.map((item, index) => <article className={`sector-card ${index === 0 ? "sector-featured" : ""}`} key={item.title}>
             <div className="sector-visual"><Image src={visuals[index]} alt="" fill sizes={index === 0 ? "(max-width: 760px) 100vw, 660px" : "(max-width: 760px) 100vw, 600px"} /><span className="sector-number" aria-hidden="true">0{index + 1}</span></div>

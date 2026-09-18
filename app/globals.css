@@ -1681,3 +1681,23 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 
 /* MMA rufiyaa outline: preserve proportions and align with the numeral cap height. */
 .rufiyaa-symbol { display: inline-block; width: 1.2em; height: .78em; vertical-align: -.02em; flex-shrink: 0; overflow: visible; }
+
+/* Detailed service copy belongs to each business, rather than a second carousel. */
+.section-anchor-alias { display: block; height: 0; }
+.business-details { margin-block: 60px; color: inherit; }
+.business-details > .eyebrow { color: inherit; opacity: .65; margin-bottom: 20px; }
+.business-detail { border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); }
+.business-detail:last-child { border-bottom: 1px solid color-mix(in srgb, currentColor 22%, transparent); }
+.business-detail summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 26px; list-style: none; cursor: pointer; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 500; letter-spacing: -.025em; }
+.business-detail summary::-webkit-details-marker { display: none; }
+.business-detail summary:focus-visible { outline: 3px solid #00aeef; outline-offset: 5px; border-radius: 4px; }
+.business-detail-toggle { flex-shrink: 0; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid color-mix(in srgb, currentColor 28%, transparent); border-radius: 50%; font-size: 1.5rem; font-weight: 400; line-height: 1; }
+.business-detail[open] .business-detail-toggle { transform: rotate(45deg); }
+.business-detail-content { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 60px; padding: 8px 0 40px; }
+.business-detail-narrative p { margin: 0 0 20px; font-size: 1rem; line-height: 1.85; opacity: .8; }
+.business-detail-narrative .business-detail-lead { font-size: 1.12rem; opacity: 1; }
+.business-detail-capabilities h4 { margin: 0 0 18px; font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; }
+.business-detail-capabilities ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; align-content: start; gap: 10px; }
+.business-detail-capabilities li { padding: 8px 14px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); border-radius: 999px; font-size: .8rem; line-height: 1.5; }
+@media (max-width: 760px) { .business-details { margin-block: 40px; } .business-detail-content { grid-template-columns: 1fr; gap: 20px; padding-bottom: 30px; } .business-detail summary { padding-block: 22px; } }
+.transport-content > .business-details { grid-column: 1 / -1; margin-bottom: 0; }
