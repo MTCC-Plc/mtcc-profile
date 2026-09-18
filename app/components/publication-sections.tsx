@@ -1,4 +1,5 @@
 import { SectionLink } from "./section-link";
+import { ArrowUpRight } from "lucide-react";
 import { CurrencyText } from "./currency-symbol";
 import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
@@ -105,7 +106,7 @@ function FinancialSection({ section }: { section: Extract<ProfileSection, { type
       {section.blocks.map((block, index) => {
         if (block.type === "text") return <div className="financial-position" key={index}>
           <h3>{block.title}</h3>
-          <ul>{block.items?.map((item) => <li key={item}>{item}<span aria-hidden="true">↗</span></li>)}</ul>
+          <ul>{block.items?.map((item) => <li key={item}>{item}<ArrowUpRight className="financial-position-icon" aria-hidden="true" strokeWidth={1.5} /></li>)}</ul>
           {block.paragraphs?.map((text) => <p key={text}>{text}</p>)}
         </div>;
         if (block.type !== "metrics") return <ReportBlock key={index} block={block} />;

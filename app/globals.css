@@ -468,7 +468,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .financial-position h3 { margin: 0; font-size: 1rem; color: #526270; font-weight: 500; }
 .financial-position ul { padding: 0; margin: 0; list-style: none; }
 .financial-position li { display: flex; justify-content: space-between; gap: 24px; padding-bottom: 20px; font-size: clamp(1.3rem, 2.3vw, 2rem); font-weight: 500; letter-spacing: -.025em; }
-.financial-position li span { color: #00849e; }
+.financial-position-icon { color: #00849e; width: 1em; height: 1em; flex-shrink: 0; margin-top: .15em; }
 .financial-chapter { position: relative; padding: 55px 60px 65px; margin-top: 26px; border-radius: 28px; isolation: isolate; overflow: hidden; }
 .financial-chapter-heading { display: flex; align-items: baseline; gap: 18px; margin-bottom: 45px; }
 .financial-chapter-heading > span { color: #68818e; font-size: .75rem; letter-spacing: .08em; }
