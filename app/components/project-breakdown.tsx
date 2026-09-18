@@ -6,7 +6,6 @@ import { CurrencyText } from "./currency-symbol";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useCurrency } from "./currency-toggle";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import type { CSSProperties, KeyboardEvent } from "react";
 import type { ProfileSection } from "../types/profile";
@@ -36,8 +35,6 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
   }, [active, compact]);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const explorer = useRef<HTMLDivElement>(null);
-  const scroll = useRef<ScrollTrigger | null>(null);
-  const manualSelection = useRef(false);
   const displayedFigures = useRef<number[]>([]);
   const displayedRing = useRef<number | null>(null);
   useLayoutEffect(() => {
@@ -89,58 +86,10 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
       restore();
     };
   }, [active, currency]);
-  useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
-      if (!context.conditions?.motion || !explorer.current || !categories.length) return;
-      const desktop = Boolean(context.conditions.desktop);
-      const pinned = Boolean(desktop || context.conditions.mobile);
-      if (!pinned) return;
-      explorer.current.classList.toggle("breakdown-scroll-pinned", desktop);
-      explorer.current.classList.toggle("breakdown-scroll-mobile", !desktop);
-      if (explorer.current.offsetHeight > window.innerHeight - 96) {
-        explorer.current.classList.remove("breakdown-scroll-mobile", "breakdown-scroll-pinned", "breakdown-scroll-driven");
-        return;
-      }
-      // Keep mobile browser toolbar resizing from changing chapter boundaries.
-      const mobileChapterHeight = window.innerHeight;
-      const trigger = ScrollTrigger.create({
-        trigger: explorer.current,
-        start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${(desktop ? window.innerHeight : mobileChapterHeight) * categories.length * (desktop ? .65 : .95)}` : "bottom 65%",
-        pin: pinned,
-        invalidateOnRefresh: true,
-        onUpdate: self => {
-          if (self.isActive && !manualSelection.current) {
-            const position = self.progress * categories.length;
-            setActive(previous => {
-              const next = Math.min(categories.length - 1, Math.floor(position));
-              // Small finger movements near a boundary should not replay two panels.
-              if (next > previous && position < previous + 1.025) return previous;
-              if (next < previous && position > previous - .025) return previous;
-              return next;
-            });
-          }
-        },
-        onLeave: () => { manualSelection.current = false; setActive(categories.length - 1); },
-        onLeaveBack: () => { manualSelection.current = false; setActive(0); },
-      });
-      scroll.current = trigger;
-      const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
-      return () => { cancelAnimationFrame(frame); scroll.current = null; explorer.current?.classList.remove("breakdown-scroll-pinned", "breakdown-scroll-mobile"); };
-    });
-    return () => media.revert();
-  }, [categories.length]);
   if (!counts) return null;
   const prefix = section.id;
 
   function select(index: number) {
-    const trigger = scroll.current;
-    manualSelection.current = Boolean(trigger && !trigger.vars.pin);
-    if (trigger?.isActive && trigger.vars.pin) {
-      window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * (index + .5) / categories.length, behavior: "instant" });
-    }
     setActive(index);
   }
 
