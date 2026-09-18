@@ -94,24 +94,27 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       const values = page.querySelector<HTMLElement>(".purpose-values");
       if (values) {
         values.classList.add("values-light-active");
-        const passages = Array.from(values.querySelectorAll<HTMLElement>(".purpose-values-heading, .move-values article"));
-        gsap.set(passages, { "--values-light-x": "100%" });
-        if (desktop) {
-          gsap.to(passages, { "--values-light-x": "0%", duration: 1, stagger: .25, ease: "none", scrollTrigger: {
-            trigger: values, start: "top 75%", end: "bottom 40%", scrub: .35,
+        values.querySelectorAll<HTMLElement>(".move-values article").forEach(passage => {
+          const letter = passage.querySelector(".move-letter");
+          const description = passage.querySelectorAll(".move-number, h4, p");
+          const rule = passage.querySelector(".move-rule");
+          const reveal = gsap.timeline({ scrollTrigger: {
+            trigger: passage, start: "top 90%", end: "center 52%", scrub: .65,
           } });
-        } else {
-          passages.forEach((passage, index) => {
-            gsap.to(passage, { "--values-light-x": "0%", ease: "none", scrollTrigger: {
-              trigger: passage, start: `top ${index % 2 ? 85 : 75}%`, end: "bottom 30%", scrub: .3,
-            } });
-          });
-        }
+          reveal.fromTo(letter, { x: desktop ? -38 : -18, y: 22, scale: .88, opacity: .3 },
+            { x: 0, y: 0, scale: 1, opacity: 1, duration: 1, ease: "power2.out" }, 0);
+          reveal.fromTo(description, { y: 24, opacity: .15 },
+            { y: 0, opacity: 1, duration: .65, stagger: .12, ease: "power2.out" }, .18);
+          reveal.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: .8, ease: "power2.out" }, .3);
+          gsap.fromTo(passage, { "--values-light-x": "100%" }, { "--values-light-x": "0%", ease: "none", scrollTrigger: {
+            trigger: passage, start: "top 85%", end: "bottom 20%", scrub: .5,
+          } });
+        });
       }
 
       const reveals = select<HTMLElement>(".section-heading, .body-copy, blockquote, .purpose-top, .values-grid article, .people-grid .text-link, .metrics-grid article, .portfolio-grid article, .projects-list article, .strategy-grid article, .report-block, .leadership-grid article, .footer-grid > div, .footer-grid address");
       if (!desktop) reveals.push(...select<HTMLElement>(".service-card"));
-      reveals.push(...select<HTMLElement>(".purpose-intro, .purpose-values-heading, .move-values article"));
+      reveals.push(...select<HTMLElement>(".purpose-intro, .purpose-values-heading"));
       reveals.push(...select<HTMLElement>(".financial-intro, .financial-position, .financial-chapter"));
       reveals.push(...select<HTMLElement>(".about-editorial-intro, .about-editorial-summary, .about-contribution-heading, .about-contribution, .about-editorial-journey"));
       reveals.push(...select<HTMLElement>(".portfolio-heading, .sector-card"));

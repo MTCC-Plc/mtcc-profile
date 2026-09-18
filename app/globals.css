@@ -2085,3 +2085,21 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .org-detail-copy > span { font-size: .54rem; letter-spacing: .02em; }
 }
 @media (prefers-reduced-motion: reduce) { .org-chart-node { transition: none; } }
+
+/* Each MOVE principle has its own spacious scroll reveal. */
+.move-values { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.move-values article { display: grid; grid-template-columns: .9fr 1.1fr; gap: 8%; align-items: center; min-height: 430px; padding: 55px 7%; border-top: 1px solid #d3e0e7; }
+.move-values .move-letter { font-size: clamp(10rem, 24vw, 20rem); line-height: 1.08; margin: 0; padding: .02em .07em; transform-origin: center; }
+.move-description { min-width: 0; padding-block: 12px; }
+.move-number { display: block; color: #668191; font-size: .73rem; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.move-values h4 { margin: 24px 0 18px; padding: 0; border: 0; font-size: clamp(2.2rem, 4.4vw, 4rem); line-height: 1.08; letter-spacing: -.045em; font-weight: 600; }
+.move-values p { max-width: 390px; font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.55; }
+.move-rule { display: block; width: 90px; height: 3px; margin-top: 32px; background: linear-gradient(90deg, var(--cyan), #00a5b3); transform-origin: left; border-radius: 3px; }
+@media (max-width: 760px) {
+  .move-values article { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 18px; min-height: 320px; padding: 36px 0; }
+  .move-values .move-letter { font-size: clamp(6rem, 28vw, 12rem); padding-inline: .01em; }
+  .move-values h4 { font-size: clamp(1.45rem, 6vw, 2.5rem); margin: 18px 0 12px; }
+  .move-values p { font-size: 1rem; }
+  .move-number { font-size: .64rem; }
+  .move-rule { width: 64px; margin-top: 24px; }
+}

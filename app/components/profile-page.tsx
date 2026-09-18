@@ -153,9 +153,9 @@ function ValuesSection({ section }: { section: Extract<ProfileSection, { type: "
       <div className="shell purpose-values">
         <div className="purpose-values-heading"><p className="eyebrow">Our core values</p><h3>What moves us.</h3></div>
         <div className="move-values">
-          {section.values.map((value) => <article key={value.letter}>
+          {section.values.map((value, index) => <article key={value.letter}>
             <span className="move-letter" aria-hidden="true">{value.letter}</span>
-            <h4>{value.title}</h4><p>{value.text}</p>
+            <div className="move-description"><span className="move-number" aria-hidden="true">0{index + 1} / 0{section.values.length}</span><h4>{value.title}</h4><p>{value.text}</p><span className="move-rule" aria-hidden="true" /></div>
           </article>)}
         </div>
       </div>
