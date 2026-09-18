@@ -1,71 +1,96 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { ChevronDown } from "lucide-react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import Image from "./site-image";
 import type { ProfileSection } from "../types/profile";
 
-const eras = [
-  { title: "Laying the foundations", end: 1999, image: "/assets/shipbuilding.webp", caption: "A foundation in marine expertise." },
-  { title: "Connecting communities", end: 2009, image: "/assets/conventional-ferry.webp", caption: "Connections that bring us closer." },
-  { title: "Building at scale", end: 2020, image: "/assets/dredging.webp", caption: "The capability to shape our islands." },
-  { title: "Moving into the future", end: Infinity, image: "/assets/transport.webp", caption: "New possibilities. Nationwide." },
+const categories = [
+  { label: "Company", color: "#7b9bb5", image: "/assets/corporate-hero.webp", alt: "MTCC operations in the Maldives" },
+  { label: "Construction and dredging", color: "#00aeef", image: "/assets/dredging.webp", alt: "MTCC dredging operations" },
+  { label: "Public transport", color: "#42cbbf", image: "/assets/transport.webp", alt: "MTCC public ferry at sea" },
+  { label: "Trading and engineering", color: "#a8b7ed", image: "/assets/team-engineering.webp", alt: "MTCC engineering team at work" },
 ];
+const sectors: Record<string, number[]> = {
+  "1980": [0], "1981": [3], "1987": [3], "1994": [3], "1999": [0],
+  "2002": [1, 2], "2003": [0], "2006": [2], "2007": [1], "2008": [3],
+  "2009": [2], "2012": [1], "2015": [3], "2016": [2], "2017": [0, 1],
+  "2019": [1], "2020": [2], "2022": [2], "2023": [0, 2, 3], "2024": [3],
+  "2025": [2], "2026": [1, 2],
+};
 
 export function MilestonesSection({ section }: { section: Extract<ProfileSection, { type: "timeline" }> }) {
-  const [open, setOpen] = useState<number | null>(0);
-  const [visual, setVisual] = useState(0);
+  const [filter, setFilter] = useState<number | null>(null);
+  const [selected, setSelected] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const root = useRef<HTMLElement>(null);
+  const rail = useRef<HTMLDivElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const interacted = useRef(false);
-  const chapters = eras.map((era, index) => ({ ...era,
-    items: section.items.filter(item => Number(item.year) > (eras[index - 1]?.end ?? -Infinity) && Number(item.year) <= era.end)
-      .sort((a, b) => Number(b.year) - Number(a.year)),
-  })).filter(era => era.items.length).reverse();
+  const items = [...section.items].sort((a, b) => Number(b.year) - Number(a.year))
+    .filter(item => filter === null || (sectors[item.year] ?? [0]).includes(filter));
+  const active = Math.min(selected, items.length - 1);
+  const item = items[active];
+  const itemSectors = sectors[item.year] ?? [0];
+  const category = categories[filter ?? itemSectors[0]];
 
   useEffect(() => {
-    const scrollAtSelection = window.scrollY;
-    const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 380;
-    const timer = window.setTimeout(() => {
-      ScrollTrigger.refresh();
-      const button = open === null ? null : buttons.current[open];
-      if (interacted.current && button && Math.abs(window.scrollY - scrollAtSelection) < 100 && button.getBoundingClientRect().top < 90) {
-        button.scrollIntoView({ behavior: "instant", block: "start" });
-      }
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [open]);
+    const button = buttons.current[active];
+    const container = rail.current;
+    if (!button || !container) return;
+    container.scrollTo({ left: button.offsetLeft - container.clientWidth / 2 + button.offsetWidth / 2,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  }, [active, filter]);
 
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setInterval(() => {
+      const bounds = root.current?.getBoundingClientRect();
+      if (document.hidden || !bounds || bounds.bottom < 0 || bounds.top > window.innerHeight) return;
+      setSelected(index => (index + 1) % items.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [playing, items.length]);
+
+  function select(index: number) { setPlaying(false); setSelected(index); }
   function onKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const next = event.key === "Home" ? 0 : event.key === "End" ? chapters.length - 1 : event.key === "ArrowDown" ? (index + 1) % chapters.length : event.key === "ArrowUp" ? (index - 1 + chapters.length) % chapters.length : null;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : event.key === "ArrowRight" ? (index + 1) % items.length : event.key === "ArrowLeft" ? (index - 1 + items.length) % items.length : null;
     if (next === null) return;
-    event.preventDefault(); buttons.current[next]?.focus();
+    event.preventDefault(); select(next); buttons.current[next]?.focus({ preventScroll: true });
   }
 
-  return <section id={section.id} className="milestones-section" aria-labelledby="milestones-title"><div className="shell">
-    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>Explore the chapters of our story.</p></header>
-    <div className="milestones-explorer">
-      <div className="milestone-chapters">{chapters.map((chapter, index) => {
-        const expanded = open === index;
-        const range = `${chapter.items[0].year}–${chapter.items.at(-1)!.year}`;
-        return <article className="milestone-chapter" key={chapter.title} data-open={expanded}>
-          <h3><button ref={element => { buttons.current[index] = element; }} id={`milestone-chapter-${index}`} type="button" aria-expanded={expanded} aria-controls={`milestone-panel-${index}`} onKeyDown={event => onKey(event, index)} onClick={() => {
-            interacted.current = true;
-            setOpen(expanded ? null : index);
-            setVisual(index);
-          }}><span><small>{range}</small>{chapter.title}</span><ChevronDown size={24} aria-hidden="true" /></button></h3>
-          <div className="milestone-disclosure" data-open={expanded} aria-hidden={!expanded} inert={!expanded}>
-            <div className="milestone-disclosure-clip"><div id={`milestone-panel-${index}`} role="region" aria-labelledby={`milestone-chapter-${index}`}>
-              <div className="milestone-mobile-image" aria-hidden="true"><Image src={chapter.image} alt="" fill sizes="(max-width: 760px) 100vw, 1px" loading="eager" fetchPriority="low" /></div>
-              <ol className="milestone-events">{chapter.items.map(item => <li key={item.year}><time>{item.year}</time><div><h4>{item.title}</h4><p>{item.detail}</p></div></li>)}</ol>
-            </div></div>
+  return <section ref={root} id={section.id} className="milestones-section" aria-labelledby="milestones-title"><div className="shell">
+    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>From today’s ambitions to our first beginnings.</p></header>
+    <div className="milestone-browser">
+      <div className="milestone-filters" role="group" aria-label="Filter milestones by business area">
+        {[{ label: "All milestones", color: "transparent" }, ...categories].map((entry, index) => <button key={entry.label} type="button" aria-pressed={filter === (index === 0 ? null : index - 1)} onClick={() => { setFilter(index === 0 ? null : index - 1); select(0); }}>
+          {index > 0 && <i aria-hidden="true" style={{ background: entry.color }} />}{entry.label}
+        </button>)}
+      </div>
+      <div className="milestone-stage">
+        <div className="milestone-story">
+          <div id="milestone-current" role="tabpanel" aria-labelledby={`milestone-year-${item.year}`} aria-live={playing ? "off" : "polite"}>
+            <time className="milestone-year" dateTime={item.year}>{item.year}</time>
+            <div className="milestone-story-detail" key={item.year}>
+              <div className="milestone-sector-labels">{itemSectors.map(index => <span key={index}><i style={{ background: categories[index].color }} />{categories[index].label}</span>)}</div>
+              <h3>{item.title}</h3><p>{item.detail}</p>
+            </div>
           </div>
-        </article>;
-      })}</div>
-      <div className="milestone-visuals" aria-hidden="true">{chapters.map((chapter,index) => <figure className="milestone-visual" data-active={visual === index} key={chapter.title}>
-        <Image src={chapter.image} alt="" fill sizes="(max-width: 760px) 1px, 650px" loading="eager" fetchPriority="low" />
-        <div className="milestone-visual-shade" /><figcaption><span>{chapter.items[0].year}–{chapter.items.at(-1)!.year}</span><strong>{chapter.caption}</strong><small>MTCC operations</small></figcaption>
-      </figure>)}</div>
+          <div className="milestone-controls">
+            <button type="button" aria-label="Previous milestone" disabled={active === 0} onClick={() => select(active - 1)}><ChevronLeft size={20} /></button>
+            <button type="button" aria-label="Next milestone" disabled={active === items.length - 1} onClick={() => select(active + 1)}><ChevronRight size={20} /></button>
+            <span>{String(active + 1).padStart(2, "0")} <span>/ {items.length}</span></span>
+            <button className="milestone-play" type="button" aria-pressed={playing} onClick={() => setPlaying(value => !value)}>{playing ? <Pause size={15} /> : <Play size={15} />}{playing ? "Pause" : "Play"}</button>
+          </div>
+        </div>
+        <div className="milestone-photo">
+          {categories.map(entry => <Image key={entry.image} src={entry.image} alt={entry === category ? entry.alt : ""} aria-hidden={entry !== category} data-active={entry === category} fill sizes="(max-width: 760px) 90vw, 620px" />)}
+          <span>MTCC in action</span>
+        </div>
+      </div>
+      <div ref={rail} className="milestone-year-rail" role="tablist" aria-label="Milestone years, newest to oldest" style={{ "--year-count": items.length } as CSSProperties}>
+        {items.map((entry, index) => <button key={entry.year} ref={element => { buttons.current[index] = element; }} type="button" id={`milestone-year-${entry.year}`} role="tab" aria-selected={active === index} aria-controls="milestone-current" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span>{entry.year}</span><b className="milestone-year-dot" /><span className="milestone-year-sectors" aria-hidden="true">{(sectors[entry.year] ?? [0]).map(sector => <i key={sector} style={{ background: categories[sector].color }} />)}</span></button>)}
+      </div>
+      <div className="milestone-rail-caption"><span>Present</span><span>Explore our history</span><span>Beginnings</span></div>
     </div>
   </div></section>;
 }
