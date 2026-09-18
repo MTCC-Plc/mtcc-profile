@@ -54,18 +54,27 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
       if (!pinned) return;
       root.current.classList.toggle("fleet-scroll-pinned", desktop);
       root.current.classList.toggle("fleet-scroll-mobile", !desktop);
-      if (!desktop && root.current.offsetHeight > window.innerHeight - 96) {
-        root.current.classList.remove("fleet-scroll-mobile", "fleet-scroll-driven");
+      if (root.current.offsetHeight > window.innerHeight - 96) {
+        root.current.classList.remove("fleet-scroll-mobile", "fleet-scroll-pinned", "fleet-scroll-driven");
         return;
       }
+      const chapterHeight = window.innerHeight;
       const trigger = ScrollTrigger.create({
         trigger: root.current,
-        start: pinned ? "top 64px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * block.rows.length * (desktop ? .65 : .95)}` : "bottom 65%",
+        start: pinned ? "top 80px" : "top 35%",
+        end: pinned ? () => `+=${(desktop ? window.innerHeight : chapterHeight) * block.rows.length * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          if (self.isActive && !manualSelection.current) setActive(Math.min(block.rows.length - 1, Math.floor(self.progress * block.rows.length)));
+          if (self.isActive && !manualSelection.current) {
+            const position = self.progress * block.rows.length;
+            setActive(previous => {
+              const next = Math.min(block.rows.length - 1, Math.floor(position));
+              if (next > previous && position < previous + 1.025) return previous;
+              if (next < previous && position > previous - .025) return previous;
+              return next;
+            });
+          }
         },
         onLeave: () => { manualSelection.current = false; setActive(block.rows.length - 1); },
         onLeaveBack: () => { manualSelection.current = false; setActive(0); },

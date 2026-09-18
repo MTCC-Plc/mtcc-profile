@@ -16,7 +16,7 @@ export function PartnershipSection({ section }: { section: Extract<ProfileSectio
       const element = stage.current;
       if (!context.conditions?.motion || !element) return;
       const words = Array.from(element.querySelectorAll<HTMLElement>(".partner-word"));
-      const pinned = Boolean(context.conditions.desktop);
+      const pinned = Boolean(context.conditions.desktop && element.offsetHeight <= window.innerHeight - 110);
       gsap.set(words, {color: "#8297a6"});
       gsap.set(element.querySelector(".partner-progress span"), {scaleX: 0});
       const timeline = gsap.timeline({scrollTrigger: {

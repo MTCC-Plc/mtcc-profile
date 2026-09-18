@@ -60,12 +60,13 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       container.classList.add("flagship-scroll-driven");
       container.classList.toggle("flagship-scroll-pinned", desktop);
       container.classList.toggle("flagship-scroll-mobile", !desktop);
-      if (!desktop && container.offsetHeight > window.innerHeight - 96) {
-        container.classList.remove("flagship-scroll-mobile", "flagship-scroll-driven");
+      if (container.offsetHeight > window.innerHeight - 96) {
+        container.classList.remove("flagship-scroll-mobile", "flagship-scroll-pinned", "flagship-scroll-driven");
         return;
       }
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
+      const chapterHeight = window.innerHeight;
       const drive = (progress: number) => {
         userScrolled = false;
         const distance = element.scrollWidth - element.clientWidth;
@@ -74,7 +75,7 @@ export function FlagshipProjects({ section }: { section: Extract<ProfileSection,
       };
       const trigger = ScrollTrigger.create({
         trigger: container, start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * (element.children.length - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
+        end: pinned ? () => `+=${(desktop ? window.innerHeight : chapterHeight) * (element.children.length - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned, invalidateOnRefresh: true,
         onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
         onLeave: () => { if (!manualSelection.current) drive(1); manualSelection.current = false; }, onLeaveBack: () => { if (!manualSelection.current) drive(0); manualSelection.current = false; },

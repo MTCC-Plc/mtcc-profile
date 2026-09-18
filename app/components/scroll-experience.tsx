@@ -124,17 +124,18 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       reveals.push(...select<HTMLElement>(".transport-hero-copy, .transport-story, .transport-network-stat, .transport-block-heading, .transport-fleet-card, .transport-passenger-grid > div, .transport-passenger-total"));
       reveals.push(...select<HTMLElement>(".transport-opening-copy, .transport-opening-caption, .transport-total-feature"));
       if (!pinPurpose) reveals.push(...select<HTMLElement>(".purpose-statement"));
+      const uniqueReveals = [...new Set(reveals)].filter(element =>
+        !reveals.some(parent => parent !== element && parent.contains(element)));
       if (desktop) {
-        reveals.forEach((element) => {
-          gsap.from(element, { y: 38, opacity: 0, duration: 0.85, ease: "power2.out", scrollTrigger: {
+        uniqueReveals.forEach((element) => {
+          gsap.from(element, { y: 28, opacity: 0, duration: 0.75, ease: "power2.out", scrollTrigger: {
             trigger: element, start: "top 94%", once: true,
           } });
         });
       } else {
         // One observer handles phone reveals without a scroll listener per card.
         // Avoid animating nested blocks twice, which compounds their movement.
-        const mobileReveals = [...new Set(reveals)].filter(element =>
-          !reveals.some(parent => parent !== element && parent.contains(element)));
+        const mobileReveals = uniqueReveals;
         const visuals = select<HTMLElement>(".story-visual > img, .about-landscape > img, .transport-opening-scene > img");
         if (!pinPurpose) visuals.push(...select<HTMLElement>(".purpose-backdrop img"));
         gsap.set(mobileReveals, { y: 16, opacity: 0 });
@@ -198,7 +199,10 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
       refreshFrame = requestAnimationFrame(() => { ScrollTrigger.refresh(); });
     };
     page.addEventListener("toggle", refresh, true);
-    const pendingImages = select<HTMLImageElement>("img").filter((image) => !image.complete);
+    // Images with reserved dimensions cannot change page geometry when loaded.
+    // Refreshing every lazy image interrupts scrolling through pinned chapters.
+    const pendingImages = select<HTMLImageElement>("img").filter(image =>
+      !image.complete && !(image.hasAttribute("width") && image.hasAttribute("height")) && getComputedStyle(image).position !== "absolute");
     pendingImages.forEach((image) => image.addEventListener("load", refresh, { once: true }));
     refresh();
     return () => {

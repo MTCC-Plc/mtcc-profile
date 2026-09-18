@@ -32,21 +32,23 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       const pinned = Boolean(desktop || context.conditions.mobile);
       if (!pinned) return;
       manualSelection.current = false;
+      let userScrolled = false;
       const holdSelection = () => {
+        userScrolled = true;
         if (!desktop) gsap.killTweensOf(element, "scrollLeft");
       };
       container.classList.add("investment-scroll-driven");
       container.classList.toggle("investment-scroll-pinned", desktop);
       container.classList.toggle("investment-scroll-mobile", !desktop);
-      if (!desktop && container.offsetHeight > window.innerHeight - 96) {
-        container.classList.remove("investment-scroll-mobile", "investment-scroll-driven");
+      if (container.offsetHeight > window.innerHeight - 96) {
+        container.classList.remove("investment-scroll-mobile", "investment-scroll-pinned", "investment-scroll-driven");
         return;
       }
       element.addEventListener("pointerdown", holdSelection);
       element.addEventListener("wheel", holdSelection, { passive: true });
-      let drivenAt = 0;
+      const chapterHeight = window.innerHeight;
       const drive = (progress: number) => {
-        drivenAt = performance.now();
+        userScrolled = false;
         const distance = element.scrollWidth - element.clientWidth;
         if (desktop) element.scrollTo({ left: progress * distance, behavior: "instant" });
         else gsap.to(element, { scrollLeft: progress * distance, duration: .35, ease: "power2.out", overwrite: "auto" });
@@ -54,7 +56,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       const trigger = ScrollTrigger.create({
         trigger: container,
         start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${window.innerHeight * (count - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
+        end: pinned ? () => `+=${(desktop ? window.innerHeight : chapterHeight) * (count - 1) * (desktop ? .65 : .95)}` : "bottom 65%",
         pin: pinned,
         invalidateOnRefresh: true,
         onUpdate: self => { if (self.isActive && !manualSelection.current) drive(self.progress); },
@@ -64,7 +66,8 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       scroll.current = trigger;
       // Native horizontal swipes remain aligned with the vertical scroll story.
       const syncSwipe = () => {
-        if (!pinned || window.scrollY < trigger.start - 2 || window.scrollY > trigger.end + 2 || performance.now() - drivenAt < 150) return;
+        if (!userScrolled || window.scrollY < trigger.start - 2 || window.scrollY > trigger.end + 2) return;
+        userScrolled = false;
         const distance = element.scrollWidth - element.clientWidth;
         if (distance <= 0) return;
         const progress = element.scrollLeft / distance;
