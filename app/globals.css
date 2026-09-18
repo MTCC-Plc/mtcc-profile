@@ -1977,3 +1977,10 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 @media (max-width: 360px) {
   .breakdown-panels .breakdown-panel { padding: 26px 20px; }
 }
+
+/* Navigation yields to reading and returns when the scroll direction changes. */
+.site-header { transition: transform .3s cubic-bezier(.22, .68, 0, 1); }
+.site-header[data-hidden="true"] { transform: translateY(calc(-100% - 2px)); pointer-events: none; }
+.site-header:has(:focus-visible), .site-header:has(dialog[open]) { transform: translateY(0); pointer-events: auto; }
+.site-header:has(:focus-visible) { transition: none; }
+@media (prefers-reduced-motion: reduce) { .site-header { transition: none; } }

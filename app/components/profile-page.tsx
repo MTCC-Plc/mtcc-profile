@@ -5,7 +5,7 @@ import { HeroLogo } from "./hero-logo";
 import { CurrencyText } from "./currency-symbol";
 
 
-import { Fragment, useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CurrencyToggle, useCurrency } from "./currency-toggle";
 import { isMoney, profileInCurrency } from "../../lib/currency";
@@ -32,8 +32,38 @@ import { ContentSection, ProfileContents } from "./publication-sections";
 import { OrganisationSection } from "./organisation-section";
 
 function SiteHeader({ sections }: { sections: { id: string; title: string }[] }) {
+  const header = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const element = header.current;
+    if (!element) return;
+    let previous = window.scrollY;
+    let distance = 0;
+    let frame = 0;
+    const show = () => { element.dataset.hidden = "false"; distance = 0; };
+    const update = () => {
+      frame = 0;
+      // The mobile drawer temporarily locks the body; that is not a scroll gesture.
+      if (document.body.style.position === "fixed" || element.querySelector("dialog[open]")) { show(); return; }
+      const y = Math.max(0, Math.min(window.scrollY, document.documentElement.scrollHeight - window.innerHeight));
+      const delta = y - previous;
+      previous = y;
+      if (y < element.offsetHeight * 2 || element.querySelector(":focus-visible")) { show(); return; }
+      if (!delta) return;
+      distance = Math.sign(delta) === Math.sign(distance) ? distance + delta : delta;
+      if (distance > 24) { element.dataset.hidden = "true"; distance = 0; }
+      else if (distance < -12) show();
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    element.addEventListener("focusin", show);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      element.removeEventListener("focusin", show);
+    };
+  }, []);
   return (
-    <header className="site-header">
+    <header ref={header} className="site-header">
       <div className="shell header-inner">
         <Link href="/#top" className="brand" aria-label="MTCC home">
           <Image src="/assets/mtcc-logo.png" width={140} height={94} alt="MTCC" priority />
