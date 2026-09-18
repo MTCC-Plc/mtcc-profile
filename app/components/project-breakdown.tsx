@@ -98,8 +98,8 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
       if (!pinned) return;
       explorer.current.classList.toggle("breakdown-scroll-pinned", desktop);
       explorer.current.classList.toggle("breakdown-scroll-mobile", !desktop);
-      if (!desktop && explorer.current.offsetHeight > window.innerHeight - 96) {
-        explorer.current.classList.remove("breakdown-scroll-mobile", "breakdown-scroll-driven");
+      if (explorer.current.offsetHeight > window.innerHeight - 96) {
+        explorer.current.classList.remove("breakdown-scroll-mobile", "breakdown-scroll-pinned", "breakdown-scroll-driven");
         return;
       }
       // Keep mobile browser toolbar resizing from changing chapter boundaries.

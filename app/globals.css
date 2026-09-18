@@ -1956,3 +1956,24 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .organisation-team-images img:nth-child(2) { margin-top: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .organisation-grid { animation: none; } .organisation-functions button { transition: none; } }
+
+/* Let the portfolio card breathe and contain every financial measure. */
+.breakdown-section > .shell { width: min(1440px, calc(100% - 48px)); }
+.breakdown-panels .breakdown-panel { height: auto; padding: 36px; }
+@media (min-width: 1000px) {
+  .breakdown-explorer { grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }
+  .breakdown-panels .breakdown-panel { min-height: 580px; padding: 36px 40px; }
+  .breakdown-panel > h3 { min-height: 54px; font-size: clamp(2rem, 2.6vw, 2.8rem); }
+  .breakdown-panel .breakdown-value-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .breakdown-panel .breakdown-value { padding-top: 24px; }
+  .breakdown-panel .breakdown-value h4 { min-height: 3.9em; margin-bottom: 14px; font-size: .9rem; line-height: 1.3; }
+  .breakdown-panel .breakdown-value dl { grid-template-columns: 1fr; }
+  .breakdown-panel .breakdown-value dd { font-size: clamp(1.8rem, 2.8vw, 2.8rem); }
+}
+@media (max-width: 760px) {
+  .breakdown-section > .shell { width: calc(100% - 24px); }
+  .breakdown-panels .breakdown-panel { padding: 30px 24px; }
+}
+@media (max-width: 360px) {
+  .breakdown-panels .breakdown-panel { padding: 26px 20px; }
+}
