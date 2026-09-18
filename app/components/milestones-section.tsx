@@ -63,7 +63,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
     <div className="milestone-browser">
       <div className="milestone-filters" role="group" aria-label="Filter milestones by business area">
         {[{ label: "All milestones", color: "transparent" }, ...categories].map((entry, index) => <button key={entry.label} type="button" aria-pressed={filter === (index === 0 ? null : index - 1)} onClick={() => { setFilter(index === 0 ? null : index - 1); select(0); }}>
-          {index > 0 && <i aria-hidden="true" style={{ background: entry.color }} />}{entry.label}
+          {entry.label}
         </button>)}
       </div>
       <div className="milestone-stage">
@@ -71,7 +71,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
           <div id="milestone-current" role="tabpanel" aria-labelledby={`milestone-year-${item.year}`} aria-live={playing ? "off" : "polite"}>
             <time className="milestone-year" dateTime={item.year}>{item.year}</time>
             <div className="milestone-story-detail" key={item.year}>
-              <div className="milestone-sector-labels">{itemSectors.map(index => <span key={index}><i style={{ background: categories[index].color }} />{categories[index].label}</span>)}</div>
+              <div className="milestone-sector-labels">{itemSectors.map(index => <span key={index}>{categories[index].label}</span>)}</div>
               <h3>{item.title}</h3><p>{item.detail}</p>
             </div>
           </div>
@@ -84,13 +84,11 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
         </div>
         <div className="milestone-photo">
           {categories.map(entry => <Image key={entry.image} src={entry.image} alt={entry === category ? entry.alt : ""} aria-hidden={entry !== category} data-active={entry === category} fill sizes="(max-width: 760px) 90vw, 620px" />)}
-          <span>MTCC in action</span>
         </div>
       </div>
       <div ref={rail} className="milestone-year-rail" role="tablist" aria-label="Milestone years, newest to oldest" style={{ "--year-count": items.length } as CSSProperties}>
-        {items.map((entry, index) => <button key={entry.year} ref={element => { buttons.current[index] = element; }} type="button" id={`milestone-year-${entry.year}`} role="tab" aria-selected={active === index} aria-controls="milestone-current" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span>{entry.year}</span><b className="milestone-year-dot" /><span className="milestone-year-sectors" aria-hidden="true">{(sectors[entry.year] ?? [0]).map(sector => <i key={sector} style={{ background: categories[sector].color }} />)}</span></button>)}
+        {items.map((entry, index) => <button key={entry.year} ref={element => { buttons.current[index] = element; }} type="button" id={`milestone-year-${entry.year}`} role="tab" aria-selected={active === index} aria-controls="milestone-current" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span>{entry.year}</span><b className="milestone-year-dot" /></button>)}
       </div>
-      <div className="milestone-rail-caption"><span>Present</span><span>Explore our history</span><span>Beginnings</span></div>
     </div>
   </div></section>;
 }
