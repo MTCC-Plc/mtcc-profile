@@ -1,6 +1,6 @@
 # mtcc-profile
 
-MTCC corporate and investor profiles for 2026, built with Next.js, React, and GSAP. The website includes responsive layouts, scroll-driven galleries, and reduced-motion support.
+MTCC’s combined company profile for 2026, built with Next.js, React, and GSAP. The website includes responsive layouts, scroll-driven galleries, and reduced-motion support.
 
 ## Local development
 
@@ -11,7 +11,7 @@ corepack pnpm install --frozen-lockfile
 corepack pnpm dev
 ```
 
-Open http://localhost:5173. The corporate profile is at `/corporate-profile/` and the investor profile at `/investor-profile/`.
+Open http://localhost:5173. All corporate and investor content is arranged on the home page. The old `/corporate-profile/` and `/investor-profile/` URLs redirect to it, preserving section links.
 
 ## GitHub Pages
 
@@ -29,10 +29,14 @@ The generated website is in `out/`. This is a static export; it requires no appl
 
 ## Content and checks
 
-- Profile copy and figures: `app/data/profiles.ts`
+- Original profile copy and figures: `app/data/profiles.ts`
+- Combined section order and shared content: `app/data/company-profile.ts`
+- Currency selection and formatting: `lib/currency.ts`
 - Section components: `app/components/`
 - Styles: `app/globals.css`
 - Images: `public/assets/`
 - Type checking: `corepack pnpm typecheck`
 
 Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. Original profile figures and wording are retained in the website data.
+
+The persistent currency toggle uses **Rf MVR** and **$ USD**, and saves the preference locally. Supplied MVR/USD pairs are displayed exactly as provided. When only one currency was supplied, the equivalent is marked approximate using MVR 15.42 per USD ([MMA reference](https://database.mma.gov.mv/viya/series/4039)); this is a presentation rate, not a live exchange-rate feed. Original table units are retained.

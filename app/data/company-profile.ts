@@ -1,0 +1,46 @@
+import { corporateProfile, investorProfile } from "./profiles";
+import type { ProfilePageData } from "../types/profile";
+
+const sections = new Map([...corporateProfile.sections, ...investorProfile.sections].map(section => [section.id, section]));
+const about = sections.get("about-mtcc")!;
+const story = sections.get("who-we-are")!;
+if (about.type === "content" && story.type === "story") {
+  sections.set(about.id, { ...about, blocks: [...about.blocks, { type: "text", title: "Our role in national development", paragraphs: story.body }] });
+}
+const trading = sections.get("general-trading")!;
+const products = sections.get("trading-products")!;
+if (trading.type === "content" && products.type === "content") {
+  const productBrands = products.blocks.flatMap(block => block.type === "brands" ? block.items : []);
+  sections.set(trading.id, { ...trading, blocks: trading.blocks.map(block => {
+    if (block.type !== "brands") return block;
+    const brands = new Map(block.items.map(brand => [brand.name, { ...brand }]));
+    for (const brand of productBrands) {
+      const existing = brands.get(brand.name);
+      if (!existing) brands.set(brand.name, brand);
+      else if (existing.product !== brand.product) existing.product += ` · ${brand.product}`;
+    }
+    return { ...block, items: [...brands.values()] };
+  }) });
+}
+
+const highlights = sections.get("highlights")!;
+if (highlights.type === "metrics") {
+  sections.set(highlights.id, { ...highlights, intro: `${investorProfile.hero.description} ${highlights.intro}` });
+}
+
+const order = [
+  "about-mtcc", "purpose", "milestones", "highlights", "financials", "portfolio", "services",
+  "infrastructure", "project-breakdown", "projects", "transport-network", "shipbuilding", "general-trading",
+  "team", "management", "competitive-differentiators", "sustainability", "strategy", "partnership",
+];
+
+export const companyProfile: ProfilePageData = {
+  ...corporateProfile,
+  slug: "company-profile",
+  navigationLabel: "Company Profile",
+  sections: order.map(id => {
+    const section = sections.get(id);
+    if (!section) throw new Error(`Missing company section: ${id}`);
+    return section;
+  }),
+};

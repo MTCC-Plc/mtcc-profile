@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCurrency } from "./currency-toggle";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import type { CSSProperties, KeyboardEvent } from "react";
@@ -11,6 +12,8 @@ function AnimatedFigure({ value }: { value: string }) {
 }
 
 export function ProjectBreakdown({ section }: { section: Extract<ProfileSection, { type: "content" }> }) {
+  const { currency } = useCurrency();
+  const previousCurrency = useRef(currency);
   const tables = section.blocks.filter(block => block.type === "table");
   const counts = tables[0];
   const categories = tables.slice(1);
@@ -37,7 +40,9 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
     const panel = explorer.current?.querySelector<HTMLElement>('[role="tabpanel"]:not([hidden])');
     if (!panel) return;
     const figures = Array.from(panel.querySelectorAll<HTMLElement>("[data-breakdown-value]"));
-    const previousFigures = [...displayedFigures.current];
+    const currencyChanged = previousCurrency.current !== currency;
+    previousCurrency.current = currency;
+    const previousFigures = currencyChanged ? [] : [...displayedFigures.current];
     displayedFigures.current = figures.map(element => Number(element.dataset.breakdownValue!.replaceAll(",", "")));
     const ring = panel.querySelector<HTMLElement>(".breakdown-ring");
     const targetRing = parseFloat(ring?.dataset.completed ?? "0");
@@ -79,7 +84,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
       displayedRing.current = currentRing;
       restore();
     };
-  }, [active]);
+  }, [active, currency]);
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const media = gsap.matchMedia();

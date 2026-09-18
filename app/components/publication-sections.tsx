@@ -1,3 +1,4 @@
+import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
 import { TransportSection } from "./transport-section";
 import { ProjectBreakdown } from "./project-breakdown";
@@ -105,7 +106,7 @@ function FinancialSection({ section }: { section: Extract<ProfileSection, { type
           {variant === "pipeline" && <><div className="financial-backdrop" aria-hidden="true"><Image src="/assets/infrastructure.webp" alt="" fill sizes="(max-width: 760px) 100vw, 1200px" /></div><div className="financial-shade" /></>}
           <div className="financial-chapter-heading"><span aria-hidden="true">0{index}</span><h3>{block.title}</h3></div>
           <dl className="financial-metrics">{block.metrics.map((metric, metricIndex) => <div className={`financial-stat ${metric.label === "Annual passengers" ? "financial-stat-wide" : ""}`} key={`${metric.label}-${metricIndex}`}>
-            <dt>{metric.label}</dt><dd data-count={metric.value}>{metric.value}</dd>{metric.note && <p>{metric.note}</p>}
+            <dt>{metric.label}</dt><dd data-count={isMoney(metric.value) ? undefined : metric.value}>{metric.value}</dd>{metric.note && <p>{metric.note}</p>}
           </div>)}</dl>
         </article>;
       })}

@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect, useMemo } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CurrencyToggle, useCurrency } from "./currency-toggle";
+import { isMoney, profileInCurrency } from "../../lib/currency";
 import Image from "./site-image";
 import { ProfileLink as Link } from "./profile-link";
 import { assetPath } from "../../lib/asset-path";
@@ -18,20 +24,18 @@ import { GrowthStrategy } from "./growth-strategy";
 import { MobileMenu } from "./mobile-menu";
 import { ContentSection, LeadershipSection, ProfileContents } from "./publication-sections";
 
-function SiteHeader({ active, sections }: { active: ProfilePageData["theme"]; sections: { id: string; title: string }[] }) {
+function SiteHeader({ sections }: { sections: { id: string; title: string }[] }) {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link href="/corporate-profile#top" className="brand" aria-label="MTCC home">
+        <Link href="/#top" className="brand" aria-label="MTCC home">
           <Image src="/assets/mtcc-logo.png" width={140} height={94} alt="MTCC" priority />
           <span><strong>MTCC</strong><small>Maldives Transport & Contracting Company</small></span>
         </Link>
-        <nav className="desktop-nav" aria-label="Profile navigation">
-          <Link className={active === "corporate" ? "active" : ""} href="/corporate-profile#top">Corporate profile</Link>
-          <Link className={active === "investor" ? "active" : ""} href="/investor-profile#top">Investor profile</Link>
-          <a href="#contact">Contact</a>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          <a href="#about-mtcc">About</a><a href="#portfolio">Businesses</a><a href="#projects">Projects</a><a href="#financials">Financials</a><a href="#contact">Contact</a>
         </nav>
-        <MobileMenu active={active} sections={sections} />
+        <div className="header-actions"><CurrencyToggle /><MobileMenu sections={sections} /></div>
       </div>
     </header>
   );
@@ -66,7 +70,7 @@ function Hero({ data }: { data: ProfilePageData }) {
 }
 
 function MetricValue({ value }: { value: string }) {
-  return <strong><span className="sr-only">{value}</span><span data-count={value} aria-hidden="true">{value}</span></strong>;
+  return <strong><span className="sr-only">{value}</span><span data-count={isMoney(value) ? undefined : value} aria-hidden="true">{value}</span></strong>;
 }
 
 function SectionHeading({ eyebrow, title, intro, invert = false }: { eyebrow?: string; title: string; intro?: string; invert?: boolean }) {
@@ -263,6 +267,12 @@ function Footer({ investor }: { investor: boolean }) {
   );
 }
 
-export function ProfilePage({ data }: { data: ProfilePageData }) {
-  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader active={data.theme} sections={data.sections.map(({ id, title }) => ({ id, title }))} /><main id="profile-content"><Hero data={data} /><ProfileContents data={data} />{data.sections.map((section) => <SectionRenderer key={section.id} section={section} />)}</main><Footer investor={data.theme === "investor"} /></ScrollExperience>;
+export function ProfilePage({ data: original }: { data: ProfilePageData }) {
+  const { currency } = useCurrency();
+  const data = useMemo(() => profileInCurrency(original, currency), [original, currency]);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(frame);
+  }, [currency]);
+  return <ScrollExperience key={data.slug} theme={data.theme}><a className="skip-link" href="#profile-content">Skip to content</a><SiteHeader sections={data.sections.map(({ id, title }) => ({ id, title }))} /><main id="profile-content"><Hero data={data} /><ProfileContents data={data} />{data.sections.map((section) => <SectionRenderer key={section.id} section={section} />)}</main><Footer investor /></ScrollExperience>;
 }

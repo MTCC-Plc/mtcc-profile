@@ -1,10 +1,10 @@
 "use client";
 
-import { ProfileLink as Link } from "./profile-link";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowUpRight, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 
-export function MobileMenu({ active, sections }: { active: "corporate" | "investor"; sections: { id: string; title: string }[] }) {
+export function MobileMenu({ sections }: { sections: { id: string; title: string }[] }) {
   const drawer = useRef<HTMLDialogElement>(null);
   const restoreScroll = useRef<(() => void) | null>(null);
   const [open, setOpen] = useState(false);
@@ -15,6 +15,22 @@ export function MobileMenu({ active, sections }: { active: "corporate" | "invest
     restoreScroll.current = null;
     drawer.current?.close();
     setOpen(false);
+  }
+
+  function navigateToSection(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    closeMenu();
+    requestAnimationFrame(() => {
+      const target = document.getElementById(id);
+      if (!target) return;
+      // Restore pin geometry after releasing the drawer's fixed-body scroll lock.
+      ScrollTrigger.refresh();
+      if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
+      target.scrollIntoView({ behavior: "instant", block: "start" });
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    });
   }
 
   function openMenu() {
@@ -65,19 +81,9 @@ export function MobileMenu({ active, sections }: { active: "corporate" | "invest
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeMenu();
     }}>
       <div className="mobile-drawer-heading"><div><p>MTCC · 2026</p><h2 id="mobile-menu-title">Explore MTCC.</h2></div><button type="button" className="mobile-drawer-close" aria-label="Close profile menu" onClick={closeMenu} autoFocus><X size={24} aria-hidden="true" /></button></div>
-      <nav className="mobile-profile-switch" aria-label="Choose a profile">
-        <Link href="/corporate-profile#top" aria-current={active === "corporate" ? "page" : undefined} onClick={closeMenu}>Corporate<span>Who we are</span></Link>
-        <Link href="/investor-profile#top" aria-current={active === "investor" ? "page" : undefined} onClick={closeMenu}>Investor<span>Our business</span></Link>
-      </nav>
-      <div className="mobile-drawer-label"><span>Inside this profile</span><span>{String(sections.length).padStart(2, "0")} sections <ArrowDown size={12} aria-hidden="true" /></span></div>
-      <nav className="mobile-drawer-sections" aria-label="Profile sections">{sections.map((section, index) => <a key={section.id} id={`mobile-link-${section.id}`} href={`#${section.id}`} aria-current={current === section.id ? "location" : undefined} onClick={() => {
-        closeMenu();
-        requestAnimationFrame(() => {
-          const target = document.getElementById(section.id);
-          if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
-        });
-      }}><span className="mobile-section-number">{String(index + 1).padStart(2, "0")}</span><span>{section.title}</span><ArrowUpRight size={16} aria-hidden="true" /></a>)}</nav>
-      <div className="mobile-drawer-footer"><a href="#contact" onClick={closeMenu}>Get in touch <ArrowUpRight size={19} aria-hidden="true" /></a><span>Building a connected Maldives.</span></div>
+      <div className="mobile-drawer-label"><span>Explore the company</span><span>{String(sections.length).padStart(2, "0")} sections <ArrowDown size={12} aria-hidden="true" /></span></div>
+      <nav className="mobile-drawer-sections" aria-label="Profile sections">{sections.map((section, index) => <a key={section.id} id={`mobile-link-${section.id}`} href={`#${section.id}`} aria-current={current === section.id ? "location" : undefined} onClick={event => navigateToSection(event, section.id)}><span className="mobile-section-number">{String(index + 1).padStart(2, "0")}</span><span>{section.title}</span><ArrowUpRight size={16} aria-hidden="true" /></a>)}</nav>
+      <div className="mobile-drawer-footer"><a href="#contact" onClick={event => navigateToSection(event, "contact")}>Get in touch <ArrowUpRight size={19} aria-hidden="true" /></a><span>Building a connected Maldives.</span></div>
     </dialog>
   </div>;
 }

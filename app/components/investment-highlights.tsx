@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MoneyValue } from "./money-value";
 import type { ProfileSection } from "../types/profile";
 
 const images = ["/assets/bridge.webp", "/assets/infrastructure.webp", "/assets/dredging.webp", "/assets/corporate-hero.webp", "/assets/contact-site.webp", "/assets/transport.webp", "/assets/bridge.webp", "/assets/team-engineering.webp"];
@@ -136,7 +137,7 @@ export function InvestmentHighlights({ section }: { section: Extract<ProfileSect
       {section.metrics.map((metric, index) => <article className="investment-card" key={`${metric.label}-${index}`} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${count}: ${metric.label}`}>
         <Image src={images[index % images.length]} alt="" fill sizes="(max-width: 760px) 85vw, 460px" />
         <div className="investment-card-shade" />
-        <div className="investment-card-content"><h3>{metric.label}</h3><p className={`investment-value ${metric.value.length > 6 ? "investment-value-long" : ""}`}>{metric.value.startsWith("MVR ") ? <><span className="investment-currency">MVR </span>{metric.value.slice(4)}</> : metric.value}</p><div className="investment-card-footer">{metric.note && <p>{metric.note}</p>}<span aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span></div></div>
+        <div className="investment-card-content"><h3>{metric.label}</h3><p className={`investment-value ${metric.value.length > 6 ? "investment-value-long" : ""}`}><MoneyValue value={metric.value} /></p><div className="investment-card-footer">{metric.note && <p>{metric.note}</p>}<span aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}</span></div></div>
       </article>)}
     </div>
     <div className="shell investment-controls">
