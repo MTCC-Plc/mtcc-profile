@@ -19,6 +19,8 @@ Open http://localhost:5173. All corporate and investor content is arranged on th
 
 The workflow reads the Pages base path, so profile navigation, images, and styles work at https://unleasheds.github.io/mtcc-profile/ as well as on a configured custom domain.
 
+If Pages reports an older deployment is still in progress, open **Actions → Deploy MTCC to GitHub Pages → Run workflow**, select `main`, and paste the full older SHA into **cancel_deployment**. The recovery step cancels only that deployment, waits up to two minutes for it to stop, then publishes the newly built site. Leave the field empty for normal deployments. If an old workflow is still running, cancel that run first so the recovery run can leave the queue.
+
 To reproduce the repository-path build locally:
 
 ```sh
