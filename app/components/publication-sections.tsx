@@ -1,5 +1,5 @@
 import { SectionLink } from "./section-link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import { CurrencyText } from "./currency-symbol";
 import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
@@ -91,7 +91,7 @@ function AboutSection({ section }: { section: Extract<ProfileSection, { type: "c
         if (!copy?.length && !block.items?.length) return null;
         return <article key={index}><h3>{block.title}</h3>{copy?.map(text => <p key={text}>{text}</p>)}{block.items && <ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul>}</article>;
       })}</div></details>
-      <SectionLink className="about-editorial-journey" href="#milestones">Explore the milestones <span aria-hidden="true">↓</span></SectionLink>
+      <SectionLink className="about-editorial-journey" href="#milestones">Explore the milestones <ArrowDown size={18} aria-hidden="true" /></SectionLink>
     </div>
   </section>;
 }
@@ -136,6 +136,6 @@ export function LeadershipSection({ section }: { section: Extract<ProfileSection
 export function ProfileContents({ data }: { data: ProfilePageData }) {
   return <nav className="profile-contents" aria-label="Profile contents"><div className="shell">
     <div className="contents-top"><p className="eyebrow">Explore the full profile</p></div>
-    <div className="contents-links">{data.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.title}</a>)}<a href="#contact"><span>→</span>Contact us</a></div>
+    <div className="contents-links">{data.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.title}</a>)}<a href="#contact"><span><ArrowRight size={16} aria-hidden="true" /></span>Contact us</a></div>
   </div></nav>;
 }

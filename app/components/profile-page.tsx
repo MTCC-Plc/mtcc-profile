@@ -91,7 +91,7 @@ function Hero({ data }: { data: ProfilePageData }) {
       <div className="company-hero-image-shade" />
       <HeroLogo />
       <div className="company-hero-caption"><span>Across the islands.</span><strong>Moving a nation forward.</strong></div>
-      <span className="company-hero-location">The Maldives <span aria-hidden="true">↗</span></span>
+      <span className="company-hero-location">The Maldives <ArrowUpRight size={14} aria-hidden="true" /></span>
     </div>
     <div className="shell company-hero-metrics">{data.hero.metrics.map(metric => <div key={metric.label}><MetricValue value={metric.value} /><span>{metric.label}</span></div>)}</div>
   </section>;

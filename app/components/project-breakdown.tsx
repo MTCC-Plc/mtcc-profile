@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { CurrencyText } from "./currency-symbol";
 
 
@@ -173,7 +174,7 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
       <header className="breakdown-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id={`${prefix}-title`}>{section.title}<span>.</span></h2></header>
       <div ref={explorer} className="breakdown-explorer">
         <div className="breakdown-sidebar"><p>Explore by category</p><div className="breakdown-tabs" role="tablist" aria-label="Project categories" aria-orientation={compact ? "horizontal" : "vertical"}>
-          {categories.map((category, index) => <button key={category.title} ref={el => { tabs.current[index] = el; }} type="button" id={`${prefix}-tab-${index}`} role="tab" aria-selected={active === index} aria-controls={`${prefix}-panel`} tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span aria-hidden="true">0{index + 1}</span>{category.title}<span className="breakdown-tab-arrow" aria-hidden="true">↗</span></button>)}
+          {categories.map((category, index) => <button key={category.title} ref={el => { tabs.current[index] = el; }} type="button" id={`${prefix}-tab-${index}`} role="tab" aria-selected={active === index} aria-controls={`${prefix}-panel`} tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span aria-hidden="true">0{index + 1}</span>{category.title}<ArrowUpRight className="breakdown-tab-arrow" size={18} aria-hidden="true" /></button>)}
         </div></div>
         {/* Invisible sizing copies keep every category in the same footprint. */}
         <div className="breakdown-panels">

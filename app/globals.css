@@ -745,7 +745,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .breakdown-tabs button > span:first-child { font-size: .7rem; opacity: .75; }
 .breakdown-tabs button[aria-selected="true"] { background: #06263e; color: white; }
 .breakdown-tabs button:hover:not([aria-selected="true"]) { background: #dae4e9; color: #12212f; }
-.breakdown-tab-arrow { margin-left: auto; color: #008fa9; }
+.breakdown-tab-arrow { margin-left: auto; flex-shrink: 0; color: #008fa9; }
 .breakdown-tabs button[aria-selected="true"] .breakdown-tab-arrow { color: #5de4f1; }
 .breakdown-tabs button:focus-visible, .breakdown-panel:focus-visible { outline: 3px solid #008fa9; outline-offset: 4px; }
 .breakdown-panel { background: white; padding: 40px; border-radius: 28px; animation: breakdown-enter .35s ease both; }
@@ -1724,7 +1724,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .company-hero-caption > span { display: block; font-size: .8rem; margin-bottom: 10px; opacity: .8; }
 .company-hero-caption strong { display: block; font-size: clamp(1.8rem, 3.6vw, 3.6rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; }
 .company-hero-location { position: absolute; top: 28px; right: 32px; color: #fff; font-size: .75rem; padding: 8px 14px; border-radius: 999px; background: #002a4480; backdrop-filter: blur(12px); }
-.company-hero-location span { margin-left: 16px; }
+.company-hero-location { display: inline-flex; align-items: center; gap: 16px; }
+.legacy-profile > a { display: inline-flex; align-items: center; gap: 8px; }
 .company-hero-metrics { display: grid; grid-template-columns: repeat(3, 1fr); padding-block: 44px; }
 .company-hero-metrics > div { display: grid; gap: 10px; text-align: center; padding: 6px 20px; border-right: 1px solid #cfdee6; }
 .company-hero-metrics > div:last-child { border: 0; }
