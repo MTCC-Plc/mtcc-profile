@@ -19,8 +19,9 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const interacted = useRef(false);
   const chapters = eras.map((era, index) => ({ ...era,
-    items: section.items.filter(item => Number(item.year) > (eras[index - 1]?.end ?? -Infinity) && Number(item.year) <= era.end),
-  })).filter(era => era.items.length);
+    items: section.items.filter(item => Number(item.year) > (eras[index - 1]?.end ?? -Infinity) && Number(item.year) <= era.end)
+      .sort((a, b) => Number(b.year) - Number(a.year)),
+  })).filter(era => era.items.length).reverse();
 
   useEffect(() => {
     const scrollAtSelection = window.scrollY;
