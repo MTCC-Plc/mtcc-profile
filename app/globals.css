@@ -1857,3 +1857,32 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .hero-logo.is-ready .hero-logo-fallback { opacity: 0; }
 @media (max-width: 700px) { .hero-logo { inset: 8px 8px 70px; } }
 @media (prefers-reduced-motion: reduce) { .hero-logo-canvas, .hero-logo-fallback { transition: none; } }
+
+/* Separate the project total from the completion share for a clearer hierarchy. */
+.breakdown-panel .breakdown-counts { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 22px 28px; padding-block: 24px 28px; }
+.breakdown-total { display: flex; flex-direction: column; align-items: flex-start; }
+.breakdown-total > span { color: #526270; font-size: .85rem; font-weight: 500; }
+.breakdown-total > strong { display: block; margin-block: 5px; font-size: clamp(3.8rem, 6vw, 5.8rem); font-weight: 600; line-height: 1; letter-spacing: -.055em; color: #052e54; font-variant-numeric: tabular-nums; }
+.breakdown-total > small { color: #697985; font-size: .75rem; }
+.breakdown-panel .breakdown-ring { width: 146px; height: 146px; padding: 8px; box-shadow: 0 0 0 5px #f2f6f8; }
+.breakdown-panel .breakdown-ring strong { font-size: 2.3rem; letter-spacing: -.045em; color: #052e54; font-variant-numeric: tabular-nums; }
+.breakdown-ring strong em { font-style: normal; font-size: .5em; margin-left: 2px; color: #526270; }
+.breakdown-panel .breakdown-ring > div > span { margin-top: 6px; font-size: .7rem; }
+.breakdown-panel .breakdown-count-legend { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px 20px; border-radius: 16px; background: #f3f6f8; }
+.breakdown-panel .breakdown-count-legend > div + div { border-left: 1px solid #dce5eb; padding-left: 20px; }
+.breakdown-panel .breakdown-count-legend dd { font-size: 1.7rem; margin-top: 8px; }
+@media (max-width: 760px), (max-height: 800px) {
+  .breakdown-panel .breakdown-counts { gap: 16px 18px; padding-block: 20px; }
+  .breakdown-total > strong { font-size: 3.7rem; }
+  .breakdown-panel .breakdown-ring { width: 112px; height: 112px; padding: 6px; }
+  .breakdown-panel .breakdown-ring strong { font-size: 1.85rem; }
+  .breakdown-panel .breakdown-ring > div > span { font-size: .62rem; }
+  .breakdown-panel .breakdown-count-legend { padding: 12px; gap: 10px; }
+  .breakdown-panel .breakdown-count-legend > div + div { padding-left: 12px; }
+  .breakdown-panel .breakdown-count-legend dd { font-size: 1.5rem; }
+}
+@media (max-width: 360px) {
+  .breakdown-total > strong { font-size: 3.2rem; }
+  .breakdown-total > small { font-size: .65rem; }
+  .breakdown-panel .breakdown-ring { width: 96px; height: 96px; }
+}

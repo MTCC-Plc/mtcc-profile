@@ -166,7 +166,8 @@ export function ProjectBreakdown({ section }: { section: Extract<ProfileSection,
           return <article key={category.title} id={`${prefix}-panel-${index}`} role="tabpanel" aria-labelledby={`${prefix}-tab-${index}`} hidden={active !== index} tabIndex={0} className="breakdown-panel">
             <h3>{category.title}</h3>
             {count && <div className="breakdown-counts">
-              <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={count[3]} /></strong><span>{counts.columns[3]} projects</span></div></div>
+              <div className="breakdown-total"><span>Total projects</span><strong><AnimatedFigure value={count[3]} /></strong><small>Across this category</small></div>
+              <div className="breakdown-ring" data-completed={`${total ? completed / total * 100 : 0}%`} style={{ "--completed": `${total ? completed / total * 100 : 0}%` } as CSSProperties}><div><strong><AnimatedFigure value={String(Math.round(total ? completed / total * 100 : 0))} /><em>%</em></strong><span>Completed</span></div></div>
               <dl className="breakdown-count-legend">{count.slice(1, 3).map((value, i) => <div key={i}><dt><i aria-hidden="true" />{counts.columns[i + 1]}</dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl>
             </div>}
             <div className="breakdown-value-grid">{category.rows.map(row => <div className="breakdown-value" key={row[0]}><h4>{row[0]}</h4><dl>{row.slice(1).map((value, i) => <div key={i}><dt><CurrencyText value={category.columns[i + 1]} /></dt><dd><AnimatedFigure value={value} /></dd></div>)}</dl></div>)}</div>
