@@ -1,8 +1,7 @@
 "use client";
 import Image from "./site-image";
 import { BusFront, CarFront, Ship, Waves } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { gsap } from "gsap";
 import type { ContentBlock } from "../types/profile";
 
@@ -10,8 +9,6 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const root = useRef<HTMLElement>(null);
-  const scroll = useRef<ScrollTrigger | null>(null);
-  const manualSelection = useRef(false);
   const visualPosition = useRef(0);
   useLayoutEffect(() => {
     const panels = Array.from(root.current?.querySelectorAll<HTMLElement>(".fleet-showcase") ?? []);
@@ -44,54 +41,7 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
   const icons = [Ship, BusFront, Waves, CarFront];
   const images = ["/assets/transport.webp", "/assets/bridge.webp", "/assets/conventional-ferry.webp", "/assets/male-taxi-fleet.webp"];
   const imageDescriptions = ["RTL ferry travelling across the sea", "RTL buses travelling on a bridge", "Boarding an MTCC conventional ferry", "Malé Taxi Line electric vehicles displayed at the fleet launch"];
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const media = gsap.matchMedia();
-    media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1000px) and (min-height: 700px)", mobile: "(max-width: 999px) and (min-height: 740px)" }, context => {
-      if (!context.conditions?.motion || !root.current) return;
-      const desktop = Boolean(context.conditions.desktop);
-      const pinned = Boolean(desktop || context.conditions.mobile);
-      if (!pinned) return;
-      root.current.classList.toggle("fleet-scroll-pinned", desktop);
-      root.current.classList.toggle("fleet-scroll-mobile", !desktop);
-      if (root.current.offsetHeight > window.innerHeight - 96) {
-        root.current.classList.remove("fleet-scroll-mobile", "fleet-scroll-pinned", "fleet-scroll-driven");
-        return;
-      }
-      const chapterHeight = window.innerHeight;
-      const trigger = ScrollTrigger.create({
-        trigger: root.current,
-        start: pinned ? "top 80px" : "top 35%",
-        end: pinned ? () => `+=${(desktop ? window.innerHeight : chapterHeight) * block.rows.length * (desktop ? .65 : .95)}` : "bottom 65%",
-        pin: pinned,
-        invalidateOnRefresh: true,
-        onUpdate: self => {
-          if (self.isActive && !manualSelection.current) {
-            const position = self.progress * block.rows.length;
-            setActive(previous => {
-              const next = Math.min(block.rows.length - 1, Math.floor(position));
-              if (next > previous && position < previous + 1.025) return previous;
-              if (next < previous && position > previous - .025) return previous;
-              return next;
-            });
-          }
-        },
-        onLeave: () => { manualSelection.current = false; setActive(block.rows.length - 1); },
-        onLeaveBack: () => { manualSelection.current = false; setActive(0); },
-      });
-      scroll.current = trigger;
-      const frame = requestAnimationFrame(() => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
-      return () => { cancelAnimationFrame(frame); scroll.current = null; root.current?.classList.remove("fleet-scroll-pinned", "fleet-scroll-mobile"); };
-    });
-    return () => media.revert();
-  }, [block.rows.length]);
   function select(index: number) {
-    const trigger = scroll.current;
-    manualSelection.current = Boolean(trigger && !trigger.vars.pin);
-    if (trigger?.isActive && trigger.vars.pin) {
-      // Keep the scroll chapter aligned with manual selection, so it does not snap back.
-      window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * (index + .5) / block.rows.length, behavior: "instant" });
-    }
     setActive(index);
   }
   function key(event: KeyboardEvent, index: number) {
