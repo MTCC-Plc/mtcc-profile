@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight, Building2, ShieldCheck, Users } from "lucide-react";
+import { Building2, ShieldCheck, Users } from "lucide-react";
 import Image from "./site-image";
 import { TeamPortrait } from "./team-portrait";
 import type { ProfileSection } from "../types/profile";
@@ -30,7 +30,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
 
   function node(person: Person, label?: string) {
     return <button key={person.name} type="button" className="org-chart-node" aria-pressed={selectedName === person.name} aria-controls="org-person-detail" onClick={() => setSelectedName(person.name)}>
-      <strong>{label || person.division || person.role}</strong><span>{person.name}</span><ArrowUpRight size={15} aria-hidden="true" />
+      <strong>{label || person.division || person.role}</strong><span>{person.name}</span>
     </button>;
   }
 
