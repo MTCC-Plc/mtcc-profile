@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ProfilePage } from "./components/profile-page";
 import { CurrencyProvider } from "./components/currency-toggle";
-import { companyProfile } from "./data/company-profile";
+import { businessSections, companyProfile } from "./data/company-profile";
 
 export const metadata: Metadata = {
   title: "MTCC | Company Profile 2026",
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function CompanyPage() {
-  return <CurrencyProvider><ProfilePage data={companyProfile} /></CurrencyProvider>;
+  return <CurrencyProvider><ProfilePage data={companyProfile} businesses={businessSections} /></CurrencyProvider>;
 }

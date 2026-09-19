@@ -31,18 +31,32 @@ The generated website is in `out/`. This is a static export; it requires no appl
 
 ## Content and checks
 
-- Original profile copy and figures: `app/data/profiles.ts`
-- Combined section order and shared content: `app/data/company-profile.ts`
+- Current PDF-based profile copy and figures: `app/data/company-profile.ts`
+- Original corporate/investor copy: `app/data/profiles.ts`
+- Previous combined edition: `app/data/archived-company-profile.ts`
 - Currency selection and formatting: `lib/currency.ts`
 - Section components: `app/components/`
 - Styles: `app/globals.css`
 - Images: `public/assets/`
 - Type checking: `corepack pnpm typecheck`
 
-Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. Original profile figures and wording are retained in the website data.
+Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. The current edition follows `MTCC-Company-Profile-2026_9665.pdf`, with the existing mission, vision and values presentation preserved in `app/components/values-section.tsx`.
+
+The September 2026 register (868 projects, MVR 32.35B) is separate from the earlier on-hand/completed comparison. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist opens an editable email draft containing the selected works.
+
+## Retained sections
+
+Unused layouts remain available without being mounted by the current page:
+
+- `retained-profile-sections.tsx` exports the earlier story, services, people, metrics and portfolio sections.
+- `publication-sections.tsx` retains the longer about/financial layouts, generic content blocks, leadership grid and contents navigation.
+- `investment-highlights.tsx`, `flagship-projects.tsx`, `growth-strategy.tsx`, `differentiators-section.tsx`, `sustainability-section.tsx` and `partnership-section.tsx` retain the earlier dedicated layouts.
+- `archivedCompanyProfile` preserves the previous section order and full data for reuse with those components.
+
+To restore a section, import its component into `profile-page.tsx`, select its matching data from `archivedCompanyProfile`, and add it to the visible page and navigation. Its existing styles and assets are retained. Business details and the project comparison are mounted only when their corresponding view is selected.
 
 The persistent currency toggle uses the **official rufiyaa symbol with MVR** and **$ USD**, and saves the preference locally. Supplied MVR/USD pairs are displayed exactly as provided. When only one currency was supplied, the equivalent is marked approximate using MVR 15.42 per USD ([MMA reference](https://database.mma.gov.mv/viya/series/4039)); this is a presentation rate, not a live exchange-rate feed. Original table units are retained.
 
 The rufiyaa artwork is an inline SVG extracted from page 2 of the [MMA Currency Symbol Guideline](https://www.mma.gov.mv/files/currency/Currency%20Symbol%20Guideline.pdf). It inherits text color, keeps its original proportions, and precedes amounts. SVG avoids relying on device fonts for this symbol.
 
-The business overview links to each dedicated business section. Detailed corporate service narratives and capabilities are grouped in expandable panels within those sections, avoiding a duplicate core-services carousel.
+The business overview has five selectable panels. Detailed corporate service narratives and capabilities remain in expandable panels within the retained business components.

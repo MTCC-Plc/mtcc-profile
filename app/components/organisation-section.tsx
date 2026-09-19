@@ -35,7 +35,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   }
 
   return <section id={section.id} className="organisation-section" aria-labelledby="organisation-title"><div className="shell">
-    <header className="organisation-heading"><p className="eyebrow">Management team</p><h2 id="organisation-title">Our people.<br /><span>One connected team.</span></h2><p>Explore our organisation. Meet the people behind every part of our progress.</p></header>
+    <header className="organisation-heading"><p className="eyebrow">Management team</p><h2 id="organisation-title">{section.title}</h2><p>Four business divisions earn the revenue. Seven corporate service divisions keep them running. Tap any box to see who leads it.</p></header>
     <div className="organisation-toolbar"><span>{section.people.length} people. Shared purpose.</span><div className="organisation-view" role="group" aria-label="Team view"><button type="button" aria-pressed={!all} onClick={() => setAll(false)}>Organisation</button><button type="button" aria-pressed={all} onClick={() => setAll(true)}>All people</button></div></div>
     {all ? <div className="organisation-explorer organisation-all"><div className="organisation-people"><header><p className="eyebrow">The full management team</p><h3>Meet the team.</h3></header><div className="organisation-grid">{section.people.map(person => <article className="organisation-person" key={person.name}>
       <div className="organisation-portrait"><TeamPortrait src={person.image} name={person.name} /></div>

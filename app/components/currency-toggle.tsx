@@ -10,7 +10,10 @@ const CurrencyContext = createContext<{ currency: Currency; setCurrency: (curren
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, updateCurrency] = useState<Currency>("MVR");
   useEffect(() => {
-    try { const saved = localStorage.getItem("mtcc-currency"); if (saved === "USD" || saved === "MVR") updateCurrency(saved); } catch { /* Storage is optional. */ }
+    const frame = requestAnimationFrame(() => {
+      try { const saved = localStorage.getItem("mtcc-currency"); if (saved === "USD" || saved === "MVR") updateCurrency(saved); } catch { /* Storage is optional. */ }
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
   function setCurrency(next: Currency) {
     updateCurrency(next);

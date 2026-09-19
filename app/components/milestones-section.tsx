@@ -12,7 +12,7 @@ const categories = [
   { label: "Trading and engineering", color: "#a8b7ed", image: "/assets/team-engineering.webp", alt: "MTCC engineering team at work" },
 ];
 const sectors: Record<string, number[]> = {
-  "1980": [0], "1981": [3], "1987": [3], "1994": [3], "1999": [0],
+  "1980": [0], "1981": [3], "1987": [3], "1994": [3], "1995": [1],
   "2002": [1, 2], "2003": [0], "2006": [2], "2007": [1], "2008": [3],
   "2009": [2], "2012": [1], "2015": [3], "2016": [2], "2017": [0, 1],
   "2019": [1], "2020": [2], "2022": [2], "2023": [0, 2, 3], "2024": [3],
@@ -59,7 +59,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
   }
 
   return <section ref={root} id={section.id} className="milestones-section" aria-labelledby="milestones-title"><div className="shell">
-    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>From today’s ambitions to our first beginnings.</p></header>
+    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>From 1980 to today, stop by stop. Pick a year on the route or press play.</p></header>
     <div className="milestone-browser">
       <div className="milestone-filters" role="group" aria-label="Filter milestones by business area">
         {[{ label: "All milestones", color: "transparent" }, ...categories].map((entry, index) => <button key={entry.label} type="button" aria-pressed={filter === (index === 0 ? null : index - 1)} onClick={() => { setFilter(index === 0 ? null : index - 1); select(0); }}>

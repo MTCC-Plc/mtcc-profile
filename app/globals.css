@@ -2101,3 +2101,16 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
   .move-number { font-size: .64rem; }
   .move-rule { width: 64px; margin-top: 24px; }
 }
+
+/* Current publication: four headline figures and the retained purpose scenes. */
+.company-hero-copy h1 small { display: block; margin-top: 22px; font-size: clamp(.85rem, 1.6vw, 1.15rem); letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; color: var(--blue); }
+.company-hero-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.company-hero-metrics strong { font-size: clamp(1.7rem, 3vw, 3rem); }
+.profile-source-note { padding: 24px 0; border-top: 1px solid #ffffff30; font-size: .85rem; color: #bfccd7; }
+.profile-source-note summary { color: white; cursor: pointer; }
+.profile-source-note p { max-width: 900px; }
+@media (max-width: 760px) {
+  .company-hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 0; }
+  .company-hero-metrics > div:nth-child(2) { border-right: 0; }
+  .company-hero-metrics strong { font-size: clamp(1.65rem, 5.5vw, 2.2rem); }
+}
