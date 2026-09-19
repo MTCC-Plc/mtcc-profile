@@ -32,6 +32,7 @@ The generated website is in `out/`. This is a static export; it requires no appl
 ## Content and checks
 
 - Current PDF-based profile copy and figures: `app/data/company-profile.ts`
+- Digital transformation copy: `app/data/digital-transformation.ts`
 - Original corporate/investor copy: `app/data/profiles.ts`
 - Previous combined edition: `app/data/archived-company-profile.ts`
 - Currency selection and formatting: `lib/currency.ts`
@@ -43,6 +44,8 @@ The generated website is in `out/`. This is a static export; it requires no appl
 Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. The current edition follows `MTCC-Company-Profile-2026_9665.pdf`, with the existing mission, vision and values presentation preserved in `app/components/values-section.tsx`.
 
 The September 2026 register (868 projects, MVR 32.35B) is separate from the earlier on-hand/completed comparison. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist opens an editable email draft containing the selected works.
+
+The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
 
 ## Retained sections
 

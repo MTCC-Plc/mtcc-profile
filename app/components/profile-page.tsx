@@ -21,6 +21,7 @@ import { BusinessExplorer } from "./business-explorer";
 import { ProjectPortfolio } from "./project-portfolio";
 import { PrivateProjectsSection } from "./private-projects-section";
 import { WorkforceSection } from "./workforce-section";
+import { DigitalTransformationSection } from "./digital-transformation-section";
 
 function SiteHeader({ sections }: { sections: { id: string; title: string }[] }) {
   const header = useRef<HTMLElement>(null);
@@ -138,6 +139,7 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
       <PrivateProjectsSection />
       <MilestonesSection section={getSection(data, "milestones", "timeline")} />
       <PartnershipOverview reasons={getSection(data, "competitive-differentiators", "content")} sustainability={getSection(data, "sustainability", "content")} financials={getSection(data, "financials", "content")} strategy={getSection(data, "strategy", "strategy")} />
+      <DigitalTransformationSection />
       <WorkforceSection />
       <OrganisationSection section={getSection(data, "management", "leadership")} />
     </main>
