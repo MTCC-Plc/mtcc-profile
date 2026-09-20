@@ -1,0 +1,144 @@
+/* Apple-style display system: see the --ap-* tokens in globals.css. */
+
+.section {
+  padding: 130px 0;
+  background: white;
+  color: var(--ap-ink);
+  font-family: var(--ap-font);
+  scroll-margin-top: 100px;
+}
+
+.heading { max-width: 860px; margin: 0 auto 72px; text-align: center; }
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--ap-accent);
+  font-size: clamp(1.125rem, 2vw, 1.3125rem);
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: .011em;
+}
+
+.heading h2 {
+  margin: 0;
+  color: var(--ap-ink);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+.heading h2 span { color: var(--ap-mute); }
+
+.intro {
+  max-width: 700px;
+  margin: 28px auto 0;
+  color: var(--ap-sub);
+  font-size: 1.0625rem;
+  line-height: 1.4706;
+  letter-spacing: -.022em;
+}
+
+.layout { display: grid; grid-template-columns: 1.2fr .8fr; align-items: start; gap: clamp(40px, 5vw, 72px); }
+
+.steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 32px;
+  border-radius: var(--ap-radius-sm);
+  background: var(--ap-grey);
+  color: var(--ap-ink);
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: .011em;
+}
+
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ap-accent);
+  color: white;
+  font-size: 1.0625rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 0; padding: 0; list-style: none; }
+.chips li { padding: 10px 20px; border-radius: var(--ap-pill); background: var(--ap-grey); color: var(--ap-sub); font-size: 1.0625rem; letter-spacing: -.022em; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border-radius: var(--ap-pill);
+  background: var(--ap-accent);
+  color: white;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  letter-spacing: -.022em;
+  transition: filter .25s ease;
+}
+
+.primary:hover { filter: brightness(1.15); }
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border: 1px solid var(--ap-line);
+  border-radius: var(--ap-pill);
+  background: white;
+  color: var(--ap-accent);
+  font: inherit;
+  font-family: var(--ap-font);
+  font-size: 1.0625rem;
+  letter-spacing: -.022em;
+  cursor: pointer;
+  transition: background .25s ease;
+}
+
+.copy:hover { background: var(--ap-grey); }
+.primary:focus-visible, .copy:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+
+.note { margin: 22px 0 0; color: var(--ap-mute); font-size: .875rem; line-height: 1.4286; letter-spacing: -.016em; }
+.note b { color: var(--ap-sub); font-weight: 600; }
+
+.qr { display: grid; justify-items: center; gap: 24px; margin: 0; padding: 48px 40px; border-radius: var(--ap-radius); background: var(--ap-black); }
+.tile { padding: 20px; border-radius: var(--ap-radius-sm); background: white; }
+.tile img { display: block; width: 100%; max-width: 220px; height: auto; }
+.qr figcaption { display: grid; gap: 10px; text-align: center; }
+.qr strong { color: white; font-size: 1.5rem; font-weight: 600; letter-spacing: .009em; }
+.qr span { color: #bdcfde; font-size: 1.0625rem; line-height: 1.4706; letter-spacing: -.022em; }
+
+@media (max-width: 1000px) {
+  .layout { grid-template-columns: 1fr; }
+  .qr { justify-self: start; max-width: 380px; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 80px 0; }
+  .heading { margin-bottom: 44px; }
+  .intro { font-size: 1rem; }
+  .steps li { padding: 22px 22px; gap: 15px; font-size: 1.0625rem; }
+  .chips li { font-size: 1rem; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .primary, .copy { justify-content: center; }
+  .qr { justify-self: stretch; max-width: none; padding: 34px 26px; border-radius: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary, .copy { transition: none; }
+}

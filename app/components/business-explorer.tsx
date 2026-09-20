@@ -8,13 +8,15 @@ import { InfrastructureSection } from "./infrastructure-section";
 import { TransportSection } from "./transport-section";
 import { ShipbuildingSection } from "./shipbuilding-section";
 import { TradingSection } from "./trading-section";
+import { DredgingFleet } from "./dredging-fleet";
 import type { ProfileSection } from "../types/profile";
+import { annualReport2025 } from "../data/annual-report-2025";
 import styles from "./business-explorer.module.css";
 
 const businesses = [
   { id: "dredging", title: "Dredging and reclamation", summary: "6 dredgers moving 38,000 m³ a day" },
   { id: "infrastructure", title: "Infrastructure", summary: "Harbours, airports, roads and buildings" },
-  { id: "transport-network", title: "Public transport", summary: "17.6M passengers a year by sea and land" },
+  { id: "transport-network", title: "Public transport", summary: `${annualReport2025.passengers} passengers in ${annualReport2025.year}` },
   { id: "shipbuilding", title: "Shipbuilding and engineering", summary: "20-vessel boatyard at Thilafushi" },
   { id: "general-trading", title: "General trading", summary: "Marine engines, parts and service" },
 ] as const;
@@ -41,28 +43,25 @@ function DredgingSummary() {
     "Land reclamation", "Shore protection", "Beach replenishment", "Sheet piling",
     "Bathymetric, geotechnical and aerial surveys", "Environmental consultancy",
   ];
-  const metrics = [
-    { value: "38,000 m³", label: "dredging capacity per day" },
-    { value: "5", label: "cutter suction dredgers" },
-    { value: "1", label: "trailing suction hopper dredger" },
-    { value: "20+ years", label: "as the leading shore protection contractor" },
-  ];
-
-  return <div id="dredging" className={`shell ${styles.dredging}`}>
-    <div className={styles.copy}>
-      <p className="eyebrow">Dredging and reclamation</p>
-      <h3>The largest dredging fleet in the country and the most experienced crews in the field.</h3>
-      <p>MTCC started dredging in 1995 with a few excavators and brought the first cutter dredger into reclamation work in 2002. The fleet now moves up to 38,000 cubic metres a day, built around the particular demands of working on Maldivian reefs and lagoons.</p>
-      <ul className={styles.capabilities} aria-label="Dredging capabilities">{capabilities.map(capability => <li key={capability}>{capability}</li>)}</ul>
-    </div>
-    <div className={styles.capacity}>
-      <div className={styles.image}>
-        <Image src="/assets/dredging.webp" alt="MTCC dredging and land reclamation works in the Maldives" fill sizes="(max-width: 800px) 100vw, 50vw" />
-        <span>Shaping the islands of tomorrow.</span>
+  return <>
+    <div id="dredging" className={`shell ${styles.dredging}`}>
+      <div className={styles.copy}>
+        <p className="eyebrow">Dredging and reclamation</p>
+        <h3>The largest dredging fleet in the country and the most experienced crews in the field.</h3>
+        <p>MTCC started dredging in 1995 with a few excavators and brought the first cutter dredger into reclamation work in 2002, built around the particular demands of working on Maldivian reefs and lagoons.</p>
+        <ul className={styles.capabilities} aria-label="Dredging capabilities">{capabilities.map(capability => <li key={capability}>{capability}</li>)}</ul>
       </div>
-      <dl className={styles.metrics}>{metrics.map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}</dd></div>)}</dl>
+      <div className={styles.capacity}>
+        <div className={styles.image}>
+          <Image src="/assets/business-tab-hero.webp" alt="MTCC dredging and land reclamation works in the Maldives" fill sizes="(max-width: 800px) 100vw, 50vw" />
+          <span>Shaping the islands of tomorrow.</span>
+        </div>
+      </div>
     </div>
-  </div>;
+    {/* The vessels are stated here rather than in the fleet section, which
+        covers the plant register, so the figures appear once on the page. */}
+    <div className={`shell ${styles.dredgingFleet}`}><DredgingFleet /></div>
+  </>;
 }
 
 /** Keep detailed business components available, mounting only the selected business. */
@@ -150,13 +149,13 @@ export function BusinessExplorer({ sections }: { sections: ProfileSection[] }) {
   return <section id="portfolio" className={styles.explorer} aria-labelledby="businesses-title">
     <div className={`shell ${styles.overview}`}>
       <header className={styles.heading}>
-        <p className="eyebrow">Our businesses</p>
-        <h2 id="businesses-title">Five businesses,<br /><span>one national platform.</span></h2>
-        <p>Pick a business to see what it does, what it runs and how it is performing.</p>
+        <p className={styles.eyebrow}>Our businesses</p>
+        <h2 id="businesses-title">Our businesses, <span>one national platform.</span></h2>
+        <p className={styles.intro}>{annualReport2025.businessAreas}. Explore the services delivered across MTCC.</p>
       </header>
       <div className={styles.platform}>
         <div className={styles.platformName}><strong>MTCC</strong><span>Maldives Transport and Contracting Company</span></div>
-        <div id="services" className={styles.platformTabs} role="tablist" aria-label="MTCC businesses" aria-orientation="vertical">
+        <div id="services" className={styles.platformTabs} role="tablist" aria-label="MTCC businesses" aria-orientation="horizontal">
           {businesses.map((item, index) => <button key={item.id} ref={element => { tabs.current[index] = element; }} id={`business-tab-${item.id}`} type="button" role="tab" aria-selected={active === index} aria-controls="business-panel" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKeyDown(event, index)}>
             <span className={styles.number} aria-hidden="true">0{index + 1}</span>
             <span className={styles.platformCopy}><strong>{item.title}</strong><span>{item.summary}</span></span>

@@ -9,6 +9,7 @@ export const profileNavigation: NavigationGroup[] = [
       { id: "milestones", title: "Milestones" },
       { id: "management", title: "Leadership and structure" },
       { id: "workforce", title: "Our people" },
+      { id: "length-of-service", title: "Length of service" },
       { id: "management-team", title: "Management team" },
     ],
   },
@@ -19,6 +20,7 @@ export const profileNavigation: NavigationGroup[] = [
       { id: "transport-network", title: "Public transport" },
       { id: "shipbuilding", title: "Shipbuilding and engineering" },
       { id: "general-trading", title: "General trading" },
+      { id: "fleet", title: "Our fleet and equipment" },
     ],
   },
   {
@@ -26,6 +28,7 @@ export const profileNavigation: NavigationGroup[] = [
       { id: "project-breakdown", title: "Project portfolio" },
       { id: "projects", title: "Flagship projects" },
       { id: "private-projects", title: "Partner with us" },
+      { id: "presence", title: "Present in every atoll" },
     ],
   },
   { id: "sustainability", title: "Sustainability", target: "sustainability", links: [] },
@@ -36,5 +39,6 @@ export const profileNavigation: NavigationGroup[] = [
       { id: "strategy", title: "Growth strategy" },
     ],
   },
+  { id: "vendors", title: "Vendors", target: "vendors", links: [] },
   { id: "contact", title: "Contact", target: "contact", links: [] },
 ];

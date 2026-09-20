@@ -24,7 +24,14 @@ export function MilestoneFilm({ title, items, playerRef, onClose }: { title: str
   const ended = position >= duration;
   const active = Math.min(Math.floor(position / SCENE_SECONDS), items.length - 1);
   const item = items[active];
-  const images = items.filter((entry, index) => items.findIndex(other => other.image === entry.image) === index);
+  /*
+   * Only the neighbouring scenes stay mounted. There is now one photo per
+   * milestone, so rendering them all would stack 22 full-bleed layers: ~156MB
+   * of decoded bitmap pinned at once, every one of them promoted to its own
+   * compositor layer by `will-change`. A three-scene window keeps the
+   * cross-fade intact at a fraction of the cost.
+   */
+  const scenes = items.map((entry, index) => ({ entry, index })).filter(({ index }) => Math.abs(index - active) <= 1);
 
   useEffect(() => {
     const element = dialog.current;
@@ -111,7 +118,7 @@ export function MilestoneFilm({ title, items, playerRef, onClose }: { title: str
         <button ref={close} type="button" className={styles.iconButton} onClick={onClose} aria-label="Close journey"><X size={22} aria-hidden="true" /></button>
       </header>
       <div className={styles.scene}>
-        <div className={styles.backdrops}>{images.map(entry => <Image key={entry.image} className={styles.image} src={entry.image} alt={entry.image === item.image ? item.alt : ""} aria-hidden={entry.image !== item.image} data-active={entry.image === item.image} fill sizes="100vw" loading="eager" />)}</div>
+        <div className={styles.backdrops}>{scenes.map(({ entry, index }) => <Image key={index} className={styles.image} src={entry.image} alt={index === active ? entry.alt : ""} aria-hidden={index !== active} data-active={index === active} fill sizes="100vw" loading={index <= active + 1 ? "eager" : "lazy"} />)}</div>
         <div className={styles.shade} />
         <div className={styles.story} key={item.year} aria-live={playing ? "off" : "polite"} aria-atomic="true">
           <p className={styles.chapter}>{item.category}</p>

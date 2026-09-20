@@ -12,7 +12,7 @@ export function CompanyAbout({ section }: { section: Content }) {
       <div><p className="eyebrow">{section.eyebrow}</p><h2 id="about-title">{section.title}</h2>
         {section.blocks.flatMap(block => block.type === "text" ? block.paragraphs ?? [] : []).map(text => <p className={styles.body} key={text}>{text}</p>)}
       </div>
-      <div className={styles.aboutImage}><Image src="/assets/bridge.webp" alt="Infrastructure connecting island communities in the Maldives" fill sizes="(max-width: 800px) 100vw, 520px" /><div><span>Across 20 atolls</span><strong>Alongside the nation.</strong></div></div>
+      <div className={styles.aboutImage}><Image src="/assets/section-photo.webp" alt="Infrastructure connecting island communities in the Maldives" fill sizes="(max-width: 800px) 100vw, 520px" /><div><span>Across 20 atolls</span><strong>Alongside the nation.</strong></div></div>
     </div>
     <dl className={styles.metrics}>{section.blocks.flatMap(block => block.type === "metrics" ? block.metrics : []).map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd><CurrencyText value={metric.value} /></dd></div>)}</dl>
   </div></section>;
