@@ -2,21 +2,22 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(72px, 8vw, 116px) 0;
-  border-bottom: 1px solid #315069;
-  background: var(--navy-deep);
+  padding: clamp(80px, 9vw, 130px) 0;
+  border-bottom: 1px solid var(--ap-line-dark);
+  background: var(--ap-black);
   color: white;
+  font-family: var(--ap-font);
 }
 .inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; }
 .copy { max-width: 840px; }
-.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 28px; color: #8be6f5; font-size: .76rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-.eyebrow > span { width: 28px; height: 2px; flex-shrink: 0; background: var(--cyan); }
-.copy h2 { margin: 0; font-size: clamp(2.5rem, 5.1vw, 4.7rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.04; text-wrap: balance; }
-.intro { max-width: 740px; margin: 26px 0 0; color: #bdcedc; font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.75; }
-.contact { display: inline-flex; align-items: center; justify-self: start; gap: 20px; padding: 7px 0; color: white; font-size: .96rem; font-weight: 600; white-space: nowrap; }
-.arrow { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid #8be6f5; border-radius: 50%; color: #8be6f5; transition: color .2s, background .2s; }
-.contact:hover .arrow { color: var(--navy-deep); background: #8be6f5; }
-.contact:focus-visible { outline: 3px solid #8be6f5; outline-offset: 7px; border-radius: 4px; }
+.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 10px; color: var(--cyan); font-size: clamp(1.125rem, 2vw, 1.3125rem); font-weight: 600; line-height: 1.19; letter-spacing: .011em; text-transform: none; }
+.eyebrow > span { display: none; }
+.copy h2 { margin: 0; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 600; letter-spacing: -.015em; line-height: 1.05; text-wrap: balance; }
+.intro { max-width: 740px; margin: 26px 0 0; color: #bdcfde; font-size: 1.0625rem; line-height: 1.4706; letter-spacing: -.022em; }
+.contact { display: inline-flex; align-items: center; justify-self: start; gap: 20px; padding: 7px 0; color: white; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.022em; white-space: nowrap; }
+.arrow { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid var(--sky); border-radius: 50%; color: var(--sky); transition: color .2s, background .2s; }
+.contact:hover .arrow { color: var(--navy-deep); background: var(--sky); }
+.contact:focus-visible { outline: 3px solid var(--sky); outline-offset: 7px; border-radius: 4px; }
 .explorer { position: relative; min-width: 0; margin-top: 52px; }
 .tabList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0; }
 .tabList > button {
@@ -28,11 +29,11 @@
   min-width: 0;
   min-height: 92px;
   padding: 16px 28px;
-  border: 1px solid #34556e;
+  border: 0;
   border-bottom: 0;
-  border-radius: 8px 8px 0 0;
-  background: #0c2b44;
-  color: #d2e1eb;
+  border-radius: var(--ap-radius-sm) var(--ap-radius-sm) 0 0;
+  background: var(--ap-panel);
+  color: #bdcfde;
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -42,55 +43,120 @@
 .tabList > button:hover { background: #163a53; color: white; }
 .tabList > button[aria-selected="true"] { border-color: #f2f7fa; background: #f2f7fa; color: var(--navy-deep); }
 .tabList > button[aria-selected="true"]::before { background: var(--cyan); }
-.tabList > button:focus-visible { z-index: 1; outline: 3px solid #8be6f5; outline-offset: 4px; }
-.tabNumber { align-self: start; padding-top: 5px; color: #8be6f5; font-size: .75rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.tabList > button:focus-visible { z-index: 1; outline: 3px solid var(--sky); outline-offset: 4px; }
+.tabNumber { align-self: start; padding-top: 5px; color: var(--sky); font-size: .75rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .tabLabel { font-size: clamp(1.02rem, 1.55vw, 1.3rem); font-weight: 650; letter-spacing: -.02em; line-height: 1.3; }
 .tabDescription { display: block; margin-top: 6px; color: #adc4d4; font-size: .79rem; font-weight: 400; letter-spacing: 0; line-height: 1.6; }
-.tabIcon { width: 44px; height: 44px; padding: 10px; border: 1px solid #52738b; border-radius: 50%; color: #8be6f5; }
+.tabIcon { width: 44px; height: 44px; padding: 10px; border: 1px solid #52738b; border-radius: 50%; color: var(--sky); }
 .tabList > button[aria-selected="true"] .tabNumber { color: #007b9b; }
 .tabList > button[aria-selected="true"] .tabDescription { color: #516d81; }
 .tabList > button[aria-selected="true"] .tabIcon { border-color: #c4dee8; background: #e0f1f6; color: #007b9b; }
 .panel { min-width: 0; padding: clamp(24px, 3.5vw, 48px); border-radius: 0 0 8px 8px; background: #f2f7fa; color: var(--navy-deep); }
 .panel[hidden] { display: none; }
 .panel:focus-visible { outline: 3px solid #00afd6; outline-offset: -5px; }
-.panelHeader { display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: start; margin-bottom: 34px; }
-.kicker { margin: 0 0 18px; color: #007b9b; font-size: .7rem; font-weight: 700; letter-spacing: .14em; line-height: 1.6; text-transform: uppercase; }
-.panelHeader h3, .housingCopy h3 { margin: 0; color: var(--navy-deep); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.13; text-wrap: balance; }
-.overview, .housingCopy > p:not(.kicker) { color: #4b6579; font-size: .95rem; line-height: 1.75; }
+/* Copy on one side, film on the other, echoing the Why-partner split. */
+.hubSplit { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 4vw, 60px); align-items: center; margin-bottom: 44px; }
+.hubCopy { min-width: 0; }
+.kicker { margin: 0 0 10px; color: var(--ap-accent); font-size: clamp(1.125rem, 2vw, 1.3125rem); font-weight: 600; line-height: 1.19; letter-spacing: .011em; text-transform: none; }
+.hubCopy h3, .housingCopy h3 { margin: 0; color: var(--navy-deep); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.13; text-wrap: balance; }
+.overview, .housingCopy > p:not(.kicker) { color: var(--ap-sub); font-size: 1.0625rem; line-height: 1.4706; letter-spacing: -.022em; }
+.hubCopy .overview { margin-top: 22px; }
 .overview p { margin: 0 0 14px; }
 .overview p:last-child { margin-bottom: 0; }
 .housingCopy > p:not(.kicker) { margin: 15px 0 0; }
-.projectList { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
-.project { display: grid; grid-template-columns: clamp(250px, 22vw, 300px) minmax(0, 1fr); min-width: 0; overflow: hidden; padding: 0; border: 1px solid #dce7ed; border-radius: 5px; background: white; }
-.projectPhoto, .housingPhoto { position: relative; isolation: isolate; overflow: hidden; min-width: 0; margin: 0; background: #c9dce5; }
-.projectPhoto { min-height: 250px; }
-.projectPhoto img, .housingPhoto img { object-fit: cover; }
-.projectPhoto figcaption, .housingPhoto figcaption { position: absolute; z-index: 1; left: 14px; bottom: 14px; max-width: calc(100% - 28px); padding: 6px 9px; border: 1px solid #ffffff70; border-radius: 3px; background: #ffffffec; color: #294c62; font-size: .61rem; font-weight: 500; letter-spacing: .035em; line-height: 1.4; }
-.projectContent { display: grid; grid-template-columns: minmax(0, 1fr) 180px; align-items: start; gap: 28px; min-width: 0; padding: 28px; }
+/* Economic Hub concept film. 16:9 box so the panel height is stable before the
+   file loads; the caption doubles as the "01 / ..." label. */
+.hubVideo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--ap-radius);
+  background: var(--ap-black);
+}
+
+.hubVideo video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--ap-black);
+}
+
+
+.hubPlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(0deg, rgba(2, 30, 56, .5), rgba(2, 30, 56, .15));
+  color: white;
+  font: inherit;
+  font-family: var(--ap-font);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -.022em;
+  cursor: pointer;
+  transition: background .25s ease;
+}
+
+.hubPlay:hover { background: linear-gradient(0deg, rgba(2, 30, 56, .62), rgba(2, 30, 56, .28)); }
+.hubPlay:focus-visible { outline: 3px solid var(--cyan); outline-offset: -3px; }
+
+.hubPlayIcon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--navy-deep);
+  transition: transform .25s ease;
+}
+
+.hubPlay:hover .hubPlayIcon { transform: scale(1.08); }
+.hubPlayIcon svg { margin-left: 3px; fill: currentColor; }
+
+.projectList { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.project { display: grid; min-width: 0; overflow: hidden; padding: 0; border: 0; border-radius: var(--ap-radius); background: white; }
+.projectContent { --card-pad: 32px; display: grid; grid-template-rows: 1fr auto; align-content: start; gap: 24px; min-width: 0; height: 100%; padding: var(--card-pad); }
 .projectCopy { display: grid; gap: 18px; min-width: 0; }
 .projectIdentity { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: start; gap: 15px; min-width: 0; }
 .projectIcon { display: flex; flex-direction: column; align-items: center; gap: 10px; color: #0086a5; }
 .projectIcon > svg { width: 42px; height: 42px; padding: 10px; border-radius: 50%; background: #e5f5fa; }
 .projectNumber { display: block; color: #6c8494; font-size: .65rem; font-weight: 700; letter-spacing: .13em; line-height: 1.3; }
-.projectTitle { margin: 0; padding-top: 4px; color: var(--navy-deep); font-size: clamp(1.05rem, 1.45vw, 1.3rem); font-weight: 650; letter-spacing: -.025em; line-height: 1.3; overflow-wrap: break-word; }
-.projectOverview { min-width: 0; margin: 0; color: #4b6579; font-size: .87rem; line-height: 1.75; }
-.projectMetrics { display: grid; grid-template-columns: 1fr; gap: 19px; min-width: 0; margin: 0; padding-left: 23px; border-left: 1px solid #dce7ed; }
-.projectMetrics > div { min-width: 0; }
-.projectMetrics dt, .investmentCallout dt { margin: 0 0 5px; color: #637b8d; font-size: .65rem; font-weight: 700; letter-spacing: .07em; line-height: 1.6; text-transform: uppercase; }
-.projectMetrics dd { margin: 0; color: #0a3958; font-size: 1.1rem; font-weight: 600; letter-spacing: -.025em; line-height: 1.3; }
-.money { display: block; font-size: 1.45rem; font-weight: 600; letter-spacing: -.035em; line-height: 1.3; white-space: nowrap; }
-.money > small { display: block; margin-top: 4px; color: #537087; font-size: .72rem; font-weight: 400; letter-spacing: 0; line-height: 1.5; }
-.originalValue { display: block; margin-top: 6px; color: #637b8d; font-size: .7rem; font-weight: 400; letter-spacing: 0; line-height: 1.5; }
+.projectTitle { margin: 0; padding-top: 4px; color: var(--ap-ink); font-size: 1.3125rem; font-weight: 600; letter-spacing: .011em; line-height: 1.19; overflow-wrap: break-word; }
+.projectOverview { min-width: 0; margin: 0; color: var(--ap-sub); font-size: 1rem; line-height: 1.4706; letter-spacing: -.022em; }
+/* Bled to the card edges (the card clips them with its own radius) so the
+   figures read as a footer band rather than loose text. */
+.projectMetrics {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  min-width: 0;
+  margin: 0 calc(var(--card-pad) * -1) calc(var(--card-pad) * -1);
+  background: var(--ap-black);
+}
+
+.projectMetrics > div { min-width: 0; padding: 22px var(--card-pad); }
+.projectMetrics > div + div { border-left: 1px solid var(--ap-line-dark); }
+.projectMetrics dt { min-height: 2.8em; margin: 0 0 9px; color: #8ea9bd; font-size: .75rem; font-weight: 600; letter-spacing: .05em; line-height: 1.4; text-transform: uppercase; }
+.investmentCallout dt { margin: 0 0 5px; color: #637b8d; font-size: .65rem; font-weight: 700; letter-spacing: .07em; line-height: 1.6; text-transform: uppercase; }
+.projectMetrics dd { margin: 0; color: white; font-size: 1.3125rem; font-weight: 600; letter-spacing: .011em; line-height: 1.19; font-variant-numeric: tabular-nums; }
+.money { display: block; font-size: 1.5rem; font-weight: 600; letter-spacing: .009em; line-height: 1.17; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.money > small { display: block; margin-top: 6px; color: #bdcfde; font-size: .8125rem; font-weight: 400; letter-spacing: -.016em; line-height: 1.4; }
+.originalValue { display: block; margin-top: 5px; color: #8ea9bd; font-size: .8125rem; font-weight: 400; letter-spacing: -.016em; line-height: 1.4; }
 .currencyNote { margin: 18px 0 0; color: #60798d; font-size: .73rem; line-height: 1.65; }
 .opportunityFooter { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; gap: 32px; margin-top: 36px; padding-top: 30px; border-top: 1px solid #cbdce5; }
 .opportunityFooter h4, .housingScale h4, .components h4, .strategicValue h4, .housingCopy h4 { margin: 0; color: #0a3958; font-size: 1.15rem; font-weight: 650; letter-spacing: -.025em; line-height: 1.4; }
 .footerCopy { min-width: 0; }
 .footerCopy > p, .housingScale > p, .strategicValue > p { margin: 0 0 14px; color: #4b6579; font-size: .94rem; line-height: 1.75; }
 .action { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 44px; margin-top: 8px; padding: 12px 18px; border: 1px solid #0a3958; border-radius: 3px; background: #0a3958; color: white; font-size: .83rem; font-weight: 600; line-height: 1.5; transition: background .2s, border-color .2s; }
-.action svg { flex-shrink: 0; color: #8be6f5; }
+.action svg { flex-shrink: 0; color: var(--sky); }
 .action:hover { border-color: #075578; background: #075578; }
 .action:focus-visible { outline: 3px solid #008eae; outline-offset: 4px; }
-.housingPhoto { width: 100%; aspect-ratio: 21 / 8; max-height: 340px; margin: 0 0 32px; border-radius: 5px; }
 .housingHeader { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; gap: 48px; }
 .housingCopy { min-width: 0; }
 .housingCopy h4 { margin-top: 25px; }
@@ -115,15 +181,13 @@
 .strategicValue { margin-top: 32px; padding-top: 28px; border-top: 1px solid #cbdce5; }
 .strategicValue > p { max-width: 890px; margin: 12px 0 14px; }
 .lines { position: absolute; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; }
-.lines span { position: absolute; top: -140px; right: -170px; width: 460px; height: 460px; border: 1px solid #8be6f512; border-radius: 50%; }
+.lines span { position: absolute; top: -140px; right: -170px; width: 460px; height: 460px; border: 1px solid var(--sky)12; border-radius: 50%; }
 .lines span:nth-child(2) { inset-block-start: -210px; inset-inline-end: -240px; width: 600px; height: 600px; }
 .lines span:nth-child(3) { inset-block-start: -280px; inset-inline-end: -310px; width: 740px; height: 740px; }
 @media (max-width: 1100px) {
-  .panelHeader { gap: 28px; }
-  .project { grid-template-columns: 200px minmax(0, 1fr); }
-  .projectContent { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 24px; }
-  .projectMetrics { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; padding: 19px 0 0; border-left: 0; border-top: 1px solid #dce7ed; }
-  .projectMetrics > div + div { padding-left: 22px; border-left: 1px solid #dce7ed; }
+  .hubSplit { gap: 28px; }
+  .projectContent { --card-pad: 24px; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .projectList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .housingHeader { gap: 30px; }
   .investmentCallout { padding: 24px; }
 }
@@ -135,33 +199,30 @@
   .tabList { gap: 8px; }
   .tabList > button { grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 16px 21px; }
   .tabIcon { display: none; }
-  .panelHeader { grid-template-columns: 1fr; gap: 23px; }
+  .hubSplit { grid-template-columns: 1fr; gap: 26px; }
   .housingHeader { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .investmentCallout { max-width: 420px; }
   .investmentCallout .money { font-size: 2.6rem; }
   .componentList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .project { grid-template-columns: minmax(0, 1fr); }
-  .projectPhoto { aspect-ratio: 16 / 10; min-height: 0; }
-  .housingPhoto { aspect-ratio: 16 / 9; margin-bottom: 26px; }
 }
 @media (max-width: 620px) {
+  .projectList { grid-template-columns: minmax(0, 1fr); }
+  .hubVideo { border-radius: 20px; }
   .explorer { margin-top: 36px; }
   .tabList > button { align-content: start; grid-template-columns: 1fr; min-height: 90px; gap: 6px; padding: 14px 16px; }
   .tabNumber { padding-top: 0; font-size: .67rem; }
   .tabLabel { font-size: .92rem; }
   .tabDescription { display: none; }
   .panel { padding: 26px 20px; }
-  .panelHeader { margin-bottom: 25px; }
+  .hubSplit { margin-bottom: 28px; }
   .overview, .housingCopy > p:not(.kicker) { font-size: .9rem; }
-  .projectContent { gap: 19px; padding: 22px; }
+  .projectContent { --card-pad: 22px; gap: 19px; }
   .projectIdentity { grid-template-columns: 38px minmax(0, 1fr); }
   .projectIcon > svg { width: 38px; height: 38px; padding: 9px; }
   .projectTitle { font-size: 1.16rem; }
   .projectOverview { font-size: .86rem; }
-  .projectMetrics { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 12px; padding-top: 17px; }
-  .projectMetrics > div + div { padding-left: 12px; }
   .money { font-size: 1.1rem; }
   .opportunityFooter { grid-template-columns: 1fr; gap: 13px; margin-top: 28px; padding-top: 25px; }
   .footerCopy > p, .housingScale > p, .strategicValue > p { font-size: .89rem; }
@@ -184,15 +245,14 @@
   .tabList > button { padding: 12px; }
   .tabLabel { font-size: .84rem; }
   .panel { padding: 25px 16px; }
-  .panelHeader h3, .housingCopy h3 { font-size: 1.7rem; }
-  .projectContent { padding: 18px; }
-  .projectMetrics { grid-template-columns: 1fr; }
-  .projectMetrics > div + div { padding-left: 0; border-left: 0; }
+  .hubCopy h3, .housingCopy h3 { font-size: 1.7rem; }
+  .projectContent { --card-pad: 18px; }
   .investmentCallout { padding: 22px 18px; }
   .investmentCallout .money { font-size: 2.2rem; }
   .scaleStats > div { padding: 0 10px; }
   .scaleStats dd { font-size: 1.8rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .hubPlay, .hubPlayIcon { transition: none; }
   .arrow, .tabList > button, .action { transition: none; }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { Anchor, ArrowUpRight, Building2, Check, Flag, House, Leaf, Ship } from "lucide-react";
+import { Anchor, ArrowUpRight, Building2, Check, Flag, House, Leaf, Play, Ship } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { economicHub, staffHousing } from "../data/featured-investments";
 import type { ProfileSection } from "../types/profile";
@@ -9,12 +9,12 @@ import { currencyMetrics, MVR_PER_USD, type Currency } from "../../lib/currency"
 import { CurrencyText } from "./currency-symbol";
 import { useCurrency } from "./currency-toggle";
 import { SectionLink } from "./section-link";
-import Image from "./site-image";
+import { assetPath } from "../../lib/asset-path";
 import styles from "./potential-partnerships-section.module.css";
 
 const opportunities = [
   { id: "economic-hub", title: "Integrated Economic Hub", detail: "Five independently investable projects", icon: Anchor },
-  { id: "staff-housing", title: "MTCC Staff Housing Scheme", detail: "Homes for the people behind MTCC", icon: House },
+  { id: "staff-housing", title: "MTCC Hiya Housing Project", detail: "Homes for the people behind MTCC", icon: House },
 ] as const;
 const projectIcons = [Anchor, Ship, Flag, Leaf, Building2];
 
@@ -36,6 +36,8 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
   const [active, setActive] = useState(0);
   const root = useRef<HTMLElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const hubVideo = useRef<HTMLVideoElement>(null);
+  const [filmPlaying, setFilmPlaying] = useState(false);
   const headingId = `${section.id}-title`;
   const tabId = (id: string) => `${section.id}-tab-${id}`;
   const panelId = (id: string) => `${section.id}-panel-${id}`;
@@ -54,6 +56,43 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
     });
     observer.observe(element);
     return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, []);
+
+  /*
+   * The film loops muted and silent as an ambient preview. Pressing play takes it
+   * full screen with sound: the fullscreen request has to happen inside the click
+   * so it keeps the user activation, and iOS Safari only exposes fullscreen on the
+   * video element itself (webkitEnterFullscreen), not the generic API.
+   */
+  function playFilmFullscreen() {
+    const video = hubVideo.current;
+    if (!video) return;
+    setFilmPlaying(true);
+    video.muted = false;
+    video.currentTime = 0;
+    void video.play().catch(() => {});
+    type IosVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+    const ios = video as IosVideo;
+    if (video.requestFullscreen) void video.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
+    else if (ios.webkitEnterFullscreen) ios.webkitEnterFullscreen();
+  }
+
+  useEffect(() => {
+    const video = hubVideo.current;
+    if (!video) return;
+    const onFullscreenChange = () => {
+      if (document.fullscreenElement === video) return;
+      setFilmPlaying(false);
+      video.muted = true;
+      void video.play().catch(() => {});
+    };
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    // iOS fires its own event because it never sets document.fullscreenElement.
+    video.addEventListener("webkitendfullscreen", onFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+      video.removeEventListener("webkitendfullscreen", onFullscreenChange);
+    };
   }, []);
 
   function selectWithKeyboard(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -99,18 +138,40 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
       </div>
 
       <div id={panelId(economicHub.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(economicHub.id)} tabIndex={0} hidden={active !== 0}>
-        <header className={styles.panelHeader}>
-          <div><p className={styles.kicker}>01 / {economicHub.title}</p><h3>{economicHub.subtitle}</h3></div>
-          <div className={styles.overview}>{economicHub.overview.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
-        </header>
+        <div className={styles.hubSplit}>
+          <div className={styles.hubCopy}>
+            <p className={styles.kicker}>01 / {economicHub.title}</p>
+            <h3>{economicHub.subtitle}</h3>
+            <div className={styles.overview}>{economicHub.overview.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
+          </div>
+          <figure className={styles.hubVideo}>
+            {/*
+              Self-hosted so the page makes no third-party requests. Muted +
+              playsInline are what allow autoplay on iOS and Chrome; controls stay
+              available, and the poster carries the frame if the file is missing.
+            */}
+            <video
+              ref={hubVideo}
+              src={assetPath("/assets/investments/economic-hub.mp4")}
+              poster={assetPath("/assets/investments/transshipment-port.webp")}
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls={filmPlaying}
+              preload="metadata"
+              aria-label="Concept film for the Integrated Economic Hub"
+            />
+            {!filmPlaying && <button type="button" className={styles.hubPlay} onClick={playFilmFullscreen} aria-label={`Play the ${economicHub.title} film`}>
+              <span className={styles.hubPlayIcon}><Play size={20} aria-hidden="true" /></span>
+              <span>Play</span>
+            </button>}
+          </figure>
+        </div>
         <ol className={styles.projectList} aria-label="Integrated Economic Hub investment projects">
           {economicHub.projects.map((project, index) => {
             const Icon = projectIcons[index];
             return <li className={styles.project} key={project.id}>
-              <figure className={styles.projectPhoto}>
-                <Image src={project.image.src} alt={project.image.alt} fill sizes="(max-width: 700px) 90vw, (max-width: 1100px) 200px, 300px" style={{ objectPosition: project.image.position }} />
-                <figcaption>Illustrative photo</figcaption>
-              </figure>
               <div className={styles.projectContent}>
                 <div className={styles.projectCopy}>
                   <div className={styles.projectIdentity}>
@@ -138,10 +199,6 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
       </div>
 
       <div id={panelId(staffHousing.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(staffHousing.id)} tabIndex={0} hidden={active !== 1}>
-        <figure className={styles.housingPhoto}>
-          <Image src={staffHousing.image.src} alt={staffHousing.image.alt} fill sizes="(max-width: 1200px) 90vw, 1104px" style={{ objectPosition: staffHousing.image.position }} />
-          <figcaption>Illustrative photo</figcaption>
-        </figure>
         <header className={styles.housingHeader}>
           <div className={styles.housingCopy}>
             <p className={styles.kicker}>02 / Employee housing</p>

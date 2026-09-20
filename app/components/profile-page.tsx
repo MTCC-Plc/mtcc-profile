@@ -23,18 +23,24 @@ import { PrivateProjectsSection } from "./private-projects-section";
 import { WorkforceSection } from "./workforce-section";
 import { DigitalTransformationSection } from "./digital-transformation-section";
 import { PotentialPartnershipsSection } from "./potential-partnerships-section";
+import { FleetSection } from "./fleet-section";
+import { AtollPresenceSection } from "./atoll-presence-section";
+import { LengthOfServiceSection } from "./length-of-service-section";
+import { VendorRegistrationSection } from "./vendor-registration-section";
 
 function SiteHeader() {
   const header = useRef<HTMLElement>(null);
   useEffect(() => {
     const element = header.current;
     if (!element) return;
+    const desktop = window.matchMedia("(min-width: 1000px)");
     let previous = window.scrollY;
     let distance = 0;
     let frame = 0;
     const show = () => { element.dataset.hidden = "false"; distance = 0; };
     const update = () => {
       frame = 0;
+      if (desktop.matches) { previous = window.scrollY; show(); return; }
       // The navigation drawer temporarily locks the body; that is not a scroll gesture.
       if (document.body.style.position === "fixed" || element.querySelector("dialog[open]")) { show(); return; }
       const y = Math.max(0, Math.min(window.scrollY, document.documentElement.scrollHeight - window.innerHeight));
@@ -47,10 +53,13 @@ function SiteHeader() {
       else if (distance < -12) show();
     };
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const onViewportChange = () => { previous = window.scrollY; show(); };
+    desktop.addEventListener("change", onViewportChange);
     window.addEventListener("scroll", onScroll, { passive: true });
     element.addEventListener("focusin", show);
     return () => {
       cancelAnimationFrame(frame);
+      desktop.removeEventListener("change", onViewportChange);
       window.removeEventListener("scroll", onScroll);
       element.removeEventListener("focusin", show);
     };
@@ -134,14 +143,18 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
       <CompanyAbout section={getSection(data, "about-mtcc", "content")} />
       <ValuesSection section={getSection(data, "purpose", "values")} />
       <BusinessExplorer sections={businessData} />
-      <ProjectPortfolio comparison={getSection(data, "project-breakdown", "content")} projects={getSection(data, "projects", "projects")} />
+      <FleetSection />
+      <ProjectPortfolio projects={getSection(data, "projects", "projects")} />
+      <AtollPresenceSection />
       <PrivateProjectsSection />
       <MilestonesSection section={getSection(data, "milestones", "timeline")} />
       <PartnershipOverview reasons={getSection(data, "competitive-differentiators", "content")} sustainability={getSection(data, "sustainability", "content")} financials={getSection(data, "financials", "content")} strategy={getSection(data, "strategy", "strategy")} />
       <DigitalTransformationSection />
       <WorkforceSection />
+      <LengthOfServiceSection />
       <OrganisationSection section={getSection(data, "management", "leadership")} />
       <PotentialPartnershipsSection section={getSection(data, "potential-partnerships", "content")} />
+      <VendorRegistrationSection />
     </main>
     <Footer investor />
   </ScrollExperience>;

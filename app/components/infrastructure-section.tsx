@@ -16,7 +16,7 @@ export function InfrastructureSection({ section }: { section: Extract<ProfileSec
   return <section id={section.id} className="infra-section" aria-labelledby="infra-title"><div className="shell">
     <header className="infra-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id="infra-title">Infrastructure &amp;<br /><span>marine construction.</span></h2></header>
     {fleet?.type === "metrics" && <div className="infra-fleet">
-      <div className="infra-landscape"><Image src="/assets/dredging.webp" alt="Dredging and reclamation works in the Maldives" fill sizes="(max-width: 760px) 100vw, 1200px" /><div className="infra-image-shade" />
+      <div className="infra-landscape"><Image src="/assets/business-tab-landscape.webp" alt="Infrastructure and marine construction works in the Maldives" fill sizes="(max-width: 760px) 100vw, 1200px" /><div className="infra-image-shade" />
         <div className="infra-capacity"><h3>{fleet.title}</h3><dl>{fleet.metrics.slice(0, 1).map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd><CurrencyText value={metric.value} /></dd><span><CurrencyText value={metric.note ?? ""} /></span></div>)}</dl></div>
         <a href="#infra-capabilities" className="infra-explore">Explore our capabilities <ArrowDownRight size={20} aria-hidden="true" /></a>
       </div>

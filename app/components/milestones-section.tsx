@@ -21,6 +21,41 @@ const sectors: Record<string, number[]> = {
   "2025": [2], "2026": [1, 2],
 };
 
+/*
+ * One photo per milestone, from the supplied photo schedule. The file names in
+ * that schedule follow each milestone's business area, so they line up with
+ * `sectors` below. Two rows named files that were not delivered
+ * (2026 dredging.png, 2022 transport2.png); those fall back to the existing
+ * dredging/transport shots until the real ones arrive.
+ */
+const milestonePhotos: Record<string, string> = {
+  "2026": "/assets/dredging.webp",
+  "2025": "/assets/milestones/transport1.webp",
+  "2024": "/assets/milestones/team-engineering.webp",
+  "2023": "/assets/milestones/corporate-hero.webp",
+  "2022": "/assets/transport.webp",
+  "2020": "/assets/milestones/public-transport1.webp",
+  "2019": "/assets/milestones/construction-and-dredging1.webp",
+  "2017": "/assets/milestones/company-construction-and-dredging.webp",
+  "2016": "/assets/milestones/public-transport2.webp",
+  "2015": "/assets/milestones/trading-and-engineering1.webp",
+  "2012": "/assets/milestones/construction-and-dredging2.webp",
+  "2009": "/assets/milestones/public-transport3.webp",
+  "2008": "/assets/milestones/trading-and-engineering2.webp",
+  "2007": "/assets/milestones/construction-and-dredging3.webp",
+  "2006": "/assets/milestones/public-transport4.webp",
+  "2003": "/assets/milestones/company1.webp",
+  "2002": "/assets/milestones/construction-and-dredging-public-transport.webp",
+  "1995": "/assets/milestones/construction-and-dredging4.webp",
+  "1994": "/assets/milestones/trading-and-engineering3.webp",
+  "1987": "/assets/milestones/trading-and-engineering4.webp",
+  "1981": "/assets/milestones/trading-and-engineering5.webp",
+  "1980": "/assets/milestones/company2.webp",
+};
+
+const photoFor = (year: string) => milestonePhotos[year] ?? categories[(sectors[year] ?? [0])[0]].image;
+const altFor = (year: string, title: string) => `${title}, ${year}`;
+
 export function MilestonesSection({ section }: { section: Extract<ProfileSection, { type: "timeline" }> }) {
   const [filter, setFilter] = useState<number | null>(null);
   const [selected, setSelected] = useState(0);
@@ -34,7 +69,6 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
   const active = Math.min(selected, items.length - 1);
   const item = items[active];
   const itemSectors = sectors[item.year] ?? [0];
-  const category = categories[filter ?? itemSectors[0]];
 
   useEffect(() => {
     const button = buttons.current[active];
@@ -85,7 +119,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
           </div>
         </div>
         <div className="milestone-photo">
-          {categories.map(entry => <Image key={entry.image} src={entry.image} alt={entry === category ? entry.alt : ""} aria-hidden={entry !== category} data-active={entry === category} fill sizes="(max-width: 760px) 90vw, 620px" />)}
+          {items.map(entry => <Image key={entry.year} src={photoFor(entry.year)} alt={entry === item ? altFor(entry.year, entry.title) : ""} aria-hidden={entry !== item} data-active={entry === item} fill sizes="(max-width: 760px) 90vw, 620px" loading={entry === item ? "eager" : "lazy"} />)}
         </div>
       </div>
       <div ref={rail} className="milestone-year-rail" role="tablist" aria-label="Milestone years, newest to oldest" style={{ "--year-count": items.length } as CSSProperties}>
@@ -94,7 +128,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
     </div>
     {filmOpen && <MilestoneFilm title={section.title} playerRef={filmPlayer} onClose={closeFilm} items={[...items].reverse().map(entry => {
       const visual = categories[filter ?? (sectors[entry.year] ?? [0])[0]];
-      return { ...entry, image: visual.image, alt: visual.alt, category: visual.label };
+      return { ...entry, image: photoFor(entry.year), alt: altFor(entry.year, entry.title), category: visual.label };
     })} />}
   </div></section>;
 }
