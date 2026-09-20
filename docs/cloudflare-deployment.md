@@ -9,7 +9,7 @@ Browser ──POST /api/enquiry──▶ Worker ──POST──▶ Herald ─�
       + honeypot field              fixed recipients, holds the Herald key
 ```
 
-The Herald key never reaches the browser. The dialog posts to `/api/enquiry` by default; the GitHub Pages workflow builds with `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto`, which keeps the email-draft behaviour there because it has no Worker.
+The Herald key never reaches the browser. The dialog posts to `/api/enquiry` by default; a build with `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto` opens an email draft instead, for hosting without the Worker.
 
 Static asset requests are free and unlimited on the Workers Free plan. Only `/api/enquiry` invokes the script and counts against the plan's 100,000 requests per day.
 
@@ -41,7 +41,7 @@ Worker → **Settings → Build → Variables and secrets**:
 | Variable | Value | Notes |
 |---|---|---|
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstile site key | From step 4. Leave unset until the widget exists. |
-| `NEXT_PUBLIC_ENQUIRY_ENDPOINT` | — | Not needed. Defaults to `/api/enquiry`; only `mailto` (GitHub Pages) changes behaviour. |
+| `NEXT_PUBLIC_ENQUIRY_ENDPOINT` | — | Not needed. Defaults to `/api/enquiry`; only `mailto` changes behaviour. |
 | `NEXT_TELEMETRY_DISABLED` | `1` | Optional. |
 
 These are read only during the build. Changing one requires a new build; the values are frozen into the bundle.
@@ -121,7 +121,3 @@ To deploy from a terminal instead of Workers Builds: `NEXT_PUBLIC_ENQUIRY_ENDPOI
 | Build fails with "name … does not match" | The project name in the dashboard differs from `name` in `wrangler.jsonc`. |
 
 The dialog always offers "Open an email draft instead" after a failed send, so visitors are never stuck.
-
-## Removing the GitHub Pages deployment
-
-Delete `.github/workflows/deploy-pages.yml` and the GitHub Pages section of the README once Cloudflare is the only host. Nothing in the Cloudflare setup depends on it.

@@ -13,23 +13,9 @@ corepack pnpm dev
 
 Open http://localhost:5173. All corporate and investor content is arranged on the home page. The old `/corporate-profile/` and `/investor-profile/` URLs redirect to it, preserving section links.
 
-## GitHub Pages
-
-`.github/workflows/deploy-pages.yml` builds and deploys the static website on pushes to `main`. In the repository's **Settings → Pages**, select **GitHub Actions** as the build source.
-
-The workflow reads the Pages base path, so profile navigation, images, and styles work at https://unleasheds.github.io/mtcc-profile/ as well as on a configured custom domain.
-
-If Pages reports an older deployment is still in progress, open **Actions → Deploy MTCC to GitHub Pages → Run workflow**, select `main`, and paste the full older SHA into **cancel_deployment**. The recovery step cancels only that deployment, waits up to two minutes for it to stop, then publishes the newly built site. Leave the field empty for normal deployments. If an old workflow is still running, cancel that run first so the recovery run can leave the queue.
-
-To reproduce the repository-path build locally:
-
-```sh
-NEXT_PUBLIC_BASE_PATH=/mtcc-profile corepack pnpm build
-```
-
-The generated website is in `out/`. This is a static export; it requires no application server or database.
-
 ## Cloudflare Workers
+
+The generated website is in `out/` after `corepack pnpm build`. This is a static export; it requires no application server or database.
 
 The production host is Cloudflare Workers with Static Assets. It serves the same `out/` export plus one Worker script, `worker/index.ts`, which forwards the private project enquiry to MTCC's Herald email API with Turnstile bot protection and a per-IP rate limit. Setup, variables and local preview are described in [docs/cloudflare-deployment.md](docs/cloudflare-deployment.md).
 
@@ -53,7 +39,7 @@ Local PDFs, working files, hosting backups, browser captures, and environment fi
 
 The hero uses the supplied Annual Report 2025 figures: 719 government projects underway, MVR 6.01B total assets, 16.25M passengers and 5,395 employees as at 31 December 2025. The financial section shows the proposed MVR 3.00 dividend per share; CSR and community spending is MVR 8.62M for 2025. Approximate USD equivalents are calculated from the new MVR figures. The user confirmed that the establishment year remains 1980.
 
-The visible project portfolio now uses 719 government projects underway from Annual Report 2025, alongside the existing flagship projects. The workforce shows the dated 5,395-employee headcount and qualitative skills and credentials; updated role counts were not supplied. The transport section shows 16.25M passengers for 2025. Earlier project totals, sector allocations, workforce counts and passenger averages remain in the retained components and archived data, without being displayed. Four main operating divisions are described through the five existing service tabs. The private-project checklist sends the enquiry through `/api/enquiry`; a build with `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto` (GitHub Pages) opens an editable email draft containing the selected works instead.
+The visible project portfolio now uses 719 government projects underway from Annual Report 2025, alongside the existing flagship projects. The workforce shows the dated 5,395-employee headcount and qualitative skills and credentials; updated role counts were not supplied. The transport section shows 16.25M passengers for 2025. Earlier project totals, sector allocations, workforce counts and passenger averages remain in the retained components and archived data, without being displayed. Four main operating divisions are described through the five existing service tabs. The private-project checklist sends the enquiry through `/api/enquiry`; a build with `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto` opens an editable email draft containing the selected works instead.
 
 The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
 
