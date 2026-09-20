@@ -1,6 +1,15 @@
 export type Metric = { value: string; label: string; note?: string };
 export type Service = { id?: string; title: string; description: string; image: string; capabilities: string[]; body?: string[] };
 export type TimelineItem = { year: string; title: string; detail: string };
+export type LeadershipPerson = {
+  name: string;
+  role: string;
+  division?: string;
+  image?: string;
+  email?: string;
+  phone?: string;
+  group?: "management" | "senior-management";
+};
 
 export type ContentBlock =
   | { type: "text"; title?: string; paragraphs?: string[]; items?: string[] }
@@ -22,7 +31,7 @@ export type ProfileSection =
   | { type: "people"; id: string; eyebrow: string; title: string; intro: string; body?: string[]; images: string[] }
   | { type: "strategy"; id: string; eyebrow: string; title: string; pillars: { title: string; items: string[] }[] }
   | { type: "content"; id: string; eyebrow: string; title: string; intro?: string; blocks: ContentBlock[]; serviceDetails?: Service[]; dark?: boolean }
-  | { type: "leadership"; id: string; title: string; people: { name: string; role: string; division?: string; image: string }[]; team?: Extract<ProfileSection, { type: "people" }> };
+  | { type: "leadership"; id: string; title: string; people: LeadershipPerson[]; team?: Extract<ProfileSection, { type: "people" }> };
 
 export type ProfilePageData = {
   slug: string;

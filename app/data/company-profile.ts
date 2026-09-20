@@ -1,4 +1,5 @@
 import { archivedCompanyProfile } from "./archived-company-profile";
+import { managementContacts } from "./management-contacts";
 import type { ProfilePageData, ProfileSection } from "../types/profile";
 
 function original<T extends ProfileSection["type"]>(id: string, type: T): Extract<ProfileSection, { type: T }> {
@@ -19,8 +20,8 @@ export const companyProfile: ProfilePageData = {
     title: "Building a connected nation since 1980",
     description: "Maldives Transport and Contracting Company reclaims land, builds harbours, airports and roads, runs the country's public ferries, buses and taxis, repairs its vessels and supplies its marine engines.",
     metrics: [
-      { value: "868", label: "Projects in the portfolio, September 2026" },
-      { value: "MVR 32.35B", label: "Portfolio contract value" },
+      { value: "878", label: "Projects in the portfolio, September 2026" },
+      { value: "MVR 34.84B", label: "Portfolio contract value" },
       { value: "17.6M", label: "Passengers carried a year" },
       { value: "6,672", label: "People across 20 atolls" },
     ],
@@ -81,6 +82,7 @@ export const companyProfile: ProfilePageData = {
     ] },
     { type: "content", id: "digital-transformation", eyebrow: "Digital transformation", title: "Transforming MTCC for a digitally connected Maldives", blocks: [] },
     { type: "content", id: "workforce", eyebrow: "Our people", title: "6,672 people, one delivery team", blocks: [] },
-    { ...original("management", "leadership"), title: "Leadership and structure", team: undefined },
+    { ...original("management", "leadership"), title: "Leadership and structure", people: managementContacts, team: undefined },
+    { type: "content", id: "potential-partnerships", eyebrow: "POTENTIAL PARTNERSHIPS", title: "Opportunities to build together", intro: "MTCC welcomes strategic partnerships that combine development opportunities with national-scale delivery capability.", blocks: [] },
   ],
 };

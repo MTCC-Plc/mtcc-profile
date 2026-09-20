@@ -61,7 +61,7 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
     <div className="shell">
       <header className={styles.heading}>
         <h2 id="portfolio-title">The project<br /><span>portfolio</span></h2>
-        <p>Two ways to read it: the full register as it stood on 9 September 2026, or work on hand against work completed since 2021.</p>
+        <p>Explore the portfolio by sector, or compare work on hand with projects completed since 2021.</p>
       </header>
 
       <div className={styles.viewSwitch} role="group" aria-label="Portfolio view">
@@ -72,8 +72,8 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
       <div id="portfolio-view" role="region" aria-label={view === "register" ? "September 2026 project register" : "Work on hand and completed since 2021"}>
         {view === "register" ? <>
           <dl className={styles.totals}>
-            <div><dt>Projects, signed and in the pipeline</dt><dd>868</dd></div>
-            <div><dt>Total contract value</dt><dd><CurrencyText value={money("32.35")} /></dd></div>
+            <div><dt>Projects, signed and in the pipeline</dt><dd>878</dd></div>
+            <div><dt>Total contract value</dt><dd><CurrencyText value={money("34.84")} /></dd></div>
           </dl>
           <div className={styles.sectors}>
             {sectors.map(sector => <details className={styles.sector} key={sector.title} open>
@@ -85,7 +85,7 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
               <dl className={styles.projectTypes}>{sector.types.map(([count, label]) => <div key={label}><dt>{label}</dt><dd>{count}</dd></div>)}</dl>
             </details>)}
           </div>
-          <p className={styles.note}>Tap a sector to see the project types inside it.{currency === "USD" && " USD values are approximate equivalents at MVR 15.42 to USD 1."}</p>
+          <p className={styles.note}>Sector breakdown as at 9 September 2026. Tap a sector to see the project types inside it.{currency === "USD" && " USD values are approximate equivalents at MVR 15.42 to USD 1."}</p>
         </> : <div className={styles.comparison}>
           <ProjectBreakdown section={{ ...comparison, id: "project-comparison", title: "On hand vs completed", eyebrow: "Work since 2021" }} />
         </div>}

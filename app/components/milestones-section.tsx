@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { flushSync } from "react-dom";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import Image from "./site-image";
+import { MilestoneFilm } from "./milestone-film";
 import type { ProfileSection } from "../types/profile";
 
 const categories = [
@@ -22,8 +24,9 @@ const sectors: Record<string, number[]> = {
 export function MilestonesSection({ section }: { section: Extract<ProfileSection, { type: "timeline" }> }) {
   const [filter, setFilter] = useState<number | null>(null);
   const [selected, setSelected] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const root = useRef<HTMLElement>(null);
+  const [filmOpen, setFilmOpen] = useState(false);
+  const filmPlayer = useRef<HTMLDivElement>(null);
+  const closeFilm = useCallback(() => setFilmOpen(false), []);
   const rail = useRef<HTMLDivElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const items = [...section.items].sort((a, b) => Number(b.year) - Number(a.year))
@@ -41,25 +44,24 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   }, [active, filter]);
 
-  useEffect(() => {
-    if (!playing) return;
-    const timer = window.setInterval(() => {
-      const bounds = root.current?.getBoundingClientRect();
-      if (document.hidden || !bounds || bounds.bottom < 0 || bounds.top > window.innerHeight) return;
-      setSelected(index => (index + 1) % items.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [playing, items.length]);
-
-  function select(index: number) { setPlaying(false); setSelected(index); }
+  function select(index: number) { setSelected(index); }
+  function openFilm() {
+    // Mount inside the click so fullscreen retains the user's activation.
+    flushSync(() => setFilmOpen(true));
+    if (document.fullscreenEnabled && filmPlayer.current?.requestFullscreen) {
+      void filmPlayer.current.requestFullscreen({ navigationUI: "hide" }).catch(() => {
+        // The player still fills the viewport when browser fullscreen is unavailable.
+      });
+    }
+  }
   function onKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : event.key === "ArrowRight" ? (index + 1) % items.length : event.key === "ArrowLeft" ? (index - 1 + items.length) % items.length : null;
     if (next === null) return;
     event.preventDefault(); select(next); buttons.current[next]?.focus({ preventScroll: true });
   }
 
-  return <section ref={root} id={section.id} className="milestones-section" aria-labelledby="milestones-title"><div className="shell">
-    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>From 1980 to today, stop by stop. Pick a year on the route or press play.</p></header>
+  return <section id={section.id} className="milestones-section" aria-labelledby="milestones-title"><div className="shell">
+    <header className="milestones-heading"><p className="eyebrow">Our journey</p><h2 id="milestones-title">{section.title}<span>.</span></h2><p>From 1980 to today, stop by stop. Pick a year on the route or press play to watch the journey.</p></header>
     <div className="milestone-browser">
       <div className="milestone-filters" role="group" aria-label="Filter milestones by business area">
         {[{ label: "All milestones", color: "transparent" }, ...categories].map((entry, index) => <button key={entry.label} type="button" aria-pressed={filter === (index === 0 ? null : index - 1)} onClick={() => { setFilter(index === 0 ? null : index - 1); select(0); }}>
@@ -68,7 +70,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
       </div>
       <div className="milestone-stage">
         <div className="milestone-story">
-          <div id="milestone-current" role="tabpanel" aria-labelledby={`milestone-year-${item.year}`} aria-live={playing ? "off" : "polite"}>
+          <div id="milestone-current" role="tabpanel" aria-labelledby={`milestone-year-${item.year}`} aria-live="polite">
             <time className="milestone-year" dateTime={item.year}>{item.year}</time>
             <div className="milestone-story-detail" key={item.year}>
               <div className="milestone-sector-labels">{itemSectors.map(index => <span key={index}>{categories[index].label}</span>)}</div>
@@ -79,7 +81,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
             <button type="button" aria-label="Previous milestone" disabled={active === 0} onClick={() => select(active - 1)}><ChevronLeft size={20} /></button>
             <button type="button" aria-label="Next milestone" disabled={active === items.length - 1} onClick={() => select(active + 1)}><ChevronRight size={20} /></button>
             <span>{String(active + 1).padStart(2, "0")} <span>/ {items.length}</span></span>
-            <button className="milestone-play" type="button" aria-pressed={playing} onClick={() => setPlaying(value => !value)}>{playing ? <Pause size={15} /> : <Play size={15} />}{playing ? "Pause" : "Play"}</button>
+            <button className="milestone-play" type="button" aria-haspopup="dialog" onClick={openFilm}><Play size={15} aria-hidden="true" />Play</button>
           </div>
         </div>
         <div className="milestone-photo">
@@ -90,5 +92,9 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
         {items.map((entry, index) => <button key={entry.year} ref={element => { buttons.current[index] = element; }} type="button" id={`milestone-year-${entry.year}`} role="tab" aria-selected={active === index} aria-controls="milestone-current" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKey(event, index)}><span>{entry.year}</span><b className="milestone-year-dot" /></button>)}
       </div>
     </div>
+    {filmOpen && <MilestoneFilm title={section.title} playerRef={filmPlayer} onClose={closeFilm} items={[...items].reverse().map(entry => {
+      const visual = categories[filter ?? (sectors[entry.year] ?? [0])[0]];
+      return { ...entry, image: visual.image, alt: visual.alt, category: visual.label };
+    })} />}
   </div></section>;
 }
