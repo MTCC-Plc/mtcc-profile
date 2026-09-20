@@ -107,10 +107,11 @@ export function ProjectContactDialog({ open, onClose, works, selected, onSelecti
   async function sendEnquiry(form: HTMLFormElement, fields: EnquiryFields) {
     setStatus({ kind: "sending" });
     try {
+      const turnstileToken = turnstile.current ? await turnstile.current.getToken() : "";
       const response = await fetch(enquiryEndpoint!, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...fields, website: String(new FormData(form).get("website") ?? ""), turnstileToken: turnstile.current?.getToken() ?? "" }),
+        body: JSON.stringify({ ...fields, website: String(new FormData(form).get("website") ?? ""), turnstileToken }),
       });
       const result = (await response.json().catch(() => null)) as EnquiryResponse | null;
       if (!response.ok || !result?.ok) throw new Error(result && !result.ok ? result.error : "We could not send your enquiry right now.");

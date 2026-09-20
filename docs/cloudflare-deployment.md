@@ -115,7 +115,8 @@ To deploy from a terminal instead of Workers Builds: `NEXT_PUBLIC_ENQUIRY_ENDPOI
 | "We could not send your enquiry" on `pnpm dev` | Expected: `next dev` has no Worker. Use `pnpm preview`. |
 | `{"ok":false,"error":"Email delivery is not configured."}` (500) | `HERALD_API_KEY` secret is not set on the Worker. |
 | "Verification failed" on every submission | Secret and site key belong to different widgets, or the hostname is not listed on the widget. |
-| "Please complete the verification" | `TURNSTILE_SECRET_KEY` is set but the site was built without `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. |
+| "Please complete the verification" | `TURNSTILE_SECRET_KEY` is set but the site was built without `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, so no widget is on the page. Add the **build** variable and rebuild. |
+| "Verification is taking longer than expected" | The widget is on the page but never produced a token: usually the hostname is not listed on the Turnstile widget. |
 | "Too many enquiries from your connection" (429) | Rate limit reached for that IP; wait a minute. |
 | "We could not send your enquiry right now." (502) | Herald rejected the request or timed out. The Worker log includes Herald's status and body. |
 | Build fails with "name … does not match" | The project name in the dashboard differs from `name` in `wrangler.jsonc`. |

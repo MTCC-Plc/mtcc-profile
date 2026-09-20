@@ -17,7 +17,13 @@ declare global {
   interface Window { turnstile?: Turnstile; onTurnstileReady?: () => void }
 }
 
-export type TurnstileHandle = { getToken: () => string; reset: () => void };
+/**
+ * `getToken` resolves with the current token, or waits for the widget to
+ * produce one (managed mode can take a moment, or need the visitor to
+ * complete a challenge). It rejects if the widget failed to load or report a
+ * token within the timeout.
+ */
+export type TurnstileHandle = { getToken: () => Promise<string>; reset: () => void };
 
 type TurnstileWidgetProps = {
   siteKey: string;
@@ -43,11 +49,30 @@ function loadTurnstile(): Promise<Turnstile> {
 export function TurnstileWidget({ siteKey, ref, className }: TurnstileWidgetProps) {
   const container = useRef<HTMLDivElement>(null);
   const widget = useRef<{ api: Turnstile; id: string }>(null);
+  const loadFailed = useRef(false);
+  const waiting = useRef<{ resolve: (token: string) => void; reject: (error: Error) => void }[]>([]);
 
   useImperativeHandle(ref, () => ({
-    getToken: () => widget.current?.api.getResponse(widget.current.id) ?? "",
+    getToken: () => new Promise<string>((resolve, reject) => {
+      const token = widget.current?.api.getResponse(widget.current.id);
+      if (token) { resolve(token); return; }
+      if (loadFailed.current) { reject(new Error("The verification service could not be loaded. Please try again.")); return; }
+      const entry = { resolve, reject };
+      waiting.current.push(entry);
+      setTimeout(() => {
+        if (!waiting.current.includes(entry)) return;
+        waiting.current = waiting.current.filter(item => item !== entry);
+        reject(new Error("Verification is taking longer than expected. Please try again."));
+      }, 20_000);
+    }),
     reset: () => widget.current?.api.reset(widget.current.id),
   }), []);
+
+  function settle(action: (entry: { resolve: (token: string) => void; reject: (error: Error) => void }) => void) {
+    const entries = waiting.current;
+    waiting.current = [];
+    entries.forEach(action);
+  }
 
   useEffect(() => {
     const element = container.current;
@@ -56,14 +81,26 @@ export function TurnstileWidget({ siteKey, ref, className }: TurnstileWidgetProp
 
     loadTurnstile().then(api => {
       if (cancelled) return;
-      const id = api.render(element, { sitekey: siteKey, appearance: "interaction-only", size: "flexible", theme: "light" });
+      const id = api.render(element, {
+        sitekey: siteKey,
+        appearance: "interaction-only",
+        size: "flexible",
+        theme: "light",
+        callback: (token: string) => settle(entry => entry.resolve(token)),
+        "error-callback": () => settle(entry => entry.reject(new Error("Verification failed. Please try again."))),
+        "expired-callback": () => api.reset(id),
+      });
       widget.current = { api, id };
-    }).catch(() => { /* The server rejects the submission and the dialog offers the email fallback. */ });
+    }).catch(() => {
+      loadFailed.current = true;
+      settle(entry => entry.reject(new Error("The verification service could not be loaded. Please try again.")));
+    });
 
     return () => {
       cancelled = true;
       if (widget.current) widget.current.api.remove(widget.current.id);
       widget.current = null;
+      settle(entry => entry.reject(new Error("Verification was interrupted. Please try again.")));
     };
   }, [siteKey]);
 
