@@ -9,7 +9,7 @@ import type { ProfileSection } from "../types/profile";
 
 const categories = [
   { label: "Company", color: "#7b9bb5", image: "/assets/corporate-hero.webp", alt: "MTCC operations in the Maldives" },
-  { label: "Construction and dredging", color: "#00aeef", image: "/assets/dredging.webp", alt: "MTCC dredging operations" },
+  { label: "Construction and dredging", color: "#00aeef", image: "/assets/dredging.b509c471.webp", alt: "MTCC dredging operations" },
   { label: "Public transport", color: "#42cbbf", image: "/assets/transport.webp", alt: "MTCC public ferry at sea" },
   { label: "Trading and engineering", color: "#a8b7ed", image: "/assets/team-engineering.webp", alt: "MTCC engineering team at work" },
 ];
@@ -25,12 +25,12 @@ const sectors: Record<string, number[]> = {
  * One photo per milestone, from the supplied photo schedule. The file names in
  * that schedule follow each milestone's business area, so they line up with
  * `sectors` below. Two rows named files that were not delivered
- * (2026 dredging.png, 2022 transport2.png); those fall back to the existing
- * dredging/transport shots until the real ones arrive.
+ * 2026's dredging.png has since been supplied. 2022's transport2.png has not,
+ * so it still falls back to the existing transport shot.
  */
 const milestonePhotos: Record<string, string> = {
-  "2026": "/assets/dredging.webp",
-  "2025": "/assets/milestones/transport1.webp",
+  "2026": "/assets/milestones/dredging.85a8ea25.webp",
+  "2025": "/assets/milestones/transport1.f1fc3481.webp",
   "2024": "/assets/milestones/team-engineering.webp",
   "2023": "/assets/milestones/corporate-hero.webp",
   "2022": "/assets/transport.webp",
