@@ -5,11 +5,11 @@ import { allAtolls, type Atoll } from "../data/atoll-presence";
 import styles from "./maldives-atoll-map.module.css";
 
 /**
- * The atoll map used across MTCC's project portal: cyan atolls on a navy field,
- * with a pin on every atoll. The islands, labels and leader lines are the shared
- * artwork in public/assets/maldives-atolls.svg; the pins are drawn here so they
- * can be hovered, focused and selected. Both use the same viewBox, so a pin sits
- * exactly where its atoll does.
+ * The atoll map used across MTCC's project portal, recoloured for a light ground:
+ * cyan atolls with navy labels, and a pin on every atoll. The islands, labels and
+ * leader lines are the shared artwork in public/assets/maldives-atolls-light.svg;
+ * the pins are drawn here so they can be hovered, focused and selected. Both use
+ * the same viewBox, so a pin sits exactly where its atoll does.
  */
 const VIEW_BOX = "110 -6 400.28 815";
 
@@ -71,7 +71,7 @@ export function MaldivesAtollMap({ selected, onSelect }: { selected: string | nu
     <div className={styles.map}>
       <SiteImage
         className={styles.base}
-        src="/assets/maldives-atolls.svg"
+        src="/assets/maldives-atolls-light.svg"
         width={401}
         height={815}
         alt="Map of the Maldives showing all 20 atolls from Haa Alif in the north to Seenu in the south"

@@ -1,5 +1,5 @@
 // Nationwide footprint, grouped the way the atoll chain reads on the map.
-// `code` matches the pin ids on the Maldives map in public/assets/maldives-atolls.svg;
+// `code` matches the pin ids on the Maldives map in public/assets/maldives-atolls-light.svg;
 // `x` and `y` are the pin tip in that file's viewBox ("110 -6 400.28 815"), taken from
 // the atoll map published on projects.mtcc.com.mv so the pins land on the same islands.
 // Atolls with no listed work are still served through project teams and the RTL network.

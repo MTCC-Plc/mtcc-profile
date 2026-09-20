@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { dredgerCapacity, dredgerTypes, type DredgerType } from "../data/fleet-equipment";
+import Image from "./site-image";
 import styles from "./dredging-fleet.module.css";
 
 /** Side elevations of the two dredger classes, drawn to read at badge size. */
@@ -35,6 +36,9 @@ export function DredgingFleet() {
   return (
     <div className={styles.dredging}>
       <div className={styles.capacity}>
+        {/* Decorative: the card's own copy carries the meaning. */}
+        <Image className={styles.capacityPhoto} src="/assets/dredging.webp" alt="" fill sizes="(max-width: 1000px) 100vw, 640px" />
+        <div className={styles.capacityShade} />
         <span className={styles.kicker}>Dredging fleet</span>
         <strong>{dredgerCapacity.perDay}<small>{dredgerCapacity.unit}</small></strong>
         <p>Total dredging capacity with all {dredgerCapacity.vessels} vessels working, the largest in the Maldives, backed by 20+ years as the country&apos;s leading shore protection contractor.</p>

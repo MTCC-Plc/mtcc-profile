@@ -38,15 +38,15 @@
 .pinTarget { fill: transparent; }
 .pinDisc { fill: white; }
 
-/* A soft shadow keeps the navy teardrop off the near-black field behind it. */
+/* A soft shadow lifts the teardrop off the islands it sits on. */
 .pinBody {
   fill: var(--navy);
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .55));
+  filter: drop-shadow(0 1px 2px rgba(2, 30, 56, .35));
   transition: fill .25s ease;
 }
 
 .pinMark { fill: var(--navy); transition: fill .25s ease; }
-.pinRing { fill: none; stroke: white; stroke-width: 0; transition: stroke-width .2s ease; }
+.pinRing { fill: none; stroke: var(--navy); stroke-width: 0; transition: stroke-width .2s ease; }
 
 /* Atolls with no listed work still carry a pin, held back so the active ones read first. */
 .pinPos[data-quiet] { opacity: .78; }

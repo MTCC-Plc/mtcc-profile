@@ -1075,7 +1075,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .infra-section { padding: 120px 0; background: #f5f6f7; color: #102b3b; }
 .infra-heading { margin-bottom: 58px; }
 .infra-heading h2 { max-width: 1100px; margin: 20px 0 0; font-size: clamp(3rem, 6.5vw, 6rem); font-weight: 550; line-height: 1.03; letter-spacing: -.015em; }
-.infra-heading h2 span { color: #718794; }
+.infra-heading h2 span { color: var(--cyan); }
 .infra-fleet { overflow: hidden; border-radius: 30px; background: #082b3d; color: white; }
 .infra-landscape { position: relative; min-height: 580px; overflow: hidden; }
 .infra-landscape > img { object-fit: cover; }
@@ -1275,7 +1275,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .esg-heading { margin-bottom: 55px; }
 .esg-heading .eyebrow, .esg-block-heading .eyebrow { color: #55766b; }
 .esg-heading h2 { margin: 22px 0 36px; font-size: clamp(3rem, 6.5vw, 6.2rem); line-height: 1.04; letter-spacing: -.015em; font-weight: 550; }
-.esg-heading h2 span { color: #719888; }
+.esg-heading h2 span { color: var(--cyan); }
 .esg-heading > p:last-child { margin: 0; font-size: clamp(1.8rem, 3.2vw, 3rem); line-height: 1.15; letter-spacing: -.035em; }
 .esg-heading > p:last-child span { color: #668679; }
 .esg-investment { display: grid; grid-template-columns: 1fr 1fr; border-radius: 30px; overflow: hidden; background: #153d33; color: #f4fbf7; }
@@ -1332,7 +1332,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .growth-section { background: var(--mist); color: #102b3b; padding: 110px 0; }
 .growth-heading { margin-bottom: 48px; }
 .growth-heading h2 { max-width: 1090px; margin: 24px 0 40px; font-size: clamp(3rem, 6.3vw, 6rem); line-height: 1.04; letter-spacing: -.015em; font-weight: 550; }
-.growth-heading h2 span { color: #708b98; }
+.growth-heading h2 span { color: var(--cyan); }
 .growth-intro { display: flex; align-items: end; justify-content: space-between; gap: 28px; padding-top: 28px; border-top: 1px solid #cfdbe1; }
 .growth-intro p { margin: 0; font-size: 22px; line-height: 1.45; letter-spacing: -.02em; }
 .growth-intro > span { color: #69828e; font-size: 15px; letter-spacing: .1em; }

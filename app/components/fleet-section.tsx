@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { categoryTotal, machineCategories, machineHighlights, totalMachines } from "../data/fleet-equipment";
+import { DredgingFleet } from "./dredging-fleet";
 import styles from "./fleet-section.module.css";
 
 const MACHINE_ART = [
@@ -27,22 +28,27 @@ export function FleetSection() {
         <header className={styles.heading}>
           <p className={styles.eyebrow}>Fleet and plant</p>
           <h2 id="fleet-title">Our fleet <span>and equipment.</span></h2>
-          <p className={styles.intro}>Beyond the dredgers, {totalMachines} machines that MTCC owns and operates, from excavators and cranes to our own asphalt and batching plants. Projects start when you are ready, not when hired equipment becomes available.</p>
+          <p className={styles.intro}>The largest dredging fleet in the Maldives, backed by {totalMachines} machines that MTCC owns and operates, from excavators and cranes to our own asphalt and batching plants. Projects start when you are ready, not when hired equipment becomes available.</p>
         </header>
 
-        <div className={styles.machineHead}>
-          <strong>{totalMachines}</strong>
-          <p>machines on the ground as of September 2026, owned outright and maintained in house.</p>
-        </div>
+        <DredgingFleet />
 
-        <div className={styles.highlights}>
-          {machineHighlights.map((highlight, index) => (
-            <div key={highlight.label}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">{MACHINE_ART[index]}</svg>
-              <b>{highlight.count}</b>
-              <span>{highlight.label}</span>
-            </div>
-          ))}
+        {/* The total and the six headline machines read as one register rather
+            than seven separate cards competing with the categories below. */}
+        <div className={styles.register}>
+          <div className={styles.registerTotal}>
+            <strong>{totalMachines}</strong>
+            <p>machines on the ground as of September 2026, owned outright and maintained in house.</p>
+          </div>
+          <dl className={styles.highlights}>
+            {machineHighlights.map((highlight, index) => (
+              <div key={highlight.label}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">{MACHINE_ART[index]}</svg>
+                <dt>{highlight.label}</dt>
+                <dd>{highlight.count}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <div className={styles.stack} data-filtered={category !== null || undefined} role="group" aria-label="Machinery by category">

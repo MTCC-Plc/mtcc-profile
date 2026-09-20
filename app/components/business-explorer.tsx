@@ -8,7 +8,6 @@ import { InfrastructureSection } from "./infrastructure-section";
 import { TransportSection } from "./transport-section";
 import { ShipbuildingSection } from "./shipbuilding-section";
 import { TradingSection } from "./trading-section";
-import { DredgingFleet } from "./dredging-fleet";
 import type { ProfileSection } from "../types/profile";
 import { annualReport2025 } from "../data/annual-report-2025";
 import styles from "./business-explorer.module.css";
@@ -58,9 +57,6 @@ function DredgingSummary() {
         </div>
       </div>
     </div>
-    {/* The vessels are stated here rather than in the fleet section, which
-        covers the plant register, so the figures appear once on the page. */}
-    <div className={`shell ${styles.dredgingFleet}`}><DredgingFleet /></div>
   </>;
 }
 

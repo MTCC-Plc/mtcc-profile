@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "./site-image";
 import { serviceThresholds, serviceTiers } from "../data/length-of-service";
 import styles from "./length-of-service-section.module.css";
 
@@ -9,6 +10,9 @@ export function LengthOfServiceSection() {
 
   return (
     <section id="length-of-service" className={styles.section} aria-labelledby="length-of-service-title">
+      {/* Decorative: the section's own copy carries the meaning. */}
+      <Image className={styles.photo} src="/assets/team-welding.webp" alt="" fill sizes="100vw" />
+      <div className={styles.shade} />
       <div className="shell">
         <div className={styles.layout}>
           <div className={styles.lead}>
