@@ -24,7 +24,7 @@ import { WorkforceSection } from "./workforce-section";
 import { DigitalTransformationSection } from "./digital-transformation-section";
 import { PotentialPartnershipsSection } from "./potential-partnerships-section";
 
-function SiteHeader({ sections }: { sections: { id: string; title: string }[] }) {
+function SiteHeader() {
   const header = useRef<HTMLElement>(null);
   useEffect(() => {
     const element = header.current;
@@ -62,7 +62,7 @@ function SiteHeader({ sections }: { sections: { id: string; title: string }[] })
           <Image src="/assets/mtcc-logo.png" width={140} height={94} alt="MTCC" priority />
           <span><strong>MTCC</strong><small>Maldives Transport & Contracting Company</small></span>
         </Link>
-        <div className="header-actions"><CurrencyToggle /><MobileMenu sections={sections} /></div>
+        <div className="header-actions"><CurrencyToggle /><MobileMenu /></div>
       </div>
     </header>
   );
@@ -107,7 +107,6 @@ function Footer({ investor }: { investor: boolean }) {
           <span><MapPin size={19} />MTCC Tower, Boduthakurufaanu Magu, Malé, Maldives</span>
         </address>
       </div>
-      <div className="shell"><details className="profile-source-note"><summary>About the figures on this page</summary><p>The portfolio covers 878 projects, signed and in the pipeline, with a total contract value of MVR 34.84B. The sector breakdown reflects the register as at 9 September 2026. The on-hand and completed comparison covers a different scope: work on hand and projects completed since 2021. Flagship contract values exclude GST.</p><p>Financial position and community spending relate to 2024. Passenger figures are annual averages from the original company profile. Growth figures are targets. USD equivalents are approximate at MVR 15.42 per USD unless an original USD figure was supplied.</p></details></div>
       <div className="shell footer-bottom"><span>© 2026 Maldives Transport & Contracting Company PLC</span><a href="#top"><ArrowUpRight size={16} /> Back to top</a></div>
     </footer>
   );
@@ -129,7 +128,7 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
   }, [currency]);
   return <ScrollExperience key={data.slug} theme={data.theme}>
     <a className="skip-link" href="#profile-content">Skip to content</a>
-    <SiteHeader sections={data.sections.map(({ id, title }) => ({ id, title }))} />
+    <SiteHeader />
     <main id="profile-content">
       <Hero data={data} />
       <CompanyAbout section={getSection(data, "about-mtcc", "content")} />

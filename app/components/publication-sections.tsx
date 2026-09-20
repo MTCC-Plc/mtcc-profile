@@ -3,6 +3,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import { CurrencyText } from "./currency-symbol";
 import { isMoney } from "../../lib/currency";
 import Image from "./site-image";
+import { TeamPortrait } from "./team-portrait";
 import { TransportSection } from "./transport-section";
 import { ProjectBreakdown } from "./project-breakdown";
 import { TradingSection } from "./trading-section";
@@ -127,7 +128,7 @@ export function LeadershipSection({ section }: { section: Extract<ProfileSection
   return <section id={section.id} className="section leadership-section"><div className="shell">
     <div className="section-heading"><p className="eyebrow">The people behind our progress</p><h2>{section.title}</h2></div>
     <div className="leadership-grid">{section.people.map((person) => <article key={person.name}>
-      <Image src={person.image} alt={person.name} width={200} height={224} />
+      {person.image ? <Image src={person.image} alt={person.name} width={200} height={224} /> : <TeamPortrait name={person.name} />}
       <div><h3>{person.name}</h3><p>{person.role}</p>{person.division && <span>{person.division}</span>}</div>
     </article>)}</div>
   </div></section>;

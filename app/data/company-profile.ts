@@ -1,4 +1,5 @@
 import { archivedCompanyProfile } from "./archived-company-profile";
+import { managementContacts } from "./management-contacts";
 import type { ProfilePageData, ProfileSection } from "../types/profile";
 
 function original<T extends ProfileSection["type"]>(id: string, type: T): Extract<ProfileSection, { type: T }> {
@@ -81,7 +82,7 @@ export const companyProfile: ProfilePageData = {
     ] },
     { type: "content", id: "digital-transformation", eyebrow: "Digital transformation", title: "Transforming MTCC for a digitally connected Maldives", blocks: [] },
     { type: "content", id: "workforce", eyebrow: "Our people", title: "6,672 people, one delivery team", blocks: [] },
-    { ...original("management", "leadership"), title: "Leadership and structure", team: undefined },
+    { ...original("management", "leadership"), title: "Leadership and structure", people: managementContacts, team: undefined },
     { type: "content", id: "potential-partnerships", eyebrow: "POTENTIAL PARTNERSHIPS", title: "Opportunities to build together", intro: "MTCC welcomes strategic partnerships that combine development opportunities with national-scale delivery capability.", blocks: [] },
   ],
 };

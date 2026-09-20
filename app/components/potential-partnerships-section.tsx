@@ -9,6 +9,7 @@ import { currencyMetrics, MVR_PER_USD, type Currency } from "../../lib/currency"
 import { CurrencyText } from "./currency-symbol";
 import { useCurrency } from "./currency-toggle";
 import { SectionLink } from "./section-link";
+import Image from "./site-image";
 import styles from "./potential-partnerships-section.module.css";
 
 const opportunities = [
@@ -106,15 +107,23 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
           {economicHub.projects.map((project, index) => {
             const Icon = projectIcons[index];
             return <li className={styles.project} key={project.id}>
-              <div className={styles.projectIdentity}>
-                <div className={styles.projectIcon}><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><span className={styles.projectNumber}>0{index + 1}</span></div>
-                <h4 className={styles.projectTitle}>{project.title}</h4>
+              <figure className={styles.projectPhoto}>
+                <Image src={project.image.src} alt={project.image.alt} fill sizes="(max-width: 700px) 90vw, (max-width: 1100px) 200px, 300px" style={{ objectPosition: project.image.position }} />
+                <figcaption>Illustrative photo</figcaption>
+              </figure>
+              <div className={styles.projectContent}>
+                <div className={styles.projectCopy}>
+                  <div className={styles.projectIdentity}>
+                    <div className={styles.projectIcon}><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><span className={styles.projectNumber}>0{index + 1}</span></div>
+                    <h4 className={styles.projectTitle}>{project.title}</h4>
+                  </div>
+                  <p className={styles.projectOverview}>{project.overview}</p>
+                </div>
+                <dl className={styles.projectMetrics}>
+                  <div><dt>Scale</dt><dd>{project.scale}</dd></div>
+                  <div><dt>Indicative investment</dt><dd><InvestmentValue investment={project.investment} /></dd></div>
+                </dl>
               </div>
-              <p className={styles.projectOverview}>{project.overview}</p>
-              <dl className={styles.projectMetrics}>
-                <div><dt>Scale</dt><dd>{project.scale}</dd></div>
-                <div><dt>Indicative investment</dt><dd><InvestmentValue investment={project.investment} /></dd></div>
-              </dl>
             </li>;
           })}
         </ol>
@@ -129,6 +138,10 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
       </div>
 
       <div id={panelId(staffHousing.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(staffHousing.id)} tabIndex={0} hidden={active !== 1}>
+        <figure className={styles.housingPhoto}>
+          <Image src={staffHousing.image.src} alt={staffHousing.image.alt} fill sizes="(max-width: 1200px) 90vw, 1104px" style={{ objectPosition: staffHousing.image.position }} />
+          <figcaption>Illustrative photo</figcaption>
+        </figure>
         <header className={styles.housingHeader}>
           <div className={styles.housingCopy}>
             <p className={styles.kicker}>02 / Employee housing</p>

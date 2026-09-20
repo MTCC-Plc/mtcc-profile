@@ -34,6 +34,8 @@ The generated website is in `out/`. This is a static export; it requires no appl
 - Current PDF-based profile copy and figures: `app/data/company-profile.ts`
 - Digital transformation copy: `app/data/digital-transformation.ts`
 - Featured investment opportunities: `app/data/featured-investments.ts`, sourced from `Featured Investment Projects.pdf`
+- Current management names, titles and contact details: `app/data/management-contacts.ts`, supplied by MTCC
+- Grouped drawer navigation: `app/data/navigation.ts`
 - Original corporate/investor copy: `app/data/profiles.ts`
 - Previous combined edition: `app/data/archived-company-profile.ts`
 - Currency selection and formatting: `lib/currency.ts`
@@ -49,6 +51,12 @@ The updated portfolio totals are 878 projects and MVR 34.84B. The sector breakdo
 The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
 
 Potential partnerships uses two accessible tabs for the Integrated Economic Hub and MTCC Staff Housing Scheme. All project descriptions, scales, indicative investments, housing components and partnership details follow `Featured Investment Projects.pdf`. The currency toggle changes displayed equivalents while retaining original investment estimates beneath converted amounts.
+
+Each of the five hub projects and the staff housing scheme has locally hosted illustrative photography. Photo sources and licenses are recorded in `public/assets/investments/CREDITS.md`.
+
+Leadership contains 20 management contacts and nine additional senior management contacts. The organisation chart starts with no person selected; the Senior management and All people views open the contact directory. Selecting a person shows their business card with email and telephone links. Existing portraits and division assignments are retained, while new contacts without a portrait use initials.
+
+The right-hand navigation drawer groups links under About us, What we do, Projects, Sustainability, Investor relations and Contact. Business links open their matching business tab. Leadership and structure opens the organisation chart; Management team opens the full people directory, including when following a direct `#management-team` link.
 
 ## Retained sections
 

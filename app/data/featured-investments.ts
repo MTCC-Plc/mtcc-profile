@@ -10,6 +10,7 @@ export const economicHub = {
     {
       id: "transshipment-port",
       title: "International Transshipment Port",
+      image: { src: "/assets/investments/transshipment-port.webp", alt: "Container cranes and cargo vessels at a transshipment terminal", position: "center" },
       overview:
         "An integrated maritime and logistics platform designed to serve regional and international shipping and trade, incorporating port, cargo, warehousing, fuel storage and bunkering facilities.",
       scale: "30.5 ha",
@@ -18,6 +19,7 @@ export const economicHub = {
     {
       id: "ship-repair-dockyard",
       title: "International Ship Repair & Dockyard",
+      image: { src: "/assets/investments/ship-repair.webp", alt: "Ships in a dry dock beneath shipyard cranes", position: "center" },
       overview:
         "An international-standard ship repair, dry docking and marine engineering facility serving domestic, regional and international vessels.",
       scale: "Approx. 30 ha",
@@ -26,6 +28,7 @@ export const economicHub = {
     {
       id: "racing-entertainment-circuit",
       title: "Motor Racing & Entertainment Circuit",
+      image: { src: "/assets/investments/racing-circuit.webp", alt: "A motor racing circuit beside a tropical coastline", position: "center" },
       overview:
         "A year-round motorsport, hospitality and entertainment destination featuring an international-standard racing circuit, karting, hospitality, hotels, retail, F&B and event facilities.",
       scale: "Approx. 63 ha",
@@ -34,6 +37,7 @@ export const economicHub = {
     {
       id: "eco-resort-developments",
       title: "Sustainable Eco-Resort Developments",
+      image: { src: "/assets/investments/eco-resort.webp", alt: "Resort villas among palm trees beside a Maldivian lagoon", position: "center" },
       overview:
         "Environmentally responsible resort developments combining premium hospitality with sustainable and nature-based tourism experiences.",
       scale: "Approx. 78 ha",
@@ -42,6 +46,7 @@ export const economicHub = {
     {
       id: "tourism-hospitality-development",
       title: "Integrated Tourism & Hospitality Development",
+      image: { src: "/assets/investments/tourism-hospitality.webp", alt: "Overwater villas linked by curved walkways across a turquoise lagoon", position: "center" },
       overview:
         "A mixed-use tourism, hospitality and commercial destination incorporating hotels, private villas, retail, dining, entertainment, recreation and event facilities.",
       scale: "Approx. 86 ha",
@@ -57,6 +62,7 @@ export const economicHub = {
 export const staffHousing = {
   id: "staff-housing",
   title: "MTCC Staff Housing Scheme",
+  image: { src: "/assets/investments/staff-housing.webp", alt: "Contemporary residential apartments in Malé", position: "center 45%" },
   overview:
     "The proposed MTCC Staff Housing Scheme is a residential development aimed at providing quality and affordable home ownership opportunities for eligible MTCC employees. The initiative is designed to enhance employee welfare, strengthen workforce retention and establish a sustainable long-term employee housing programme",
   scale:
