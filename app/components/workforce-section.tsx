@@ -14,7 +14,7 @@ const skillGroups = [
     roles: [["Construction workers", "2,765"]],
   },
   {
-    name: "Plant and fleet",
+    name: "Machineries",
     count: "1,318",
     icon: Ship,
     description: "The people who run and maintain the dredgers, vessels, cranes and heavy machines.",
@@ -65,8 +65,8 @@ const skillGroups = [
 
 const metrics = [
   { value: "6,672", label: "people across seven business areas" },
-  { value: "3,735", label: "Maldivians employed, from Haa Alif to Addu" },
-  { value: "516", label: "hold a diploma, degree or master's" },
+  { value: "3,735", label: "Employees with 15+ Years of Service" },
+  { value: "516", label: "hold a diploma, degree, master's or professional certificates" },
   { value: "1,149", label: "machine and vehicle operators, 140 of them licence holders" },
 ];
 
@@ -145,8 +145,8 @@ export function WorkforceSection() {
               <article>
                 <Award size={31} strokeWidth={1.4} aria-hidden="true" />
                 <strong>516</strong>
-                <h3>Diploma, degree or master&apos;s</h3>
-                <p>People who hold a diploma, degree or master&apos;s.</p>
+                <h3>Diploma, degree, master&apos;s or professional certificates</h3>
+                <p>People who hold a diploma, degree, master&apos;s and professional certificates</p>
               </article>
               <article>
                 <HardHat size={31} strokeWidth={1.4} aria-hidden="true" />
