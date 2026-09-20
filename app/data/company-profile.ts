@@ -82,12 +82,6 @@ export const companyProfile: ProfilePageData = {
     { type: "content", id: "digital-transformation", eyebrow: "Digital transformation", title: "Transforming MTCC for a digitally connected Maldives", blocks: [] },
     { type: "content", id: "workforce", eyebrow: "Our people", title: "6,672 people, one delivery team", blocks: [] },
     { ...original("management", "leadership"), title: "Leadership and structure", team: undefined },
-    { type: "content", id: "potential-partnerships", eyebrow: "POTENTIAL PARTNERSHIPS", title: "Opportunities to build together", intro: "MTCC welcomes strategic partnerships that combine development opportunities with national-scale delivery capability.", blocks: [
-      { type: "text", title: "Infrastructure development", paragraphs: ["Dredging, reclamation and construction projects across the Maldives."] },
-      { type: "text", title: "Tourism development", paragraphs: ["Resorts, marinas and strategic development partnerships."] },
-      { type: "text", title: "Transport and logistics", paragraphs: ["Land and sea transport networks, with opportunities to explore air cargo solutions."] },
-      { type: "text", title: "Digital innovation", paragraphs: ["Digital commerce platforms and automation to improve operational efficiency."] },
-      { type: "text", title: "Trading and distribution", paragraphs: ["Warehousing, island-level reach and high-demand product lines."] },
-    ] },
+    { type: "content", id: "potential-partnerships", eyebrow: "POTENTIAL PARTNERSHIPS", title: "Opportunities to build together", intro: "MTCC welcomes strategic partnerships that combine development opportunities with national-scale delivery capability.", blocks: [] },
   ],
 };

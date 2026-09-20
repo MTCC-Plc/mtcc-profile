@@ -1,88 +1,163 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Handshake } from "lucide-react";
+import { Anchor, ArrowUpRight, Building2, Check, Flag, House, Leaf, Ship } from "lucide-react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { economicHub, staffHousing } from "../data/featured-investments";
 import type { ProfileSection } from "../types/profile";
+import { currencyMetrics, MVR_PER_USD, type Currency } from "../../lib/currency";
+import { CurrencyText } from "./currency-symbol";
+import { useCurrency } from "./currency-toggle";
 import { SectionLink } from "./section-link";
 import styles from "./potential-partnerships-section.module.css";
 
+const opportunities = [
+  { id: "economic-hub", title: "Integrated Economic Hub", detail: "Five independently investable projects", icon: Anchor },
+  { id: "staff-housing", title: "MTCC Staff Housing Scheme", detail: "Homes for the people behind MTCC", icon: House },
+] as const;
+const projectIcons = [Anchor, Ship, Flag, Leaf, Building2];
+
+function InvestmentValue({ investment }: { investment: { currency: Currency; amount: string } }) {
+  const { currency } = useCurrency();
+  const value = currencyMetrics([{ value: `${investment.currency} ${investment.amount}M`, label: "Investment" }], currency)[0].value;
+  return <>
+    <strong className={styles.money}><CurrencyText value={value.replace(/M$/, "")} /><small>{currency} million</small></strong>
+    {currency !== investment.currency && <small className={styles.originalValue}>{investment.currency} {investment.amount} million</small>}
+  </>;
+}
+
+function CurrencyNote({ originalCurrency }: { originalCurrency: Currency }) {
+  const { currency } = useCurrency();
+  return currency !== originalCurrency && <p className={styles.currencyNote}>Converted figures are approximate at MVR {MVR_PER_USD} to USD 1. Original investment estimates are shown below each equivalent.</p>;
+}
+
 export function PotentialPartnershipsSection({ section }: { section: Extract<ProfileSection, { type: "content" }> }) {
+  const [active, setActive] = useState(0);
+  const root = useRef<HTMLElement>(null);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const headingId = `${section.id}-title`;
-  const railId = `${section.id}-cards`;
-  const rail = useRef<HTMLUListElement>(null);
-  const cards = section.blocks.filter(block => block.type === "text" && block.title);
-  const [position, setPosition] = useState({ start: 0, visible: 3, previous: false, next: cards.length > 3 });
+  const tabId = (id: string) => `${section.id}-tab-${id}`;
+  const panelId = (id: string) => `${section.id}-panel-${id}`;
 
   useEffect(() => {
-    const element = rail.current;
+    const element = root.current;
     if (!element) return;
-    function update() {
-      if (!element) return;
-      const styles = getComputedStyle(element);
-      const step = (element.firstElementChild?.getBoundingClientRect().width ?? 0) + parseFloat(styles.columnGap);
-      const visible = Number(styles.getPropertyValue("--cards-per-view")) || 3;
-      const next = {
-        start: step ? Math.round(element.scrollLeft / step) : 0,
-        visible,
-        previous: element.scrollLeft > 1,
-        next: element.scrollLeft + element.clientWidth < element.scrollWidth - 1,
-      };
-      setPosition(current => current.start === next.start && current.visible === next.visible && current.previous === next.previous && current.next === next.next ? current : next);
-    }
-    const observer = new ResizeObserver(update);
+    let frame = 0;
+    let previousHeight = 0;
+    const observer = new ResizeObserver(() => {
+      const height = element.getBoundingClientRect().height;
+      if (height === previousHeight) return;
+      previousHeight = height;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
     observer.observe(element);
-    element.addEventListener("scroll", update, { passive: true });
-    const frame = requestAnimationFrame(update);
-    return () => { observer.disconnect(); element.removeEventListener("scroll", update); cancelAnimationFrame(frame); };
-  }, [cards.length]);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, []);
 
-  function move(direction: number) {
-    const element = rail.current;
-    if (!element) return;
-    const gap = parseFloat(getComputedStyle(element).columnGap);
-    const step = (element.firstElementChild?.getBoundingClientRect().width ?? 0) + gap;
-    element.scrollBy({ left: direction * step * position.visible, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  function selectWithKeyboard(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const count = opportunities.length;
+    const next = event.key === "ArrowRight" ? (index + 1) % count
+      : event.key === "ArrowLeft" ? (index - 1 + count) % count
+      : event.key === "Home" ? 0 : event.key === "End" ? count - 1 : null;
+    if (next === null) return;
+    event.preventDefault();
+    setActive(next);
+    tabs.current[next]?.focus({ preventScroll: true });
   }
 
-  function onKeyDown(event: KeyboardEvent<HTMLUListElement>) {
-    if (event.target !== event.currentTarget) return;
-    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-      event.preventDefault(); move(event.key === "ArrowRight" ? 1 : -1);
-    } else if (event.key === "Home" || event.key === "End") {
-      event.preventDefault();
-      event.currentTarget.scrollTo({ left: event.key === "Home" ? 0 : event.currentTarget.scrollWidth, behavior: "instant" });
-    }
-  }
-
-  return <section id={section.id} className={styles.section} aria-labelledby={headingId}>
+  return <section ref={root} id={section.id} className={styles.section} aria-labelledby={headingId}>
     <div className={styles.lines} aria-hidden="true"><span /><span /><span /></div>
-    <div className={`shell ${styles.inner}`}>
+    <header className={`shell ${styles.inner}`}>
       <div className={styles.copy}>
         <p className={styles.eyebrow}><span aria-hidden="true" />{section.eyebrow}</p>
         <h2 id={headingId}>{section.title}</h2>
         {section.intro && <p className={styles.intro}>{section.intro}</p>}
       </div>
-      <SectionLink href="#contact" className={styles.contact}>
-        <span>Get in touch</span><span className={styles.arrow}><ArrowUpRight size={24} aria-hidden="true" /></span>
-      </SectionLink>
-    </div>
-    {cards.length > 0 && <div className={`shell ${styles.carousel}`}>
-      <div className={styles.toolbar}>
-        <p className={styles.hint}>Explore partnership opportunities</p>
-        <div className={styles.navigation}>
-          <span className={styles.position} aria-live="polite" aria-atomic="true">{String(position.start + 1).padStart(2, "0")}–{String(Math.min(position.start + position.visible, cards.length)).padStart(2, "0")} / {String(cards.length).padStart(2, "0")}</span>
-          <button type="button" aria-label="Previous partnership cards" aria-controls={railId} disabled={!position.previous} onClick={() => move(-1)}><ChevronLeft size={20} aria-hidden="true" /></button>
-          <button type="button" aria-label="Next partnership cards" aria-controls={railId} disabled={!position.next} onClick={() => move(1)}><ChevronRight size={20} aria-hidden="true" /></button>
+      <SectionLink href="#contact" className={styles.contact}>Get in touch<span className={styles.arrow}><ArrowUpRight size={24} aria-hidden="true" /></span></SectionLink>
+    </header>
+
+    <div className={`shell ${styles.explorer}`}>
+      <div className={styles.tabList} role="tablist" aria-label="Featured investment opportunities">
+        {opportunities.map((opportunity, index) => <button
+          key={opportunity.id}
+          ref={element => { tabs.current[index] = element; }}
+          type="button"
+          id={tabId(opportunity.id)}
+          role="tab"
+          aria-selected={active === index}
+          aria-controls={panelId(opportunity.id)}
+          tabIndex={active === index ? 0 : -1}
+          onClick={() => setActive(index)}
+          onKeyDown={event => selectWithKeyboard(event, index)}
+        >
+          <span className={styles.tabNumber}>0{index + 1}</span>
+          <span className={styles.tabLabel}>{opportunity.title}<small className={styles.tabDescription}>{opportunity.detail}</small></span>
+          <opportunity.icon className={styles.tabIcon} size={25} strokeWidth={1.5} aria-hidden="true" />
+        </button>)}
+      </div>
+
+      <div id={panelId(economicHub.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(economicHub.id)} tabIndex={0} hidden={active !== 0}>
+        <header className={styles.panelHeader}>
+          <div><p className={styles.kicker}>01 / {economicHub.title}</p><h3>{economicHub.subtitle}</h3></div>
+          <div className={styles.overview}>{economicHub.overview.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
+        </header>
+        <ol className={styles.projectList} aria-label="Integrated Economic Hub investment projects">
+          {economicHub.projects.map((project, index) => {
+            const Icon = projectIcons[index];
+            return <li className={styles.project} key={project.id}>
+              <div className={styles.projectIdentity}>
+                <div className={styles.projectIcon}><Icon size={24} strokeWidth={1.5} aria-hidden="true" /><span className={styles.projectNumber}>0{index + 1}</span></div>
+                <h4 className={styles.projectTitle}>{project.title}</h4>
+              </div>
+              <p className={styles.projectOverview}>{project.overview}</p>
+              <dl className={styles.projectMetrics}>
+                <div><dt>Scale</dt><dd>{project.scale}</dd></div>
+                <div><dt>Indicative investment</dt><dd><InvestmentValue investment={project.investment} /></dd></div>
+              </dl>
+            </li>;
+          })}
+        </ol>
+        <CurrencyNote originalCurrency="USD" />
+        <div className={styles.opportunityFooter}>
+          <h4>Investment Opportunities</h4>
+          <div className={styles.footerCopy}>
+            {economicHub.opportunities.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+            <SectionLink href="#contact" className={styles.action}>Discuss an investment<ArrowUpRight size={19} aria-hidden="true" /></SectionLink>
+          </div>
         </div>
       </div>
-      <ul ref={rail} id={railId} className={styles.viewport} aria-label="Partnership opportunities" tabIndex={0} onKeyDown={onKeyDown}>
-        {cards.map((card, index) => card.type === "text" && <li className={styles.card} key={card.title}>
-          <div className={styles.cardTop}><span className={styles.cardNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.cardIcon}><Handshake size={27} strokeWidth={1.5} aria-hidden="true" /></span></div>
-          <h3>{card.title}</h3>
-          {card.paragraphs?.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
-          <SectionLink href="#contact" className={styles.cardLink}>Discuss an opportunity<span className="sr-only"> in {card.title}</span><ArrowUpRight size={18} aria-hidden="true" /></SectionLink>
-        </li>)}
-      </ul>
-    </div>}
+
+      <div id={panelId(staffHousing.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(staffHousing.id)} tabIndex={0} hidden={active !== 1}>
+        <header className={styles.housingHeader}>
+          <div className={styles.housingCopy}>
+            <p className={styles.kicker}>02 / Employee housing</p>
+            <h3>{staffHousing.title}</h3>
+            <h4>Project Overview</h4>
+            <p>{staffHousing.overview}</p>
+          </div>
+          <dl className={styles.investmentCallout}><div><dt>Estimated Investment Value</dt><dd><InvestmentValue investment={staffHousing.investment} /></dd></div></dl>
+        </header>
+        <CurrencyNote originalCurrency="MVR" />
+        <div className={styles.housingScale}>
+          <h4>Project Scale</h4>
+          <p>{staffHousing.scale}</p>
+          <dl className={styles.scaleStats}>
+            <div><dt>Residential apartment blocks</dt><dd>2</dd></div>
+            <div><dt>Storeys per block</dt><dd><small>Approx.</small> 10</dd></div>
+            <div><dt>Housing units</dt><dd><small>Estimated</small> 104</dd></div>
+          </dl>
+        </div>
+        <div className={styles.components}>
+          <h4>Key Components</h4>
+          <ul className={styles.componentList}>{staffHousing.components.map(component => <li key={component}><Check className={styles.componentIcon} size={18} aria-hidden="true" /><span>{component}</span></li>)}</ul>
+        </div>
+        <div className={styles.strategicValue}>
+          <h4>Strategic Value</h4>
+          <p>{staffHousing.strategicValue}</p>
+          <SectionLink href="#contact" className={styles.action}>Explore a housing partnership<ArrowUpRight size={19} aria-hidden="true" /></SectionLink>
+        </div>
+      </div>
+    </div>
   </section>;
 }

@@ -33,6 +33,7 @@ The generated website is in `out/`. This is a static export; it requires no appl
 
 - Current PDF-based profile copy and figures: `app/data/company-profile.ts`
 - Digital transformation copy: `app/data/digital-transformation.ts`
+- Featured investment opportunities: `app/data/featured-investments.ts`, sourced from `Featured Investment Projects.pdf`
 - Original corporate/investor copy: `app/data/profiles.ts`
 - Previous combined edition: `app/data/archived-company-profile.ts`
 - Currency selection and formatting: `lib/currency.ts`
@@ -46,6 +47,8 @@ Local PDFs, working files, hosting backups, browser captures, and environment fi
 The updated portfolio totals are 878 projects and MVR 34.84B. The sector breakdown retains the 9 September 2026 register figures; updated sector allocations have not been supplied. The earlier on-hand/completed comparison covers a separate scope. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist opens an editable email draft containing the selected works.
 
 The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
+
+Potential partnerships uses two accessible tabs for the Integrated Economic Hub and MTCC Staff Housing Scheme. All project descriptions, scales, indicative investments, housing components and partnership details follow `Featured Investment Projects.pdf`. The currency toggle changes displayed equivalents while retaining original investment estimates beneath converted amounts.
 
 ## Retained sections
 
