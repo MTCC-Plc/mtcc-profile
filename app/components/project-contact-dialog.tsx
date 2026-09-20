@@ -6,10 +6,12 @@ import { enquiryRecipient, enquirySubject, formatEnquiryText, type EnquiryFields
 import styles from "./project-contact-dialog.module.css";
 import { TurnstileWidget, type TurnstileHandle } from "./turnstile-widget";
 
-// Both values are inlined at build time. On Cloudflare Pages the endpoint is
-// `/api/enquiry` (see functions/api/enquiry.ts); when it is unset, for example
-// on GitHub Pages, the dialog falls back to opening an email draft.
-const enquiryEndpoint = process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT;
+// Both values are inlined at build time. The enquiry is posted to the Worker
+// (worker/index.ts) at /api/enquiry unless the build sets
+// NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto, which GitHub Pages does because it has
+// no Worker; that mode opens an email draft instead.
+const configuredEndpoint = process.env.NEXT_PUBLIC_ENQUIRY_ENDPOINT || "/api/enquiry";
+const enquiryEndpoint = configuredEndpoint === "mailto" ? undefined : configuredEndpoint;
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type Status = { kind: "idle" | "sending" | "sent" } | { kind: "error"; message: string };

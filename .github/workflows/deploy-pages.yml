@@ -37,6 +37,8 @@ jobs:
         run: corepack pnpm build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # GitHub Pages has no Worker, so the enquiry dialog opens an email draft.
+          NEXT_PUBLIC_ENQUIRY_ENDPOINT: mailto
           NEXT_TELEMETRY_DISABLED: '1'
       - name: Upload website
         uses: actions/upload-pages-artifact@v4

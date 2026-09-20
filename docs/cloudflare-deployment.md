@@ -9,7 +9,7 @@ Browser ──POST /api/enquiry──▶ Worker ──POST──▶ Herald ─�
       + honeypot field              fixed recipients, holds the Herald key
 ```
 
-The Herald key never reaches the browser. The dialog only switches from "Open email draft" to "Send enquiry" when the site is built with `NEXT_PUBLIC_ENQUIRY_ENDPOINT` set, so the GitHub Pages deployment keeps working unchanged.
+The Herald key never reaches the browser. The dialog posts to `/api/enquiry` by default; the GitHub Pages workflow builds with `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto`, which keeps the email-draft behaviour there because it has no Worker.
 
 Static asset requests are free and unlimited on the Workers Free plan. Only `/api/enquiry` invokes the script and counts against the plan's 100,000 requests per day.
 
@@ -32,7 +32,7 @@ Cloudflare dashboard → **Workers & Pages → Create → Import a repository**,
 
 Cloudflare installs dependencies automatically. The committed `.node-version` selects Node 22 and `packageManager` in `package.json` selects the pinned pnpm. `wrangler.jsonc` supplies everything else: the script entry point, the `out/` assets directory, the compatibility date, the non-secret variables and the rate limiter.
 
-Press **Deploy**. The first build succeeds but, because the build variables below do not exist yet, the dialog stays in email-draft mode and the Worker returns `500` for enquiries. The deployment creates the Worker so its settings pages become available: add the variables and secrets, then **Deployments → Retry build** (or push a commit).
+Press **Deploy**. The first build succeeds and serves the site, but the Worker returns `500` for enquiries until `HERALD_API_KEY` exists. The deployment creates the Worker so its settings pages become available: add the secrets below (and the Turnstile site key once you have it), then **Deployments → Retry build** (or push a commit).
 
 ### Build variables (inlined by `next build`)
 
@@ -40,8 +40,8 @@ Worker → **Settings → Build → Variables and secrets**:
 
 | Variable | Value | Notes |
 |---|---|---|
-| `NEXT_PUBLIC_ENQUIRY_ENDPOINT` | `/api/enquiry` | Switches the dialog to API mode. Without it the dialog opens an email draft. |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstile site key | From step 4. Leave unset until the widget exists. |
+| `NEXT_PUBLIC_ENQUIRY_ENDPOINT` | — | Not needed. Defaults to `/api/enquiry`; only `mailto` (GitHub Pages) changes behaviour. |
 | `NEXT_TELEMETRY_DISABLED` | `1` | Optional. |
 
 These are read only during the build. Changing one requires a new build; the values are frozen into the bundle.
@@ -63,7 +63,7 @@ Alternatively from a terminal: `npx wrangler secret put HERALD_API_KEY`. While `
 
 ## 3. Verify the deployment
 
-1. Open the `https://mtcc-profile.<account>.workers.dev` URL, go to the private projects section and open the enquiry dialog. The footer should read "Your enquiry goes directly to the MTCC team" with a **Send enquiry** button. If it still says "Open email draft", `NEXT_PUBLIC_ENQUIRY_ENDPOINT` was not present at build time.
+1. Open the `https://mtcc-profile.<account>.workers.dev` URL, go to the private projects section and open the enquiry dialog. The footer should read "Your enquiry goes directly to the MTCC team" with a **Send enquiry** button.
 2. `curl -i https://mtcc-profile.<account>.workers.dev/api/enquiry` should return `405` with a JSON body.
 3. Submit a test enquiry and confirm it arrives at the `ENQUIRY_TO` address. Logs are under the Worker's **Observability → Logs** (or `npx wrangler tail`).
 
@@ -101,7 +101,7 @@ cp .dev.vars.example .dev.vars    # secrets for the Worker
 corepack pnpm preview             # builds, then serves out/ + the Worker at http://localhost:8787
 ```
 
-`pnpm dev` still works for design work but has no `/api/enquiry`; leave `NEXT_PUBLIC_ENQUIRY_ENDPOINT` out of `.env.local` for that, or use `preview`. `wrangler dev` does not reload `.dev.vars`; restart it after editing. The rate limiter runs locally too, so repeated test submissions return `429` after the fifth in a minute.
+`pnpm dev` still works for design work but has no `/api/enquiry`: submitting the dialog there shows the error state with the email-draft fallback. Use `preview` to exercise the real flow. `wrangler dev` does not reload `.dev.vars`; restart it after editing. The rate limiter runs locally too, so repeated test submissions return `429` after the fifth in a minute.
 
 To try the Worker without sending real email, point `HERALD_URL` in `.dev.vars` at any local HTTP server that returns `200` and log the request there.
 
@@ -111,7 +111,8 @@ To deploy from a terminal instead of Workers Builds: `NEXT_PUBLIC_ENQUIRY_ENDPOI
 
 | Symptom | Cause |
 |---|---|
-| Dialog shows "Open email draft" on Cloudflare | `NEXT_PUBLIC_ENQUIRY_ENDPOINT` missing from the build variables; add it and rebuild. |
+| Dialog shows "Open email draft" on Cloudflare | The build set `NEXT_PUBLIC_ENQUIRY_ENDPOINT=mailto`; remove that build variable and rebuild. |
+| "We could not send your enquiry" on `pnpm dev` | Expected: `next dev` has no Worker. Use `pnpm preview`. |
 | `{"ok":false,"error":"Email delivery is not configured."}` (500) | `HERALD_API_KEY` secret is not set on the Worker. |
 | "Verification failed" on every submission | Secret and site key belong to different widgets, or the hostname is not listed on the widget. |
 | "Please complete the verification" | `TURNSTILE_SECRET_KEY` is set but the site was built without `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. |
