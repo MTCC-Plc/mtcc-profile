@@ -4,67 +4,130 @@
   scroll-margin-top: 94px;
 }
 
-.overview {
-  display: grid;
-  grid-template-columns: 1.08fr 1fr;
-  align-items: center;
-  gap: clamp(40px, 7vw, 100px);
-  margin-bottom: 30px;
+/* Header and tab strip follow the Apple display system (--ap-* in globals.css),
+   so this section meets the fleet section below it cleanly. The business
+   panels underneath keep their own established styling. */
+
+.overview { display: block; margin-bottom: 44px; font-family: var(--ap-font); }
+
+.heading { max-width: 860px; margin: 0 auto 56px; text-align: center; }
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--ap-accent);
+  font-size: clamp(1.125rem, 2vw, 1.3125rem);
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: .011em;
 }
 
 .heading h2 {
   margin: 0;
-  color: var(--navy);
-  font-size: clamp(2.65rem, 4.8vw, 4.6rem);
-  line-height: 1.04;
-  letter-spacing: -.052em;
+  color: var(--ap-ink);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  text-wrap: balance;
 }
 
-.heading h2 span { color: var(--ink); }
-.heading > p:last-child { max-width: 410px; margin: 28px 0 0; color: var(--muted); font-size: 1.06rem; }
-.platformName { display: grid; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
-.platformName > strong { color: var(--navy); font-size: 1.3rem; letter-spacing: .13em; }
-.platformName > span { color: var(--muted); font-size: .83rem; }
-.platformTabs { display: grid; gap: 7px; padding-top: 14px; scroll-margin-top: 110px; }
-.platformTabs button { display: grid; grid-template-columns: 32px minmax(0, 1fr) 19px; align-items: center; gap: 13px; width: 100%; min-height: 80px; padding: 17px 16px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--navy); font: inherit; text-align: left; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
-.number { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; color: var(--blue); font-size: .65rem; letter-spacing: .04em; font-weight: 700; }
-.platformCopy strong { display: block; font-size: .96rem; line-height: 1.4; }
-.platformCopy > span { display: block; margin-top: 4px; color: var(--muted); font-size: .82rem; line-height: 1.5; }
-.platformTabs button > svg { color: #7a99aa; }
-.platformTabs button:hover { border-color: var(--line); background: var(--mist); }
-.platformTabs button[aria-selected="true"] { color: white; border-color: var(--navy); background: var(--navy); }
-.platformTabs button[aria-selected="true"] .number { color: #b5e9fb; border-color: #83c3df66; background: #ffffff0a; }
-.platformTabs button[aria-selected="true"] .platformCopy > span { color: #c1d9e7; }
-.platformTabs button[aria-selected="true"] > svg { color: #8edcf6; }
-.platformTabs button:focus-visible { outline: 3px solid #007f9c; outline-offset: 3px; }
+.heading h2 span { color: var(--ap-mute); }
+.intro { max-width: 700px; margin: 28px auto 0; color: var(--ap-sub); font-size: 1.0625rem; line-height: 1.4706; letter-spacing: -.022em; }
+
+.platformName { display: flex; align-items: baseline; justify-content: center; gap: 12px; margin-bottom: 20px; text-align: center; }
+.platformName > strong { color: var(--ap-ink); font-size: 1.0625rem; font-weight: 600; letter-spacing: .08em; }
+.platformName > span { color: var(--ap-mute); font-size: .875rem; letter-spacing: -.016em; }
+
+.platformTabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; scroll-margin-top: 110px; }
+
+.platformTabs button {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  width: 100%;
+  padding: 28px 24px;
+  border: 0;
+  border-radius: var(--ap-radius);
+  background: var(--ap-grey);
+  color: var(--ap-ink);
+  font: inherit;
+  font-family: var(--ap-font);
+  text-align: left;
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease;
+}
+
+.number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(0, 0, 0, .07); color: var(--ap-accent); font-size: .75rem; font-weight: 600; letter-spacing: .02em; }
+.platformCopy strong { display: block; font-size: 1.3125rem; font-weight: 600; line-height: 1.19; letter-spacing: .011em; }
+.platformCopy > span { display: block; margin-top: 8px; color: var(--ap-sub); font-size: .875rem; line-height: 1.4286; letter-spacing: -.016em; }
+.platformTabs button > svg { justify-self: start; color: var(--ap-mute); }
+.platformTabs button:hover { background: #e3eff6; }
+.platformTabs button[aria-selected="true"] { color: white; background: var(--ap-black); }
+.platformTabs button[aria-selected="true"] .number { color: var(--sky); background: rgba(255, 255, 255, .14); }
+.platformTabs button[aria-selected="true"] .platformCopy > span { color: #bdcfde; }
+.platformTabs button[aria-selected="true"] > svg { color: var(--sky); }
+.platformTabs button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 .panel { scroll-margin-top: 110px; }
 .panel:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
 .panel > :global(section) { padding-top: 65px; }
-.dredging { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: clamp(36px, 6vw, 80px); padding-top: 60px; padding-bottom: 100px; scroll-margin-top: 110px; }
-.copy h3 { margin: 0; max-width: 500px; color: var(--navy); font-size: clamp(1.8rem, 2.7vw, 2.7rem); line-height: 1.14; letter-spacing: -.035em; }
-.copy > p:not(:global(.eyebrow)) { margin: 26px 0 0; color: var(--muted); font-size: 1rem; line-height: 1.75; }
-.capabilities { display: flex; flex-wrap: wrap; gap: 10px 8px; list-style: none; margin: 30px 0 0; padding: 0; }
-.capabilities li { padding: 7px 11px; border: 1px solid var(--line); background: var(--mist); color: var(--navy); font-size: .77rem; }
-.image { position: relative; min-height: 270px; overflow: hidden; background: var(--navy); }
+
+/* Dredging summary panel, on the same Apple display system as the header. */
+/* The vessel figures moved to the dredging fleet block below, so the image
+   column now stretches to the copy rather than stopping short of it. */
+.dredging {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: clamp(36px, 6vw, 80px);
+  padding-top: 72px;
+  padding-bottom: 110px;
+  font-family: var(--ap-font);
+  scroll-margin-top: 110px;
+}
+
+.copy h3 {
+  margin: 0;
+  max-width: 520px;
+  color: var(--ap-ink);
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  font-weight: 600;
+  line-height: 1.0835;
+  letter-spacing: -.003em;
+  text-wrap: balance;
+}
+
+.copy > p:not(:global(.eyebrow)) { margin: 24px 0 0; color: var(--ap-sub); font-size: 1.0625rem; line-height: 1.4706; letter-spacing: -.022em; }
+.capabilities { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 32px 0 0; padding: 0; }
+.capabilities li { padding: 10px 20px; border: 0; border-radius: var(--ap-pill); background: var(--ap-grey); color: var(--ap-sub); font-size: 1rem; letter-spacing: -.022em; }
+
+.capacity { display: flex; }
+.image { position: relative; flex: 1; min-height: 300px; overflow: hidden; border-radius: var(--ap-radius); background: var(--ap-black); }
 .image > img { object-fit: cover; }
-.image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(2,30,56,.8), transparent 60%); }
-.image > span { position: absolute; z-index: 1; bottom: 22px; left: 24px; right: 24px; color: white; font-size: .78rem; letter-spacing: .02em; }
-.metrics { display: grid; grid-template-columns: 1fr 1fr; margin: 24px 0 0; column-gap: 24px; }
-.metrics > div { display: flex; flex-direction: column; gap: 8px; padding: 23px 0; border-top: 1px solid var(--line); }
-.metrics dt { color: var(--muted); font-size: .82rem; line-height: 1.5; }
-.metrics dd { order: -1; margin: 0; color: var(--navy); font-size: clamp(1.75rem, 2.5vw, 2.55rem); font-weight: 700; letter-spacing: -.045em; line-height: 1.05; }
-.fallback { padding-block: 65px 100px; }
-.fallback h3 { color: var(--navy); font-size: 2rem; }
-.fallback p { color: var(--muted); }
+.image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.78), transparent 58%); }
+.image > span { position: absolute; z-index: 1; bottom: 26px; left: 28px; right: 28px; color: white; font-size: .875rem; letter-spacing: -.016em; }
+
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0 0; }
+.metrics > div { display: flex; flex-direction: column; gap: 8px; padding: 26px 24px; border-radius: var(--ap-radius-sm); background: var(--ap-grey); }
+.metrics dt { color: var(--ap-sub); font-size: .875rem; line-height: 1.4286; letter-spacing: -.016em; }
+.metrics dd { order: -1; margin: 0; color: var(--ap-ink); font-size: clamp(1.6rem, 2.4vw, 2.25rem); font-weight: 600; line-height: 1.1; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+
+.fallback { padding-block: 65px 100px; font-family: var(--ap-font); }
+.fallback h3 { margin: 0; color: var(--ap-ink); font-size: 2.5rem; font-weight: 600; letter-spacing: -.015em; }
+.fallback p { margin: 14px 0 0; color: var(--ap-sub); font-size: 1.0625rem; letter-spacing: -.022em; }
+
+@media (max-width: 1100px) {
+  .platformTabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 
 @media (max-width: 800px) {
-  .overview { grid-template-columns: 1fr; gap: 42px; margin-bottom: 18px; }
-  .heading h2 { max-width: 600px; }
-  .heading > p:last-child { max-width: 520px; }
-  .platformTabs button { gap: 11px; padding: 15px 12px; }
-  .platformCopy strong { font-size: .9rem; }
-  .platformCopy > span { font-size: .78rem; }
-  .dredging { grid-template-columns: 1fr; gap: 36px; padding-top: 40px; padding-bottom: 65px; }
+  .overview { margin-bottom: 30px; }
+  .heading { margin-bottom: 38px; }
+  .platformTabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .platformTabs button { padding: 22px 20px; border-radius: 20px; }
+  .platformCopy strong { font-size: 1.0625rem; }
+  .platformCopy > span { font-size: .8125rem; }
+  .dredging { grid-template-columns: 1fr; gap: 36px; padding-top: 40px; padding-bottom: 36px; }
+  .dredgingFleet { padding-bottom: 65px; }
   .copy h3 { max-width: 580px; }
   .image { min-height: 290px; }
   .metrics { column-gap: 28px; }
@@ -72,7 +135,8 @@
 }
 
 @media (max-width: 420px) {
-  .heading h2 { font-size: 2.5rem; }
+  .heading h2 { font-size: 2.35rem; }
+  .platformTabs { grid-template-columns: 1fr; }
   .image { min-height: 230px; }
   .metrics dd { font-size: 1.8rem; }
 }

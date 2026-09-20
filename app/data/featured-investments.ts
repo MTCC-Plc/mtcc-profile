@@ -1,7 +1,7 @@
 export const economicHub = {
   id: "economic-hub",
   title: "Integrated Economic Hub",
-  subtitle: "A New Integrated Economic Destination in the Indian Ocean",
+  subtitle: "Gaadhoo Integrated Economic Destination",
   overview: [
     "Strategically located in the Maldives near the One-and-a-Half Degree Channel, the Integrated Economic Hub is envisioned as a large-scale, multi-sector destination bringing together maritime, logistics, tourism, hospitality, commercial, sports and entertainment activities.",
     "The development comprises several independently investable projects, creating opportunities for international investors, developers, operators and strategic partners to participate across multiple sectors.",
@@ -61,10 +61,10 @@ export const economicHub = {
 
 export const staffHousing = {
   id: "staff-housing",
-  title: "MTCC Staff Housing Scheme",
+  title: "MTCC Hiya Housing Project",
   image: { src: "/assets/investments/staff-housing.webp", alt: "Contemporary residential apartments in Malé", position: "center 45%" },
   overview:
-    "The proposed MTCC Staff Housing Scheme is a residential development aimed at providing quality and affordable home ownership opportunities for eligible MTCC employees. The initiative is designed to enhance employee welfare, strengthen workforce retention and establish a sustainable long-term employee housing programme",
+    "The proposed MTCC Hiya Housing Project is a residential development aimed at providing quality and affordable home ownership opportunities for eligible MTCC employees. The initiative is designed to enhance employee welfare, strengthen workforce retention and establish a sustainable long-term employee housing programme",
   scale:
     "The preliminary concept comprises two residential apartment blocks of approximately 10 storeys each, providing an estimated 104 housing units catering to different household requirements.",
   components: [

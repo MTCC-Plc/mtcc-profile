@@ -8,7 +8,7 @@ export type LeadershipPerson = {
   image?: string;
   email?: string;
   phone?: string;
-  group?: "management" | "senior-management";
+  group?: "management" | "senior-management" | "special-advisor";
 };
 
 export type ContentBlock =
