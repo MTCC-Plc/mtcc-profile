@@ -27,7 +27,11 @@ To reproduce the repository-path build locally:
 NEXT_PUBLIC_BASE_PATH=/mtcc-profile corepack pnpm build
 ```
 
-The generated website is in `out/`. This is a static export; it requires no application server, database, OpenAI hosting, or Cloudflare Worker.
+The generated website is in `out/`. This is a static export; it requires no application server or database.
+
+## Cloudflare Workers
+
+The production host is Cloudflare Workers with Static Assets. It serves the same `out/` export plus one Worker script, `worker/index.ts`, which forwards the private project enquiry to MTCC's Herald email API with Turnstile bot protection and a per-IP rate limit. Setup, variables and local preview are described in [docs/cloudflare-deployment.md](docs/cloudflare-deployment.md).
 
 ## Content and checks
 
@@ -43,7 +47,7 @@ The generated website is in `out/`. This is a static export; it requires no appl
 
 Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. The current edition follows `MTCC-Company-Profile-2026_9665.pdf`, with the existing mission, vision and values presentation preserved in `app/components/values-section.tsx`.
 
-The September 2026 register (868 projects, MVR 32.35B) is separate from the earlier on-hand/completed comparison. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist opens an editable email draft containing the selected works.
+The September 2026 register (868 projects, MVR 32.35B) is separate from the earlier on-hand/completed comparison. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist sends the enquiry through `/api/enquiry` when the site is built with `NEXT_PUBLIC_ENQUIRY_ENDPOINT`; otherwise it opens an editable email draft containing the selected works.
 
 The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
 

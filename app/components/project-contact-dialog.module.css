@@ -145,7 +145,27 @@
 .footer strong { color: #315367; font-weight: 600; }
 .submit { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; gap: 13px; min-height: 46px; padding: 13px 19px; border: 0; border-radius: 99px; background: #07364f; color: #fff; font: inherit; font-size: .81rem; font-weight: 600; cursor: pointer; }
 .submit:hover { background: #065a79; }
-.close:focus-visible, .submit:focus-visible { outline: 2px solid #008cb7; outline-offset: 3px; }
+.submit:disabled { background: #4a7186; cursor: progress; }
+.close:focus-visible, .submit:focus-visible, .fallback:focus-visible { outline: 2px solid #008cb7; outline-offset: 3px; }
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+/* Visually removed rather than display:none so autofill bots still "see" it. */
+.honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.turnstile { min-height: 0; }
+.turnstile:empty { display: none; }
+
+.error { color: #9a3412; }
+.error svg { color: #c2410c; }
+.fallback { padding: 0; border: 0; background: none; color: #176184; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.fallback:hover { color: #0089b6; }
+
+.sent { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding-block: 44px 40px; color: #072c43; }
+.sent svg { color: #0a9e5c; }
+.sent h3 { margin: 6px 0 0; font-size: 1.35rem; font-weight: 650; letter-spacing: -.02em; }
+.sent p { max-width: 520px; margin: 0; color: #536f80; font-size: .9rem; line-height: 1.6; }
+.sent .submit { margin-top: 14px; }
 
 @media (max-width: 600px) {
   .dialog { width: calc(100% - 20px); max-height: calc(100svh - 20px); border-radius: 16px; }

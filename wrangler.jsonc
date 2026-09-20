@@ -1,0 +1,25 @@
+// Cloudflare Workers configuration. Read by `wrangler dev` locally and by
+// `wrangler deploy` in Workers Builds. Secrets (HERALD_API_KEY,
+// TURNSTILE_SECRET_KEY) are never set here: put them in the Worker's
+// Variables and Secrets settings or, for local previews, in .dev.vars.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mtcc-profile",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "HERALD_URL": "https://api-herald.mtcc.com.mv/notification/email",
+    "HERALD_SOURCE": "MTCC Company Profile",
+    "ENQUIRY_TO": "info@mtcc.com.mv"
+  },
+  // Five enquiries per minute per IP address. The period must be 10 or 60.
+  "ratelimits": [
+    { "name": "ENQUIRY_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }
+  ]
+}
