@@ -9,7 +9,7 @@ import { currencyMetrics, MVR_PER_USD, type Currency } from "../../lib/currency"
 import { CurrencyText } from "./currency-symbol";
 import { useCurrency } from "./currency-toggle";
 import { SectionLink } from "./section-link";
-import { assetPath } from "../../lib/asset-path";
+import { HlsVideo, type HlsHandle } from "./hls-video";
 import styles from "./potential-partnerships-section.module.css";
 
 const opportunities = [
@@ -36,7 +36,7 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
   const [active, setActive] = useState(0);
   const root = useRef<HTMLElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const hubVideo = useRef<HTMLVideoElement>(null);
+  const hubFilm = useRef<HlsHandle>(null);
   const [filmPlaying, setFilmPlaying] = useState(false);
   const headingId = `${section.id}-title`;
   const tabId = (id: string) => `${section.id}-tab-${id}`;
@@ -59,41 +59,20 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
   }, []);
 
   /*
-   * The film loops muted and silent as an ambient preview. Pressing play takes it
-   * full screen with sound: the fullscreen request has to happen inside the click
-   * so it keeps the user activation, and iOS Safari only exposes fullscreen on the
-   * video element itself (webkitEnterFullscreen), not the generic API.
+   * Play starts the stream and goes full screen with sound. The fullscreen
+   * request must stay inside the click to keep the user activation, and iOS
+   * Safari only exposes fullscreen on the video element itself.
    */
-  function playFilmFullscreen() {
-    const video = hubVideo.current;
-    if (!video) return;
+  async function playFilmFullscreen() {
     setFilmPlaying(true);
-    video.muted = false;
-    video.currentTime = 0;
-    void video.play().catch(() => {});
+    await hubFilm.current?.play();
+    const video = hubFilm.current?.element;
+    if (!video) return;
     type IosVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
     const ios = video as IosVideo;
     if (video.requestFullscreen) void video.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
     else if (ios.webkitEnterFullscreen) ios.webkitEnterFullscreen();
   }
-
-  useEffect(() => {
-    const video = hubVideo.current;
-    if (!video) return;
-    const onFullscreenChange = () => {
-      if (document.fullscreenElement === video) return;
-      setFilmPlaying(false);
-      video.muted = true;
-      void video.play().catch(() => {});
-    };
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    // iOS fires its own event because it never sets document.fullscreenElement.
-    video.addEventListener("webkitendfullscreen", onFullscreenChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", onFullscreenChange);
-      video.removeEventListener("webkitendfullscreen", onFullscreenChange);
-    };
-  }, []);
 
   function selectWithKeyboard(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const count = opportunities.length;
@@ -150,17 +129,11 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
               playsInline are what allow autoplay on iOS and Chrome; controls stay
               available, and the poster carries the frame if the file is missing.
             */}
-            <video
-              ref={hubVideo}
-              src={assetPath("/assets/investments/economic-hub.mp4")}
-              poster={assetPath("/assets/investments/transshipment-port.webp")}
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls={filmPlaying}
-              preload="metadata"
-              aria-label="Concept film for the Integrated Economic Hub"
+            <HlsVideo
+              handle={hubFilm}
+              src="/assets/investments/economic-hub/index.m3u8"
+              poster="/assets/investments/economic-hub-poster.webp"
+              label="Concept film for the Integrated Economic Hub"
             />
             {!filmPlaying && <button type="button" className={styles.hubPlay} onClick={playFilmFullscreen} aria-label={`Play the ${economicHub.title} film`}>
               <span className={styles.hubPlayIcon}><Play size={20} aria-hidden="true" /></span>
