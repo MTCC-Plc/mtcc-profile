@@ -79,7 +79,7 @@ export const companyProfile: ProfilePageData = {
       { title: "Digital innovation", items: ["Launch digital commerce platforms", "Automate operations"] },
       { title: "Trading growth", items: ["Expand warehousing and island-level reach", "Introduce high-demand product lines"] },
     ] },
-    { type: "content", id: "digital-transformation", eyebrow: "Our digital journey", title: "A more connected MTCC", blocks: [] },
+    { type: "content", id: "digital-transformation", eyebrow: "Digital transformation", title: "Transforming MTCC for a digitally connected Maldives", blocks: [] },
     { type: "content", id: "workforce", eyebrow: "Our people", title: "6,672 people, one delivery team", blocks: [] },
     { ...original("management", "leadership"), title: "Leadership and structure", team: undefined },
   ],

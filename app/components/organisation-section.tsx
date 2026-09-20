@@ -40,19 +40,19 @@ export function OrganisationSection({ section }: { section: Leadership }) {
     {all ? <div className="organisation-explorer organisation-all"><div className="organisation-people"><header><p className="eyebrow">The full management team</p><h3>Meet the team.</h3></header><div className="organisation-grid">{section.people.map(person => <article className="organisation-person" key={person.name}>
       <div className="organisation-portrait"><TeamPortrait src={person.image} name={person.name} /></div>
       <div className="organisation-person-copy"><h4>{person.name}</h4><p>{person.role}</p>{person.division && <span>{person.division}</span>}</div>
-    </article>)}</div></div></div> : <div className="org-chart">
+    </article>)}</div></div></div> : <div className="org-chart" role="group" aria-label="Organisation chart">
       <div className="org-board"><Building2 size={21} aria-hidden="true" /><strong>Board of Directors</strong></div>
       <div className="org-top-level">
-        <div className="org-risk">{risk && node(risk, "Risk Management")}</div>
+        <div className="org-group org-risk" role="group" aria-labelledby="org-risk-title"><header className="org-group-heading"><h3 id="org-risk-title">Risk management</h3></header>{risk && node(risk, risk.role)}</div>
         <div className="org-managing">{node(managing, "Managing Director & CEO")}</div>
-        <div className="org-governance">{governance.map(person => node(person, /Auditor/.test(person.role) ? "Internal Audit" : person.role))}</div>
+        <div className="org-group org-governance" role="group" aria-labelledby="org-governance-title"><header className="org-group-heading"><h3 id="org-governance-title">Governance</h3><span>{governance.length} functions</span></header><div className="org-group-content">{governance.map(person => node(person, /Auditor/.test(person.role) ? "Internal Audit" : person.role))}</div></div>
       </div>
-      <div className="org-executives">{executives.map(person => node(person, person.role))}</div>
+      <div className="org-group org-executive-group" role="group" aria-labelledby="org-executives-title"><header className="org-group-heading"><h3 id="org-executives-title">Executive leadership</h3><span>{executives.length} leaders</span></header><div className="org-executives">{executives.map(person => node(person, person.role))}</div></div>
       <div className="org-divisions">
-        <div className="org-division-group org-business"><header><h3>Business divisions</h3><span>{business.length} divisions</span></header><div>{business.map(person => node(person, person.division?.replace(" Division", "")))}</div></div>
-        <div className="org-division-group org-corporate"><header><h3>Corporate services</h3><span>{corporate.length} divisions</span></header><div>{corporate.map(person => node(person, person.role === "Chief Financial Officer" ? "Finance & Accounts" : person.division))}</div></div>
+        <div className="org-group org-division-group org-business" role="group" aria-labelledby="org-business-title"><header className="org-group-heading"><h3 id="org-business-title">Business divisions</h3><span>{business.length} divisions</span></header><div>{business.map(person => node(person, person.division?.replace(" Division", "")))}</div></div>
+        <div className="org-group org-division-group org-corporate" role="group" aria-labelledby="org-corporate-title"><header className="org-group-heading"><h3 id="org-corporate-title">Corporate services</h3><span>{corporate.length} divisions</span></header><div>{corporate.map(person => node(person, person.role === "Chief Financial Officer" ? "Finance & Accounts" : person.division))}</div></div>
       </div>
-      {advisor && <div className="org-advisory"><span><ShieldCheck size={17} aria-hidden="true" />Advisory</span>{node(advisor, advisor.role)}</div>}
+      {advisor && <div className="org-group org-advisory" role="group" aria-labelledby="org-advisory-title"><header className="org-group-heading"><h3 id="org-advisory-title"><ShieldCheck size={17} aria-hidden="true" />Advisory</h3></header>{node(advisor, advisor.role)}</div>}
       <div className="org-person-detail" id="org-person-detail" aria-live="polite" aria-atomic="true">
         <div className="org-detail-photo" key={selected.image}><TeamPortrait src={selected.image} name={selected.name} /></div>
         <div className="org-detail-copy"><span>{category}</span><h3>{selected.name}</h3><p>{selected.role}{selected.division ? ` · ${selected.division}` : ""}</p></div>

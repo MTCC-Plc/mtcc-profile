@@ -46,9 +46,6 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
       const panorama = page.querySelector<HTMLElement>(".company-hero-panorama");
       if (panorama) {
-        gsap.fromTo(panorama, { scale: desktop ? .94 : .98 }, { scale: 1, ease: "none", scrollTrigger: {
-          trigger: panorama, start: "top 95%", end: "top 20%", scrub: .5,
-        } });
         gsap.fromTo(panorama.querySelector("img"), { scale: desktop ? 1.1 : 1.04 }, { scale: 1, ease: "none", scrollTrigger: {
           trigger: panorama, start: "top bottom", end: "bottom top", scrub: .5,
         } });
@@ -197,6 +194,7 @@ export function ScrollExperience({ children, theme }: { children: ReactNode; the
 
     let refreshFrame = 0;
     const refresh = (event?: Event) => {
+      if (event?.target instanceof Element && event.target.closest("dialog")) return;
       if (event?.target instanceof Element && event.target.closest(".mobile-menu")) return;
       cancelAnimationFrame(refreshFrame);
       refreshFrame = requestAnimationFrame(() => { ScrollTrigger.refresh(); });

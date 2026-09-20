@@ -72,18 +72,20 @@ function SiteHeader({ sections }: { sections: { id: string; title: string }[] })
 
 function Hero({ data }: { data: ProfilePageData }) {
   return <section className="company-hero" aria-labelledby="company-hero-title">
-    <div className="shell company-hero-copy">
-      <p className="company-hero-edition">MTCC <span>·</span> {data.hero.year}</p>
-      <h1 id="company-hero-title">Building a<br /><span>connected nation.</span><small>Since 1980</small></h1>
-      <p className="company-hero-lead">{data.hero.description}</p>
-      <div className="company-hero-actions"><SectionLink className="company-primary-action" href="#private-projects">Partner with us on your project <ArrowDown size={17} aria-hidden="true" /></SectionLink><SectionLink className="company-secondary-action" href="#portfolio">See what we do <ArrowUpRight size={18} aria-hidden="true" /></SectionLink></div>
-    </div>
-    <div className="company-hero-panorama">
-      <Image src={data.hero.image} alt="Aerial view of MTCC coastal infrastructure and turquoise Maldivian waters" fill sizes="100vw" priority />
-      <div className="company-hero-image-shade" />
-      <HeroLogo />
-      <div className="company-hero-caption"><span>Across the islands.</span><strong>Moving a nation forward.</strong></div>
-      <span className="company-hero-location">The Maldives <ArrowUpRight size={14} aria-hidden="true" /></span>
+    <div className="company-hero-stage">
+      <div className="company-hero-panorama" aria-hidden="true">
+        <Image src={data.hero.image} alt="" fill sizes="100vw" loading="eager" fetchPriority="high" />
+      </div>
+      <div className="company-hero-image-shade" aria-hidden="true" />
+      <div className="shell company-hero-composition">
+        <div className="company-hero-copy">
+          <p className="company-hero-edition">MTCC <span>·</span> {data.hero.year}</p>
+          <h1 id="company-hero-title">Building a<br /><span>connected nation.</span><small>Since 1980</small></h1>
+          <p className="company-hero-lead">{data.hero.description}</p>
+          <div className="company-hero-actions"><SectionLink className="company-primary-action" href="#private-projects">Partner with us on your project <ArrowDown size={17} aria-hidden="true" /></SectionLink><SectionLink className="company-secondary-action" href="#portfolio">See what we do <ArrowUpRight size={18} aria-hidden="true" /></SectionLink></div>
+        </div>
+        <div className="company-hero-brand"><HeroLogo /></div>
+      </div>
     </div>
     <div className="shell company-hero-metrics">{data.hero.metrics.map(metric => <div key={metric.label}><MetricValue value={metric.value} /><span>{metric.label}</span></div>)}</div>
   </section>;

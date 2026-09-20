@@ -19,16 +19,16 @@ export function ValuesSection({ section }: { section: Extract<ProfileSection, { 
         </article>)}
         <div className="purpose-chapters" aria-hidden="true"><span>01 — Vision</span><div><i /></div><span>02 — Mission</span></div>
       </div>
-      <div className="shell purpose-values">
+      <div id={`${section.id}-values`} className="shell purpose-values">
         <div className="purpose-values-heading"><p className="eyebrow">Our core values</p><h3>What moves us.</h3></div>
-        <div className="move-values">
-          {section.values.map((value, index) => <article key={value.letter}>
+        <p className="move-scroll-hint">Swipe or scroll to explore M, O, V and E <span aria-hidden="true">→</span></p>
+        <div className="move-values" role="region" aria-label="Our MOVE values" tabIndex={0}>
+          {section.values.map((value, index) => <article key={value.letter} aria-labelledby={`${section.id}-value-${value.letter}`}>
             <span className="move-letter" aria-hidden="true">{value.letter}</span>
-            <div className="move-description"><span className="move-number" aria-hidden="true">0{index + 1} / 0{section.values.length}</span><h4>{value.title}</h4><p>{value.text}</p><span className="move-rule" aria-hidden="true" /></div>
+            <div className="move-description"><span className="move-number" aria-hidden="true">0{index + 1} / 0{section.values.length}</span><h4 id={`${section.id}-value-${value.letter}`}>{value.title}</h4><p>{value.text}</p><span className="move-rule" aria-hidden="true" /></div>
           </article>)}
         </div>
       </div>
     </section>
   );
 }
-

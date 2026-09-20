@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
 import Image from "./site-image";
 import { InfrastructureSection } from "./infrastructure-section";
 import { TransportSection } from "./transport-section";
@@ -121,13 +122,12 @@ export function BusinessExplorer({ sections }: { sections: ProfileSection[] }) {
     setActive(index);
     const tab = tabs.current[index];
     if (focus) tab?.focus({ preventScroll: true });
-    if (tab?.parentElement) tab.parentElement.scrollTo({ left: tab.offsetLeft - tab.parentElement.offsetLeft, behavior: "instant" });
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
-    if (event.key === "ArrowRight") next = (index + 1) % businesses.length;
-    else if (event.key === "ArrowLeft") next = (index - 1 + businesses.length) % businesses.length;
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % businesses.length;
+    else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + businesses.length) % businesses.length;
     else if (event.key === "Home") next = 0;
     else if (event.key === "End") next = businesses.length - 1;
     else return;
@@ -156,12 +156,13 @@ export function BusinessExplorer({ sections }: { sections: ProfileSection[] }) {
       </header>
       <div className={styles.platform}>
         <div className={styles.platformName}><strong>MTCC</strong><span>Maldives Transport and Contracting Company</span></div>
-        <ol>{businesses.map((item, index) => <li key={item.id}><span className={styles.number} aria-hidden="true">0{index + 1}</span><div><strong>{item.title}</strong><p>{item.summary}</p></div></li>)}</ol>
-      </div>
-    </div>
-    <div className={`shell ${styles.tabShell}`}>
-      <div id="services" className={styles.tabs} role="tablist" aria-label="MTCC businesses">
-        {businesses.map((item, index) => <button key={item.id} ref={element => { tabs.current[index] = element; }} id={`business-tab-${item.id}`} type="button" role="tab" aria-selected={active === index} aria-controls="business-panel" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKeyDown(event, index)}>{item.title}</button>)}
+        <div id="services" className={styles.platformTabs} role="tablist" aria-label="MTCC businesses" aria-orientation="vertical">
+          {businesses.map((item, index) => <button key={item.id} ref={element => { tabs.current[index] = element; }} id={`business-tab-${item.id}`} type="button" role="tab" aria-selected={active === index} aria-controls="business-panel" tabIndex={active === index ? 0 : -1} onClick={() => select(index)} onKeyDown={event => onKeyDown(event, index)}>
+            <span className={styles.number} aria-hidden="true">0{index + 1}</span>
+            <span className={styles.platformCopy}><strong>{item.title}</strong><span>{item.summary}</span></span>
+            <ArrowUpRight size={19} aria-hidden="true" />
+          </button>)}
+        </div>
       </div>
     </div>
     <div ref={panel} id="business-panel" className={styles.panel} role="tabpanel" aria-labelledby={`business-tab-${business.id}`} tabIndex={0}>{detail()}</div>

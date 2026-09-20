@@ -31,13 +31,13 @@
 .selection li strong { display: block; color: #8be6f5; font-size: .79rem; font-weight: 600; }
 .selection li p { margin: 4px 0 0; color: #b6cbdc; font-size: .76rem; line-height: 1.6; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 22px; margin-top: 25px; }
-.actions a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: .8rem; font-weight: 600; }
-.email { padding: 13px 16px; border-radius: 8px; color: var(--navy-deep); background: #8be6f5; transition: background .15s; }
-.email:hover { background: white; }
+.actions a, .actions button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-size: .8rem; font-weight: 600; }
+.contact { padding: 13px 16px; border: 0; border-radius: 8px; color: var(--navy-deep); background: #8be6f5; cursor: pointer; transition: background .15s; }
+.contact:hover { background: white; }
 .phone { padding-block: 8px; color: white; }
 .phone:hover { color: #8be6f5; }
-.actions a:focus-visible { outline: 3px solid #8be6f5; outline-offset: 5px; }
-.emailNote { margin: 12px 0 0; color: #a5bdcf; font-size: .7rem; }
+.actions a:focus-visible, .actions button:focus-visible { outline: 3px solid #8be6f5; outline-offset: 5px; }
+.contactNote { margin: 12px 0 0; color: #a5bdcf; font-size: .7rem; }
 .references { display: grid; grid-template-columns: 1fr 1fr; gap: 38px; margin-top: 48px; padding-top: 32px; border-top: 1px solid #315069; }
 .references article > span { color: #8be6f5; font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
 .references h3 { margin: 9px 0 6px; font-size: 1.08rem; font-weight: 600; }
@@ -64,5 +64,5 @@
   .checklist { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .email { transition: none; }
+  .contact { transition: none; }
 }

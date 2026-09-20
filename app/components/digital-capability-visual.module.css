@@ -1,0 +1,165 @@
+.figure {
+  container: capability-visual / inline-size;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: #0b2c43;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  padding: 26px;
+  border: 1px solid #d9e6ee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #00afd9 27%, #0b314c 27%);
+}
+
+.label {
+  margin: 0;
+  color: #6c8494;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.caption {
+  margin: 14px 0 0;
+  color: #718797;
+  font-size: .7rem;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.foundationsList {
+  position: relative;
+  display: grid;
+  margin: 36px 12px 30px;
+}
+
+.foundationsList::before {
+  content: "";
+  position: absolute;
+  top: 46px;
+  bottom: 46px;
+  left: 22px;
+  width: 1px;
+  background: #8edaf0;
+}
+
+.capability {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 98px;
+  padding-block: 22px;
+}
+
+.capability + .capability { border-top: 1px solid #dce7ee; }
+.capability > div { min-width: 0; }
+.capability strong { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+.capability p { margin: 8px 0 0; color: #718797; font-size: .82rem; line-height: 1.5; }
+
+.capabilityIcon {
+  position: relative;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #dff5fc;
+  color: #155077;
+}
+
+.operations { background: #eaf4f9; }
+.workspace { margin: 31px 3px 22px; }
+.workspaceHeading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; color: #6c8494; font-size: .71rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.workspaceHeading i { flex: 0 0 64px; height: 6px; border-radius: 2px; background: #c5dee8; }
+.projectCard, .operationCard { min-width: 0; padding: 19px; border: 1px solid #dce8ef; background: #fff; }
+.cardHeading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; line-height: 1.45; }
+.cardHeading strong { font-size: .84rem; font-weight: 700; }
+.cardHeading > span { color: #246396; font-size: .7rem; font-weight: 600; }
+.milestone { display: grid; grid-template-columns: 88px minmax(0, 1fr) 12px; align-items: center; gap: 14px; margin-top: 12px; color: #718797; font-size: .72rem; line-height: 1.5; }
+.track { display: block; height: 5px; background: #e2edf3; }
+.track > i { display: block; height: 100%; background: #00afd9; }
+.operationCards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin-top: 12px; }
+.operationCard { padding: 19px 17px; }
+.operationCard .cardHeading { gap: 8px; }
+.activity { display: grid; gap: 5px; padding: 13px 11px; background: #f3f8fb; }
+.activity strong { font-size: .75rem; font-weight: 700; line-height: 1.45; }
+.activity > span { color: #4f6b7e; font-size: .68rem; line-height: 1.5; }
+
+.services { background: #f4f9fc; }
+.servicesStage { position: relative; min-height: 365px; margin: 30px 0 0 34px; padding-right: 35px; }
+.browser { padding: 19px; border: 1px solid #ccdeea; background: #fff; }
+.browserBar { height: 12px; margin-bottom: 19px; background: #e2edf3; }
+.browserBar > span { display: block; width: 28%; height: 100%; background: #0a2e48; }
+.serviceTiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.serviceTile { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; min-width: 0; min-height: 92px; padding: 13px 10px; border: 1px solid #deE8ee; }
+.serviceTile svg { flex-shrink: 0; color: #00aeef; }
+.serviceTile strong { font-size: .67rem; line-height: 1.5; font-weight: 700; }
+.phone { position: absolute; right: 0; bottom: 0; width: 120px; padding: 10px 9px 23px; border: 3px solid #0b314c; border-radius: 18px; background: #fff; }
+.phoneSpeaker { display: block; width: 31px; height: 4px; margin: 0 auto 15px; border-radius: 3px; background: #0b314c; }
+.phoneScreen { display: grid; gap: 8px; }
+.phoneScreen > div { padding: 12px 8px; background: #e9f4fa; color: #183e59; font-size: .62rem; font-weight: 700; line-height: 1.5; }
+
+@container capability-visual (max-width: 510px) {
+  .frame { padding: 23px 20px; }
+  .foundationsList { margin-inline: 0; }
+  .capability { gap: 15px; }
+  .capability strong { font-size: .94rem; }
+  .capability p { font-size: .78rem; }
+  .workspace { margin-inline: 0; }
+  .workspaceHeading { font-size: .64rem; }
+  .workspaceHeading i { flex-basis: 45px; }
+  .projectCard, .operationCard { padding: 16px 13px; }
+  .operationCard .cardHeading { flex-wrap: wrap; gap: 2px 8px; min-height: 40px; }
+  .cardHeading strong { font-size: .77rem; }
+  .cardHeading > span { font-size: .65rem; }
+  .milestone { grid-template-columns: 75px minmax(0, 1fr) 9px; gap: 9px; font-size: .68rem; }
+  .servicesStage { margin-left: 0; padding-right: 15px; }
+  .browser { padding: 14px; }
+  .serviceTiles { gap: 6px; }
+  .serviceTile { padding: 12px 8px; }
+}
+
+@container capability-visual (max-width: 390px) {
+  .frame { padding: 22px 17px; }
+  .label { font-size: .63rem; letter-spacing: .09em; }
+  .caption { font-size: .67rem; }
+  .foundationsList { margin-block: 19px 8px; }
+  .foundationsList::before { left: 19px; }
+  .capability { gap: 13px; min-height: 104px; padding-block: 20px; }
+  .capabilityIcon { flex-basis: 40px; width: 40px; height: 40px; }
+  .capabilityIcon svg { width: 21px; height: 21px; }
+  .capability strong { font-size: .86rem; }
+  .capability p { font-size: .75rem; margin-top: 5px; }
+  .workspace { margin-block: 25px 5px; }
+  .workspaceHeading { gap: 10px; font-size: .62rem; letter-spacing: .04em; }
+  .workspaceHeading i { flex-basis: 29px; }
+  .operationCards { grid-template-columns: minmax(0, 1fr); }
+  .operationCard .cardHeading { flex-wrap: nowrap; min-height: 0; margin-bottom: 12px; }
+  .activity { padding: 12px; }
+  .activity strong { font-size: .77rem; }
+  .activity > span { font-size: .72rem; }
+  .servicesStage { min-height: 420px; padding-right: 0; margin-top: 24px; }
+  .serviceTiles { grid-template-columns: minmax(0, 1fr); }
+  .serviceTile { flex-direction: row; align-items: center; gap: 12px; min-height: 47px; padding: 10px; }
+  .serviceTile strong { font-size: .71rem; }
+  .serviceTile svg { width: 20px; height: 20px; }
+  .browserBar { margin-bottom: 12px; height: 9px; }
+  .phone { width: 120px; padding-bottom: 17px; }
+}

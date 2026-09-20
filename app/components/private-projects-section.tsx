@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowRight, Mail, Phone } from "lucide-react";
 import { currencyMetrics } from "../../lib/currency";
 import { useCurrency } from "./currency-toggle";
 import { CurrencyText } from "./currency-symbol";
+import { ProjectContactDialog } from "./project-contact-dialog";
 import styles from "./private-projects-section.module.css";
 
 const capabilities = [
@@ -40,18 +41,14 @@ const works = [
 
 export function PrivateProjectsSection() {
   const [selected, setSelected] = useState<string[]>([]);
+  const [contactOpen, setContactOpen] = useState(false);
   const { currency } = useCurrency();
   useEffect(() => {
+    if (contactOpen) return;
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(frame);
-  }, [selected]);
+  }, [selected, contactOpen]);
   const selectedWorks = works.filter(work => selected.includes(work.id));
-  const body = [
-    "Hello MTCC,", "", "I would like to discuss a private project with your team.", "",
-    ...(selectedWorks.length ? ["The works we need:", ...selectedWorks.map(work => `- ${work.title}`)] : ["Please help us define the works needed for our project."]),
-    "", "Island / location: ", "Expected timeline: ", "Project details: ", "", "Name: ", "Company: ", "Phone: ",
-  ].join("\n");
-  const mailto = `mailto:info@mtcc.com.mv?subject=${encodeURIComponent("Private project enquiry")}&body=${encodeURIComponent(body)}`;
   const projectValue = (value: string, usd: string) => currencyMetrics([
     { value: `MVR ${value}M`, label: "Contract value" },
     { value: `USD ${usd}M`, label: "Contract value" },
@@ -83,7 +80,7 @@ export function PrivateProjectsSection() {
         <div className={styles.enquiry}>
           <fieldset>
             <legend>Tell us what you need</legend>
-            <p className={styles.enquiryIntro}>Tick the works in your project. We will show what MTCC brings to each, and draft the enquiry for you.</p>
+            <p className={styles.enquiryIntro}>Select the works in your project, then contact our team. Your choices will be included in the contact form.</p>
             <div className={styles.checklist}>{works.map(work => <label key={work.id}>
               <input type="checkbox" checked={selected.includes(work.id)} onChange={() => toggle(work.id)} />
               <span>{work.title}</span>
@@ -98,10 +95,10 @@ export function PrivateProjectsSection() {
           </div>
 
           <div className={styles.actions}>
-            <a className={styles.email} href={mailto}><Mail size={17} aria-hidden="true" />Email this enquiry<ArrowUpRight size={17} aria-hidden="true" /></a>
+            <button className={styles.contact} type="button" aria-haspopup="dialog" aria-expanded={contactOpen} aria-controls="project-contact-dialog" onClick={() => setContactOpen(true)}><Mail size={17} aria-hidden="true" />Contact us<ArrowRight size={17} aria-hidden="true" /></button>
             <a className={styles.phone} href="tel:+9603326822"><Phone size={16} aria-hidden="true" />Call +960 332 6822</a>
           </div>
-          <p className={styles.emailNote}>Opens an editable draft in your email app.</p>
+          <p className={styles.contactNote}>Add your contact details and tell us more about your project.</p>
         </div>
       </div>
 
@@ -110,5 +107,6 @@ export function PrivateProjectsSection() {
         <article><span>Private project experience</span><h3>Maxx Royal resort, phase 1</h3><p>Dredging, reclamation and shore protection, <strong><CurrencyText value={projectValue("283", "18")} /></strong></p></article>
       </div>
     </div>
+    <ProjectContactDialog open={contactOpen} onClose={() => setContactOpen(false)} works={works} selected={selected} onSelectionChange={setSelected} />
   </section>;
 }

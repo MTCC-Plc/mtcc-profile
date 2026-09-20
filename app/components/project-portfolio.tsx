@@ -50,6 +50,8 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
   const [view, setView] = useState<"register" | "comparison">("register");
   const { currency } = useCurrency();
   const money = (value: string) => currencyMetrics([{ value: `MVR ${value}B`, label: "Contract value" }], currency)[0].value;
+  const largestSectorValue = Math.max(...sectors.map(sector => Number(sector.value)));
+  const largestProjectValue = Math.max(1, ...projects.projects.map(project => Number(project.mvr)));
   useEffect(() => {
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(frame);
@@ -58,8 +60,7 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
   return <section id="project-breakdown" className={styles.section} aria-labelledby="portfolio-title">
     <div className="shell">
       <header className={styles.heading}>
-        <p className="eyebrow">From coast to community</p>
-        <h2 id="portfolio-title">The project<br />portfolio<span>.</span></h2>
+        <h2 id="portfolio-title">The project<br /><span>portfolio</span></h2>
         <p>Two ways to read it: the full register as it stood on 9 September 2026, or work on hand against work completed since 2021.</p>
       </header>
 
@@ -75,12 +76,11 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
             <div><dt>Total contract value</dt><dd><CurrencyText value={money("32.35")} /></dd></div>
           </dl>
           <div className={styles.sectors}>
-            {sectors.map((sector, index) => <details className={styles.sector} key={sector.title} open={index === 0}>
+            {sectors.map(sector => <details className={styles.sector} key={sector.title} open>
               <summary>
-                <span className={styles.index} aria-hidden="true">0{index + 1}</span>
-                <span className={styles.sectorName}><strong>{sector.title}</strong><small>{sector.count} projects</small></span>
+                <span className={styles.sectorName}><strong>{sector.title} <ChevronDown size={18} className={styles.chevron} aria-hidden="true" /></strong><small>{sector.count} projects</small></span>
                 <span className={styles.sectorValue}><strong><CurrencyText value={money(sector.value)} /></strong><small>{sector.share}% of value</small></span>
-                <ChevronDown size={20} className={styles.chevron} aria-hidden="true" />
+                <span className={styles.sectorBar} aria-hidden="true"><span style={{ width: `${Number(sector.value) / largestSectorValue * 100}%` }} /></span>
               </summary>
               <dl className={styles.projectTypes}>{sector.types.map(([count, label]) => <div key={label}><dt>{label}</dt><dd>{count}</dd></div>)}</dl>
             </details>)}
@@ -92,11 +92,11 @@ export function ProjectPortfolio({ comparison, projects }: ProjectPortfolioProps
       </div>
 
       <section id="projects" className={styles.flagships} aria-labelledby="flagship-list-title">
-        <header><h3 id="flagship-list-title">Flagship projects</h3><span>Selected works</span></header>
+        <header><h3 id="flagship-list-title">Flagship projects</h3></header>
         <ol className={styles.flagshipList}>{projects.projects.map((project, index) => <li key={project.name}>
-          <span className={styles.projectIndex} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
           <span className={styles.projectName}>{flagshipNames[index] ?? project.name}</span>
           <strong><CurrencyText value={`${currencySymbols[currency]} ${currency === "MVR" ? project.mvr : project.usd}M`} /></strong>
+          <span className={styles.projectBar} aria-hidden="true"><span style={{ width: `${Number(project.mvr) / largestProjectValue * 100}%` }} /></span>
         </li>)}</ol>
         <p className={styles.note}>Contract values excluding GST.</p>
       </section>
