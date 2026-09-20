@@ -17,7 +17,6 @@
     "ENQUIRY_TO": "info@mtcc.com.mv",
     "HERALD_SOURCE": "MTCC Company Profile",
     "HERALD_URL": "https://api-herald.mtcc.com.mv/notification/email",
-    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAE-CHaNt6JUy5O6e",
   },
   // Five enquiries per minute per IP address. The period must be 10 or 60.
   "ratelimits": [
