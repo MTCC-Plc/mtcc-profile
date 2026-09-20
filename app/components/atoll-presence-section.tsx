@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Anchor, Bus, MapPin } from "lucide-react";
 import { MaldivesAtollMap } from "./maldives-atoll-map";
-import { allAtolls, atollRegions, presenceMetrics, type Atoll } from "../data/atoll-presence";
+import { allAtolls, presenceMetrics, type Atoll } from "../data/atoll-presence";
 import styles from "./atoll-presence-section.module.css";
 
 function EntryList({ atoll }: { atoll: Atoll }) {
@@ -47,50 +47,22 @@ export function AtollPresenceSection() {
           ))}
         </div>
 
-        <div className={styles.layout}>
-          <figure className={styles.panel}>
-            <MaldivesAtollMap selected={selected} onSelect={code => setSelected(current => (current === code ? null : code))} />
-            <figcaption className={styles.readout} aria-live="polite">
-              {active ? (
-                <>
-                  <span className={styles.readoutCode}>{active.code}</span>
-                  <div>
-                    <strong>{active.name}</strong>
-                    <EntryList atoll={active} />
-                  </div>
-                </>
-              ) : (
-                <p className={styles.prompt}><MapPin size={16} aria-hidden="true" /> Choose a pin to see what we run in that atoll.</p>
-              )}
-            </figcaption>
-          </figure>
-
-          <div className={styles.regions}>
-            {atollRegions.map(region => (
-              <div className={styles.region} key={region.name}>
-                <h3>{region.name}</h3>
-                <div className={styles.rows2}>
-                  {region.atolls.map(atoll => (
-                    <button
-                      type="button"
-                      key={atoll.code}
-                      className={styles.row}
-                      data-selected={selected === atoll.code || undefined}
-                      aria-pressed={selected === atoll.code}
-                      onClick={() => setSelected(current => (current === atoll.code ? null : atoll.code))}
-                    >
-                      <span className={styles.code}>{atoll.code}</span>
-                      <span className={styles.rowBody}>
-                        <b>{atoll.name}</b>
-                        <EntryList atoll={atoll} />
-                      </span>
-                    </button>
-                  ))}
+        <figure className={styles.panel}>
+          <MaldivesAtollMap selected={selected} onSelect={code => setSelected(current => (current === code ? null : code))} />
+          <figcaption className={styles.readout} aria-live="polite">
+            {active ? (
+              <>
+                <span className={styles.readoutCode}>{active.code}</span>
+                <div>
+                  <strong>{active.name}</strong>
+                  <EntryList atoll={active} />
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              </>
+            ) : (
+              <p className={styles.prompt}><MapPin size={16} aria-hidden="true" /> Choose a pin to see what we run in that atoll.</p>
+            )}
+          </figcaption>
+        </figure>
 
         <p className={styles.legend}>
           <span data-kind="project"><Anchor size={14} aria-hidden="true" /> Projects and construction</span>

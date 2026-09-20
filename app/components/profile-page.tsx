@@ -143,9 +143,9 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
       <CompanyAbout section={getSection(data, "about-mtcc", "content")} />
       <ValuesSection section={getSection(data, "purpose", "values")} />
       <BusinessExplorer sections={businessData} />
-      <FleetSection />
       <ProjectPortfolio projects={getSection(data, "projects", "projects")} />
       <AtollPresenceSection />
+      <FleetSection />
       <PrivateProjectsSection />
       <MilestonesSection section={getSection(data, "milestones", "timeline")} />
       <PartnershipOverview reasons={getSection(data, "competitive-differentiators", "content")} sustainability={getSection(data, "sustainability", "content")} financials={getSection(data, "financials", "content")} strategy={getSection(data, "strategy", "strategy")} />
