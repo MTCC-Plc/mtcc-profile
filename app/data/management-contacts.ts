@@ -3,7 +3,7 @@ export type ManagementContact = {
   role: string;
   email: string;
   phone: string;
-  group: "management" | "senior-management";
+  group: "management" | "senior-management" |"special-advisor";
   image?: string;
   division?: string;
 };
@@ -78,7 +78,7 @@ export const managementContacts: ManagementContact[] = [
     role: "Senior General Manager",
     email: "ahmed.latheef@mtcc.com.mv",
     phone: "7795690",
-    group: "management",
+    group: "special-advisor",
     image: "/assets/leadership/09.webp",
   },
   {
@@ -131,7 +131,7 @@ export const managementContacts: ManagementContact[] = [
     role: "Senior General Manager",
     email: "ibrahim.latheef@mtcc.com.mv",
     phone: "7793777",
-    group: "management",
+    group: "special-advisor",
     image: "/assets/leadership/15.webp",
     division: "Training & Strategic Development",
   },

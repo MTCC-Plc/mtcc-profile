@@ -20,8 +20,9 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   const selectedTrigger = useRef<HTMLButtonElement>(null);
   const detail = useRef<HTMLElement>(null);
   const selected = section.people.find(person => person.name === selectedName);
-  const management = section.people.filter(person => person.group !== "senior-management");
+  const management = section.people.filter(person => person.group !== "senior-management" && person.group !== "special-advisor");
   const seniorManagement = section.people.filter(person => person.group === "senior-management");
+  const specialAdvisors = section.people.filter(person => person.group === "special-advisor");
   const managing = management.find(person => person.role === "Managing Director")!;
   const executives = management.filter(person => /Managing Director|Operating Officer/.test(person.role) && person !== managing);
   const risk = management.find(person => person.division === "Risk Management");
@@ -29,8 +30,8 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   const business = management.filter(person => businessDivisions.has(person.division ?? ""));
   const corporate = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && (person.division || person.role === "Chief Financial Officer"));
   const otherManagement = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && !corporate.includes(person));
-  const category = selected && (selected.group === "senior-management" ? "Senior management" : selected === managing || executives.includes(selected) ? "Executive leadership" : business.includes(selected) ? "Business divisions" : corporate.includes(selected) ? "Corporate services" : governance.includes(selected) || selected === risk ? "Governance & risk" : "Management");
-  const directoryGroups = view === "senior" ? [{ title: "Senior Management", people: seniorManagement }] : [{ title: "Management", people: management }, { title: "Senior Management", people: seniorManagement }];
+  const category = selected && (selected.group === "senior-management" ? "Senior management" : selected.group === "special-advisor" ? "Special advisors" : selected === managing || executives.includes(selected) ? "Executive leadership" : business.includes(selected) ? "Business divisions" : corporate.includes(selected) ? "Corporate services" : governance.includes(selected) || selected === risk ? "Governance & risk" : "Management");
+  const directoryGroups = view === "senior" ? [{ title: "Senior Management", people: seniorManagement }] : [{ title: "Management", people: management }, { title: "Senior Management", people: seniorManagement }, { title: "Special Advisors", people: specialAdvisors }];
 
   useEffect(() => {
     let frame = 0;

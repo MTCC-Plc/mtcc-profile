@@ -10,8 +10,8 @@ export function ValuesSection({ section }: { section: Extract<ProfileSection, { 
       </div>
       <div className="purpose-stage">
         {[
-          { label: "Our vision", text: section.vision, image: "/assets/bridge.webp" },
-          { label: "Our mission", text: section.mission, image: "/assets/transport.webp" },
+          { label: "Our vision", text: section.vision, image: "/assets/vision-scene.webp" },
+          { label: "Our mission", text: section.mission, image: "/assets/mission-scene.webp" },
         ].map((chapter, index) => <article className="purpose-scene" key={chapter.label}>
           <div className="purpose-backdrop" aria-hidden="true"><Image src={chapter.image} alt="" fill sizes="100vw" /></div>
           <div className="purpose-shade" />

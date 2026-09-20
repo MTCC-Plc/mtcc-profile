@@ -32,6 +32,7 @@ The generated website is in `out/`. This is a static export; it requires no appl
 ## Content and checks
 
 - Current PDF-based profile copy and figures: `app/data/company-profile.ts`
+- User-supplied Annual Report 2025 figures: `app/data/annual-report-2025.ts`
 - Digital transformation copy: `app/data/digital-transformation.ts`
 - Featured investment opportunities: `app/data/featured-investments.ts`, sourced from `Featured Investment Projects.pdf`
 - Current management names, titles and contact details: `app/data/management-contacts.ts`, supplied by MTCC
@@ -46,7 +47,9 @@ The generated website is in `out/`. This is a static export; it requires no appl
 
 Local PDFs, working files, hosting backups, browser captures, and environment files are excluded from Git. The current edition follows `MTCC-Company-Profile-2026_9665.pdf`, with the existing mission, vision and values presentation preserved in `app/components/values-section.tsx`.
 
-The updated portfolio totals are 878 projects and MVR 34.84B. The sector breakdown retains the 9 September 2026 register figures; updated sector allocations have not been supplied. The earlier on-hand/completed comparison covers a separate scope. Financial figures remain labelled 2024. The new workforce section uses the supplied 6,672-person breakdown; a business-area breakdown is not displayed because its underlying figures are not visible in the supplied PDF. The private-project checklist opens an editable email draft containing the selected works.
+The hero uses the supplied Annual Report 2025 figures: 719 government projects underway, MVR 6.01B total assets, 16.25M passengers and 5,395 employees as at 31 December 2025. The financial section shows the proposed MVR 3.00 dividend per share; CSR and community spending is MVR 8.62M for 2025. Approximate USD equivalents are calculated from the new MVR figures. The user confirmed that the establishment year remains 1980.
+
+The visible project portfolio now uses 719 government projects underway from Annual Report 2025, alongside the existing flagship projects. The workforce shows the dated 5,395-employee headcount and qualitative skills and credentials; updated role counts were not supplied. The transport section shows 16.25M passengers for 2025. Earlier project totals, sector allocations, workforce counts and passenger averages remain in the retained components and archived data, without being displayed. Four main operating divisions are described through the five existing service tabs. The private-project checklist opens an editable email draft containing the selected works.
 
 The digital transformation section sits immediately before the workforce. Its three keyboard-accessible chapters and five system views follow `MTCC-Digital-Transformation-Three-Section-Design_9408.pdf`. The reference has no actual system screenshots; `digital-system-visual.tsx` contains responsive service diagrams that can be replaced with approved screenshots later. The section and illustrations have their own CSS modules and support reduced motion.
 
@@ -62,12 +65,14 @@ The right-hand navigation drawer groups links under About us, What we do, Projec
 
 Unused layouts remain available without being mounted by the current page:
 
+- `retained-project-portfolio.tsx` preserves the September 2026 register, its 878-project/MVR 34.84B totals, sector allocation and on-hand/completed comparison.
+- `retained-workforce-section.tsx` preserves the earlier workforce statistics and the 6,672-person skills and credentials breakdown.
 - `retained-profile-sections.tsx` exports the earlier story, services, people, metrics and portfolio sections.
 - `publication-sections.tsx` retains the longer about/financial layouts, generic content blocks, leadership grid and contents navigation.
 - `investment-highlights.tsx`, `flagship-projects.tsx`, `growth-strategy.tsx`, `differentiators-section.tsx`, `sustainability-section.tsx` and `partnership-section.tsx` retain the earlier dedicated layouts.
 - `archivedCompanyProfile` preserves the previous section order and full data for reuse with those components.
 
-To restore a section, import its component into `profile-page.tsx`, select its matching data from `archivedCompanyProfile`, and add it to the visible page and navigation. Its existing styles and assets are retained. Business details and the project comparison are mounted only when their corresponding view is selected.
+To restore a section, import its component into `profile-page.tsx`, select its matching data from `archivedCompanyProfile`, and add it to the visible page and navigation. Its existing styles and assets are retained. Business details are mounted only when their corresponding view is selected.
 
 The persistent currency toggle uses the **official rufiyaa symbol with MVR** and **$ USD**, and saves the preference locally. Supplied MVR/USD pairs are displayed exactly as provided. When only one currency was supplied, the equivalent is marked approximate using MVR 15.42 per USD ([MMA reference](https://database.mma.gov.mv/viya/series/4039)); this is a presentation rate, not a live exchange-rate feed. Original table units are retained.
 

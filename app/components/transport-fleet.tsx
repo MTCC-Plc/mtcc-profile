@@ -39,7 +39,7 @@ export function TransportFleet({ block }: { block: Extract<ContentBlock, { type:
     };
   }, [active]);
   const icons = [Ship, BusFront, Waves, CarFront];
-  const images = ["/assets/transport.webp", "/assets/bridge.webp", "/assets/conventional-ferry.webp", "/assets/male-taxi-fleet.webp"];
+  const images = ["/assets/fleet-showcase1.webp", "/assets/fleet-showcase2.webp", "/assets/fleet-showcase3.webp", "/assets/fleet-showcase4.webp"];
   const imageDescriptions = ["RTL ferry travelling across the sea", "RTL buses travelling on a bridge", "Boarding an MTCC conventional ferry", "Malé Taxi Line electric vehicles displayed at the fleet launch"];
   function select(index: number) {
     setActive(index);

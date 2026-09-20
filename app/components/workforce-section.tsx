@@ -3,71 +3,59 @@
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Award, ChevronDown, HardHat, Ship, Users, BriefcaseBusiness, Ruler, Waypoints } from "lucide-react";
+import { annualReport2025 } from "../data/annual-report-2025";
 import styles from "./workforce-section.module.css";
 
 const skillGroups = [
   {
     name: "Construction crews",
-    count: "2,765",
     icon: HardHat,
     description: "Site teams for marine, civil and building works, enough to run many islands at once.",
-    roles: [["Construction workers", "2,765"]],
+    roles: ["Construction workers"],
   },
   {
     name: "Machineries",
-    count: "1,318",
     icon: Ship,
     description: "The people who run and maintain the dredgers, vessels, cranes and heavy machines.",
-    roles: [["Machine and vehicle operators", "1,149"], ["Mechanics", "129"], ["Maritime professionals", "40"]],
+    roles: ["Machine and vehicle operators", "Mechanics", "Maritime professionals"],
   },
   {
     name: "Operations and services",
-    count: "1,279",
     icon: Waypoints,
     description: "Transport, terminal, yard and service staff who keep daily operations moving.",
-    roles: [["Service and support staff", "958"], ["Operational staff", "321"]],
+    roles: ["Service and support staff", "Operational staff"],
   },
   {
     name: "Corporate and professional",
-    count: "1,033",
     icon: BriefcaseBusiness,
     description: "Finance, audit, IT, data and administration behind every contract.",
-    roles: [["Administrative and clerical", "995"], ["IT professionals", "27"], ["Auditors", "7"], ["Accountants", "2"], ["Data analysts", "2"]],
+    roles: ["Administrative and clerical", "IT professionals", "Auditors", "Accountants", "Data analysts"],
   },
   {
     name: "Project leadership",
-    count: "163",
     icon: Users,
     description: "Project managers and management professionals accountable for delivery.",
-    roles: [["Management professionals", "120"], ["Project managers", "43"]],
+    roles: ["Management professionals", "Project managers"],
   },
   {
     name: "Engineers and specialists",
-    count: "114",
     icon: Ruler,
     description: "Design, survey, quality and engineering talent, all in house.",
     roles: [
-      ["Civil engineers", "43"],
-      ["Mechanical engineers", "13"],
-      ["Surveyors", "12"],
-      ["Architects", "9"],
-      ["Environmental engineers and specialists", "9"],
-      ["Class welding professionals", "8"],
-      ["Quality control engineers", "6"],
-      ["Quantity surveyors", "6"],
-      ["Electrical engineers", "3"],
-      ["Marine engineers", "2"],
-      ["Dredging professionals", "2"],
-      ["Coastal engineer", "1"],
+      "Civil engineers",
+      "Mechanical engineers",
+      "Surveyors",
+      "Architects",
+      "Environmental engineers and specialists",
+      "Class welding professionals",
+      "Quality control engineers",
+      "Quantity surveyors",
+      "Electrical engineers",
+      "Marine engineers",
+      "Dredging professionals",
+      "Coastal engineer",
     ],
   },
-];
-
-const metrics = [
-  { value: "6,672", label: "people across seven business areas" },
-  { value: "3,735", label: "Employees with 15+ Years of Service" },
-  { value: "516", label: "hold a diploma, degree, master's or professional certificates" },
-  { value: "1,149", label: "machine and vehicle operators, 140 of them licence holders" },
 ];
 
 export function WorkforceSection() {
@@ -99,19 +87,11 @@ export function WorkforceSection() {
         <header className={styles.heading}>
           <div>
             <p className="eyebrow">Our workforce</p>
-            <h2 id="workforce-title">6,672 people,<br /><span>one delivery team</span></h2>
+            <h2 id="workforce-title">{annualReport2025.employees} employees,<br /><span>one delivery team</span></h2>
+            <p className={styles.employeeDate}>As at {annualReport2025.employeeDate} · Annual Report 2025</p>
           </div>
           <p className={styles.intro}>Clients and investors get more than equipment. They get crews, operators, engineers and managers who already work together, with the depth to staff several large sites at once.</p>
         </header>
-
-        <dl className={styles.metrics}>
-          {metrics.map(metric => (
-            <div key={metric.value}>
-              <dt>{metric.label}</dt>
-              <dd>{metric.value}</dd>
-            </div>
-          ))}
-        </dl>
 
         <div className={styles.toolbar}>
           <div className={styles.views} role="group" aria-label="Explore our workforce">
@@ -127,16 +107,14 @@ export function WorkforceSection() {
               {skillGroups.map(group => (
                 <details className={styles.group} key={group.name}>
                   <summary>
-                    <span className={styles.groupTop}><group.icon size={25} strokeWidth={1.5} aria-hidden="true" /><span className={styles.groupCount}>{group.count}</span></span>
+                    <span className={styles.groupTop}><group.icon size={25} strokeWidth={1.5} aria-hidden="true" /></span>
                     <h3>{group.name}</h3>
                     <p>{group.description}</p>
                     <span className={styles.groupAction}><span>Explore roles</span><ChevronDown size={19} aria-hidden="true" /></span>
                   </summary>
-                  <dl className={styles.roles}>
-                    {group.roles.map(([role, count]) => (
-                      <div key={role}><dt>{role}</dt><dd>{count}</dd></div>
-                    ))}
-                  </dl>
+                  <ul className={styles.roleNames}>
+                    {group.roles.map(role => <li key={role}>{role}</li>)}
+                  </ul>
                 </details>
               ))}
             </div>
@@ -144,15 +122,13 @@ export function WorkforceSection() {
             <div className={styles.credentials}>
               <article>
                 <Award size={31} strokeWidth={1.4} aria-hidden="true" />
-                <strong>516</strong>
                 <h3>Diploma, degree, master&apos;s or professional certificates</h3>
                 <p>People who hold a diploma, degree, master&apos;s and professional certificates</p>
               </article>
               <article>
                 <HardHat size={31} strokeWidth={1.4} aria-hidden="true" />
-                <strong>140</strong>
                 <h3>Operator licence holders</h3>
-                <p>Among our 1,149 machine and vehicle operators.</p>
+                <p>Machine and vehicle operators with professional licences.</p>
               </article>
             </div>
           )}
