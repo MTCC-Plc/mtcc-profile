@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowUpRight, Globe2, Mail, MapPin, Phone } from "lucide-react";
 import { SectionLink } from "./section-link";
-import { HeroLogo } from "./hero-logo";
 import { CurrencyText } from "./currency-symbol";
 import { CurrencyToggle, useCurrency } from "./currency-toggle";
 import { isMoney, profileInCurrency } from "../../lib/currency";
@@ -91,7 +90,6 @@ function Hero({ data }: { data: ProfilePageData }) {
           <p className="company-hero-lead">{data.hero.description}</p>
           <div className="company-hero-actions"><SectionLink className="company-primary-action" href="#private-projects">Partner with us on your project <ArrowDown size={17} aria-hidden="true" /></SectionLink><SectionLink className="company-secondary-action" href="#portfolio">See what we do <ArrowUpRight size={18} aria-hidden="true" /></SectionLink></div>
         </div>
-        <div className="company-hero-brand"><HeroLogo /></div>
       </div>
     </div>
     <div className="shell company-hero-metrics">{data.hero.metrics.map(metric => <div key={metric.label}><MetricValue value={metric.value} /><span>{metric.label}</span></div>)}</div>

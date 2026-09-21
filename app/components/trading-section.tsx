@@ -8,7 +8,7 @@ export function TradingSection({ section }: { section: Extract<ProfileSection, {
   const services = [Cylinder, Wrench, Anchor];
   return <section id={section.id} className="trading-section" aria-labelledby="trading-title">
     <div className="shell">
-      <header className="trading-intro"><div><p className="eyebrow">{section.eyebrow}</p><h2 id="trading-title">{section.title}<span>.</span></h2></div><div className="trading-product-image"><Image src="/assets/product-image.webp" alt="Marine outboard engines" fill sizes="(max-width: 760px) 100vw, 650px" /></div></header>
+      <header className="trading-intro"><div><p className="eyebrow">{section.eyebrow}</p><h2 id="trading-title">{section.title}<span>.</span></h2></div><div className="trading-product-image"><Image src="/assets/product-image.webp" alt="Suzuki Marine outboard engines on display" fill sizes="(max-width: 760px) 100vw, 650px" /></div></header>
       {section.blocks.filter(block => block.type === "text").map((block, index) => <article className="trading-story" key={index}>
         <h3>{block.title}</h3><div>{block.paragraphs?.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
         {block.items && <ul className="trading-services">{block.items.map((item, i) => {const Icon=services[i % services.length];return <li key={item}><Icon size={32} strokeWidth={1.3} aria-hidden="true" /><span>{item}</span></li>;})}</ul>}

@@ -52,7 +52,7 @@ export const companyProfile: ProfilePageData = {
           "Today MTCC is the longest-serving public company in the Maldives, 64.2% government owned and ISO 9001:2015 certified.",
         ] },
         { type: "metrics", metrics: [
-          { value: annualReport2025.governmentProjects, label: "Government projects underway · 2025" },
+          { value: "878", label: "Total projects" },
           { value: "6", label: "Dredgers, the largest fleet in the country" },
           { value: "20", label: "Atolls with MTCC operations" },
           { value: "64.2%", label: "Government ownership" },
