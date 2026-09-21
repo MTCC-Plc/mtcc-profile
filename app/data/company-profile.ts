@@ -99,7 +99,7 @@ export const companyProfile: ProfilePageData = {
       { title: "Trading growth", items: ["Expand warehousing and island-level reach", "Introduce high-demand product lines"] },
     ] },
     { type: "content", id: "digital-transformation", eyebrow: "Digital transformation", title: "Transforming MTCC for a digitally connected Maldives", blocks: [] },
-    { type: "content", id: "workforce", eyebrow: "Our people", title: `${annualReport2025.employees} employees, one delivery team`, blocks: [] },
+    { type: "content", id: "workforce", eyebrow: "Our people", title: "6,672 people, one delivery team", blocks: [] },
     { ...original("management", "leadership"), title: "Leadership and structure", people: managementContacts, team: undefined },
     { type: "content", id: "potential-partnerships", eyebrow: "POTENTIAL PARTNERSHIPS", title: "Opportunities to build together", intro: "MTCC welcomes strategic partnerships that combine development opportunities with national-scale delivery capability.", blocks: [] },
   ],
