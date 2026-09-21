@@ -5,6 +5,8 @@ import type { ProfileSection } from "../types/profile";
 export function ValuesSection({ section }: { section: Extract<ProfileSection, { type: "values" }> }) {
   return (
     <section id={section.id} className="purpose-section" aria-labelledby={`${section.id}-title`}>
+      <div className="purpose-direction">
+      <Image className="purpose-waves" src="/assets/mtcc-waves.svg" alt="" width={1600} height={500} />
       <div className="shell purpose-intro">
         <p className="eyebrow">Our direction. Our drive.</p>
         <h2 id={`${section.id}-title`}>{section.title}</h2>
@@ -19,6 +21,7 @@ export function ValuesSection({ section }: { section: Extract<ProfileSection, { 
           <div className="purpose-card-top"><span className="purpose-icon" aria-hidden="true"><chapter.icon size={22} strokeWidth={1.75} /></span><span className="purpose-index" aria-hidden="true">0{index + 1} / 02</span></div>
           <div className="purpose-statement"><p className="eyebrow">{chapter.label}</p><h3>{chapter.text}<span className="purpose-period">.</span></h3></div>
         </article>)}
+      </div>
       </div>
       <div id={`${section.id}-values`} className="shell purpose-values">
         <div className="purpose-values-heading"><p className="eyebrow">Our core values</p><h3>What moves us.</h3></div>

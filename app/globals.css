@@ -440,11 +440,16 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 
 /* Purpose: spacious typography, cinematic chapters, and the MOVE principles. */
 .purpose-section { background: var(--mist); color: var(--ink); }
+.purpose-direction { position: relative; overflow: hidden; isolation: isolate; padding-bottom: 110px; color: white; background: var(--navy-deep); }
+.purpose-waves { position: absolute; inset: auto -5% -5%; z-index: -1; width: 110%; height: 72%; opacity: .24; pointer-events: none; }
+.purpose-direction .purpose-intro .eyebrow { color: #bcf1fa; }
+.purpose-direction .purpose-intro h2 { color: white; }
+.purpose-direction .purpose-scene { box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.1); }
 .purpose-intro { padding-block: 110px 80px; }
 .purpose-intro .eyebrow, .purpose-values .eyebrow { color: #526270; }
 .purpose-intro h2 { max-width: 900px; margin: 22px 0 0; font-size: clamp(3.2rem, 6.5vw, 6.5rem); line-height: 1.04; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
 .purpose-stage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.purpose-scene { position: relative; min-height: 540px; display: flex; flex-direction: column; justify-content: space-between; padding: 36px; border-radius: 28px; overflow: hidden; isolation: isolate; color: white; background: #041d30; box-shadow: 0 30px 60px -30px rgba(2,30,56,.45); transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.purpose-scene { position: relative; min-height: 500px; display: flex; flex-direction: column; justify-content: space-between; padding: 36px; border-radius: 28px; overflow: hidden; isolation: isolate; color: white; background: var(--navy-deep); box-shadow: 0 30px 60px -30px rgba(2,30,56,.45); transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
 .purpose-backdrop, .purpose-shade { position: absolute; inset: 0; z-index: -1; }
 .purpose-backdrop img { object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
 .purpose-shade { background: linear-gradient(180deg, rgba(0,15,28,.15) 0%, rgba(0,15,28,.2) 35%, rgba(0,15,28,.85) 100%); }
@@ -467,6 +472,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline
 .move-values p { margin: 0; max-width: 230px; color: #526270; line-height: 1.6; font-size: 1rem; }
 @media (max-width: 760px) {
   .purpose-intro { padding-block: 75px 50px; }
+  .purpose-direction { padding-bottom: 70px; }
   .purpose-intro h2 { font-size: clamp(2.7rem, 11vw, 4.3rem); }
   .purpose-stage { grid-template-columns: 1fr; gap: 16px; }
   .purpose-scene { min-height: 420px; padding: 26px; border-radius: 22px; }

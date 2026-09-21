@@ -21,6 +21,7 @@ import { BusinessExplorer } from "./business-explorer";
 import { ProjectPortfolio } from "./project-portfolio";
 import { PrivateProjectsSection } from "./private-projects-section";
 import { WorkforceSection } from "./workforce-section";
+import { EngineersSection } from "./engineers-section";
 import { DigitalTransformationSection } from "./digital-transformation-section";
 import { PotentialPartnershipsSection } from "./potential-partnerships-section";
 import { FleetSection } from "./fleet-section";
@@ -151,6 +152,7 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
       <PartnershipOverview reasons={getSection(data, "competitive-differentiators", "content")} sustainability={getSection(data, "sustainability", "content")} financials={getSection(data, "financials", "content")} strategy={getSection(data, "strategy", "strategy")} />
       <DigitalTransformationSection />
       <WorkforceSection />
+      <EngineersSection />
       <LengthOfServiceSection />
       <OrganisationSection section={getSection(data, "management", "leadership")} />
       <PotentialPartnershipsSection section={getSection(data, "potential-partnerships", "content")} />

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Award, ChevronDown, HardHat, Ship, Users, BriefcaseBusiness, Ruler, Waypoints } from "lucide-react";
+import { Award, ChevronDown, HardHat, Ship, Users, BriefcaseBusiness, Waypoints } from "lucide-react";
 import { annualReport2025 } from "../data/annual-report-2025";
 import styles from "./workforce-section.module.css";
 
@@ -36,25 +36,6 @@ const skillGroups = [
     icon: Users,
     description: "Project managers and management professionals accountable for delivery.",
     roles: ["Management professionals", "Project managers"],
-  },
-  {
-    name: "Engineers and specialists",
-    icon: Ruler,
-    description: "Design, survey, quality and engineering talent, all in house.",
-    roles: [
-      "Civil engineers",
-      "Mechanical engineers",
-      "Surveyors",
-      "Architects",
-      "Environmental engineers and specialists",
-      "Class welding professionals",
-      "Quality control engineers",
-      "Quantity surveyors",
-      "Electrical engineers",
-      "Marine engineers",
-      "Dredging professionals",
-      "Coastal engineer",
-    ],
   },
 ];
 
