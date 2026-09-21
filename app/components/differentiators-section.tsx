@@ -4,7 +4,7 @@ import type { ProfileSection } from "../types/profile";
 
 const treatments = [
   { name: "heritage", title: "A lasting presence.", image: "/assets/corporate-hero.webp" },
-  { name: "fleet", title: "Equipped for scale.", image: "/assets/dredging.b509c471.webp" },
+  { name: "fleet", title: "Equipped for scale.", image: "/assets/dredging.webp" },
   { name: "quality", title: "Certified quality." },
   { name: "network", title: "One connected network.", image: "/assets/bridge.webp" },
   { name: "diversity", title: "Strength in diversity." },

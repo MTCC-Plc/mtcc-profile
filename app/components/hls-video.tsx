@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { assetPath } from "../../lib/asset-path";
+import { imageUrl } from "../assets/url";
 
 /**
  * Plays an HLS stream. The source is segmented so no single file breaks the
@@ -82,7 +83,7 @@ export function HlsVideo({ src, poster, label, className, handle }: {
     <video
       ref={video}
       className={className}
-      poster={assetPath(poster)}
+      poster={imageUrl(poster)}
       preload="none"
       playsInline
       controls={attached}

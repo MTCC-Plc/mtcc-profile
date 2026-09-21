@@ -37,7 +37,7 @@ export function DredgingFleet() {
     <div className={styles.dredging}>
       <div className={styles.capacity}>
         {/* Decorative: the card's own copy carries the meaning. */}
-        <Image className={styles.capacityPhoto} src="/assets/dredging.b509c471.webp" alt="" fill sizes="(max-width: 1000px) 100vw, 640px" />
+        <Image className={styles.capacityPhoto} src="/assets/dredging.webp" alt="" fill sizes="(max-width: 1000px) 100vw, 640px" />
         <div className={styles.capacityShade} />
         <span className={styles.kicker}>Dredging fleet</span>
         <strong>{dredgerCapacity.perDay}<small>{dredgerCapacity.unit}</small></strong>

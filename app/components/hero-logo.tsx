@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { assetPath } from "../../lib/asset-path";
+import { imageUrl } from "../assets/url";
 
 export function HeroLogo() {
   const host = useRef<HTMLDivElement>(null);
@@ -114,7 +115,7 @@ export function HeroLogo() {
   return <div className={`hero-logo ${ready ? "is-ready" : ""}`} role="img" aria-label="MTCC three-dimensional logo">
     {/* The brand remains visible while the model loads or if WebGL is unavailable. */}
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img className="hero-logo-fallback" src={assetPath("/assets/mtcc-logo.png")} alt="" />
+    <img className="hero-logo-fallback" src={imageUrl("/assets/mtcc-logo.png")} alt="" />
     <div className="hero-logo-canvas" ref={host} aria-hidden="true" />
   </div>;
 }

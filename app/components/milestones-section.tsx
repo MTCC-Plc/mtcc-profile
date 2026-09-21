@@ -9,7 +9,7 @@ import type { ProfileSection } from "../types/profile";
 
 const categories = [
   { label: "Company", color: "#7b9bb5", image: "/assets/corporate-hero.webp", alt: "MTCC operations in the Maldives" },
-  { label: "Construction and dredging", color: "#00aeef", image: "/assets/dredging.b509c471.webp", alt: "MTCC dredging operations" },
+  { label: "Construction and dredging", color: "#00aeef", image: "/assets/dredging.webp", alt: "MTCC dredging operations" },
   { label: "Public transport", color: "#42cbbf", image: "/assets/transport.webp", alt: "MTCC public ferry at sea" },
   { label: "Trading and engineering", color: "#a8b7ed", image: "/assets/team-engineering.webp", alt: "MTCC engineering team at work" },
 ];
@@ -29,8 +29,8 @@ const sectors: Record<string, number[]> = {
  * so it still falls back to the existing transport shot.
  */
 const milestonePhotos: Record<string, string> = {
-  "2026": "/assets/milestones/dredging.85a8ea25.webp",
-  "2025": "/assets/milestones/transport1.f1fc3481.webp",
+  "2026": "/assets/milestones/dredging.webp",
+  "2025": "/assets/milestones/transport1.webp",
   "2024": "/assets/milestones/team-engineering.webp",
   "2023": "/assets/milestones/corporate-hero.webp",
   "2022": "/assets/transport.webp",

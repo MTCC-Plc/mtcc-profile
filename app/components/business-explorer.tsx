@@ -52,7 +52,7 @@ function DredgingSummary() {
       </div>
       <div className={styles.capacity}>
         <div className={styles.image}>
-          <Image src="/assets/business-tab-hero.c37d035b.webp" alt="MTCC dredging and land reclamation works in the Maldives" fill sizes="(max-width: 800px) 100vw, 50vw" />
+          <Image src="/assets/business-tab-hero.webp" alt="MTCC dredging and land reclamation works in the Maldives" fill sizes="(max-width: 800px) 100vw, 50vw" />
           <span>Shaping the islands of tomorrow.</span>
         </div>
       </div>

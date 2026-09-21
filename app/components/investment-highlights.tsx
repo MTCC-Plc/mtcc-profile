@@ -11,7 +11,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MoneyValue } from "./money-value";
 import type { ProfileSection } from "../types/profile";
 
-const images = ["/assets/bridge.webp", "/assets/infrastructure.webp", "/assets/dredging.b509c471.webp", "/assets/corporate-hero.webp", "/assets/contact-site.webp", "/assets/transport.webp", "/assets/bridge.webp", "/assets/team-engineering.webp"];
+const images = ["/assets/bridge.webp", "/assets/infrastructure.webp", "/assets/dredging.webp", "/assets/corporate-hero.webp", "/assets/contact-site.webp", "/assets/transport.webp", "/assets/bridge.webp", "/assets/team-engineering.webp"];
 
 export function InvestmentHighlights({ section }: { section: Extract<ProfileSection, { type: "metrics" }> }) {
   const rail = useRef<HTMLDivElement>(null);

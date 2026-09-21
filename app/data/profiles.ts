@@ -80,7 +80,7 @@ export const corporateProfile: ProfilePageData = {
         {
           "title": "Dredging & Reclamation",
           "description": "With the largest fleet in the country and the most experienced professionals in the field, we have the capacity to complete and deliver the most challenging dredging and reclamation projects to the satisfaction of our customers.",
-          "image": "/assets/dredging.b509c471.webp",
+          "image": "/assets/dredging.webp",
           "capabilities": [
             "Shore Protection",
             "Beach Replenishment",
