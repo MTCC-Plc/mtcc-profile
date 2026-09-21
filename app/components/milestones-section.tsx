@@ -17,8 +17,8 @@ const sectors: Record<string, number[]> = {
   "1980": [0], "1981": [3], "1987": [3], "1994": [3], "1995": [1],
   "2002": [1, 2], "2003": [0], "2006": [2], "2007": [1], "2008": [3],
   "2009": [2], "2012": [1], "2015": [3], "2016": [2], "2017": [0, 1],
-  "2019": [1], "2020": [2], "2022": [2], "2023": [0, 2, 3], "2024": [3],
-  "2025": [2], "2026": [1, 2],
+  "2019": [1], "2020": [1], "2022": [2], "2023": [0, 2, 3], "2024": [3],
+  "2025": [1], "2026": [1, 2],
 };
 
 /*
@@ -107,7 +107,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
           <div id="milestone-current" role="tabpanel" aria-labelledby={`milestone-year-${item.year}`} aria-live="polite">
             <time className="milestone-year" dateTime={item.year}>{item.year}</time>
             <div className="milestone-story-detail" key={item.year}>
-              <div className="milestone-sector-labels">{itemSectors.map(index => <span key={index}>{categories[index].label}</span>)}</div>
+              <div className="milestone-sector-labels">{item.label ? <span>{item.label}</span> : itemSectors.map(index => <span key={index}>{categories[index].label}</span>)}</div>
               <h3>{item.title}</h3><p>{item.detail}</p>
             </div>
           </div>
@@ -128,7 +128,7 @@ export function MilestonesSection({ section }: { section: Extract<ProfileSection
     </div>
     {filmOpen && <MilestoneFilm title={section.title} playerRef={filmPlayer} onClose={closeFilm} items={[...items].reverse().map(entry => {
       const visual = categories[filter ?? (sectors[entry.year] ?? [0])[0]];
-      return { ...entry, image: photoFor(entry.year), alt: altFor(entry.year, entry.title), category: visual.label };
+      return { ...entry, image: photoFor(entry.year), alt: altFor(entry.year, entry.title), category: entry.label ?? visual.label };
     })} />}
   </div></section>;
 }

@@ -90,7 +90,7 @@ export function ProjectPortfolio({ projects }: ProjectPortfolioProps) {
         <div id="portfolio-view" role="region" aria-label="Work on hand against work completed since 2021">
           <dl className={styles.totals}>
             <div><dt>on hand across {recordTotals.onHandProjects} projects</dt><dd><CurrencyText value={millions(recordTotals.onHandValue, currency)} /></dd></div>
-            <div><dt>completed since 2021 across {recordTotals.completedProjects} projects</dt><dd><CurrencyText value={millions(recordTotals.completedValue, currency)} /></dd></div>
+            <div><dt>Total projects completed between 2018 to 2026</dt><dd>270</dd></div>
           </dl>
           <div className={styles.sectors}>
             {recordSectors.map(sector => (

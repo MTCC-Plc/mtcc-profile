@@ -1,6 +1,6 @@
 export type Metric = { value: string; label: string; note?: string };
 export type Service = { id?: string; title: string; description: string; image: string; capabilities: string[]; body?: string[] };
-export type TimelineItem = { year: string; title: string; detail: string };
+export type TimelineItem = { year: string; title: string; detail: string; label?: string };
 export type LeadershipPerson = {
   name: string;
   role: string;

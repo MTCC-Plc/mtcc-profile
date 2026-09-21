@@ -67,6 +67,8 @@ export const companyProfile: ProfilePageData = {
     { ...original("milestones", "timeline"), title: "The voyage so far", items: original("milestones", "timeline").items.map(item => {
       if (item.year === "1999") return { year: "1995", title: "Dredging begins", detail: "MTCC started dredging with a few excavators." };
       if (item.year === "1980") return { ...item, detail: "MTCC was incorporated in December 1980." };
+      if (item.year === "2020") return { ...item, label: "Resort development project", title: "Completion of Centara Three Island Reclamation Project", detail: "Centara project is the biggest private project conducted by MTCC." };
+      if (item.year === "2025") return { ...item, label: "Infrastructure Projects", title: "Redevelopment of Izzudheen Jetty", detail: "Izzudheen jetty or the presidential jetty is a significant landmark of the Male' city." };
       if (item.year === "2026") return { ...item, title: "This year", detail: "Malé Taxi Line introduced. Boduthakurufaanu Magu phase 1 completed. RTL ferries begin in F and Dh atolls." };
       return item;
     }) },
