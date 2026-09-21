@@ -51,6 +51,11 @@ import investments_ship_repair from "./investments/ship-repair.webp";
 import investments_staff_housing from "./investments/staff-housing.webp";
 import investments_tourism_hospitality from "./investments/tourism-hospitality.webp";
 import investments_transshipment_port from "./investments/transshipment-port.webp";
+import milestones_2008 from "./milestones/2008.webp";
+import milestones_2019 from "./milestones/2019.webp";
+import milestones_2020 from "./milestones/2020.webp";
+import milestones_2024 from "./milestones/2024.webp";
+import milestones_2025 from "./milestones/2025.webp";
 import leadership_01 from "./leadership/01.webp";
 import leadership_02 from "./leadership/02.webp";
 import leadership_03 from "./leadership/03.webp";
@@ -157,6 +162,11 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/investments/staff-housing.webp": investments_staff_housing,
   "/assets/investments/tourism-hospitality.webp": investments_tourism_hospitality,
   "/assets/investments/transshipment-port.webp": investments_transshipment_port,
+  "/assets/milestones/2008.webp": milestones_2008,
+  "/assets/milestones/2019.webp": milestones_2019,
+  "/assets/milestones/2020.webp": milestones_2020,
+  "/assets/milestones/2024.webp": milestones_2024,
+  "/assets/milestones/2025.webp": milestones_2025,
   "/assets/leadership/01.webp": leadership_01,
   "/assets/leadership/02.webp": leadership_02,
   "/assets/leadership/03.webp": leadership_03,

@@ -42,9 +42,6 @@ img { display: block; }
 .header-inner { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: inline-flex; align-items: center; gap: 14px; min-width: 0; }
 .brand img { width: 58px; height: 39px; object-fit: contain; }
-.brand span { display: grid; line-height: 1.15; }
-.brand strong { font-size: 1.05rem; letter-spacing: .18em; }
-.brand small { margin-top: 4px; font-size: .64rem; color: rgba(255,255,255,.72); white-space: nowrap; }
 .desktop-nav { display: flex; align-items: center; gap: 8px; font-size: .92rem; font-weight: 700; }
 .desktop-nav a { padding: 10px 15px; border-radius: 999px; color: rgba(255,255,255,.72); }
 .desktop-nav a:hover, .desktop-nav a.active { color: white; background: rgba(255,255,255,.12); }
@@ -202,7 +199,6 @@ blockquote { margin: 40px 0 0; padding: 18px 0 18px 26px; border-left: 3px solid
   .shell { width: min(100% - 32px, 1200px); }
   .desktop-nav { display: none; }
   .mobile-menu { display: block; }
-  .brand small { display: none; }
   .header-inner { min-height: 56px; }
   .profile-hero { min-height: 700px; }
   .hero-content { grid-template-columns: 1fr; padding: 150px 0 50px; }

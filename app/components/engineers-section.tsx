@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, DraftingCompass, Flame, LandPlot, Waves } from "lucide-react";
+import { DraftingCompass, Flame, LandPlot, Waves } from "lucide-react";
 import Image from "./site-image";
 import styles from "./engineers-section.module.css";
 
@@ -69,7 +69,7 @@ export function EngineersSection() {
       <div className="shell">
         <header className={styles.heading}>
           <div>
-            <p className="eyebrow">Our people</p>
+            <p className="eyebrow">Our Strength</p>
             <h2 id="engineers-title">Engineers and specialists</h2>
             <p className={styles.intro}>Expertise spanning engineering, surveying, dredging and specialist fabrication, all in house.</p>
           </div>
@@ -107,23 +107,17 @@ export function EngineersSection() {
             {disciplines.map(discipline => {
               const count = pick(sum(discipline.roles.map(([, value]) => value)), scope);
               const share = total ? count / total * 100 : 0;
-              const expandable = discipline.roles.length > 1;
-              const Card = expandable ? "details" : "article";
-              const Top = expandable ? "summary" : "div";
               return (
-                <Card className={styles.discipline} key={discipline.name} data-empty={count === 0}>
-                  <Top className={styles.summary}>
+                <article className={styles.discipline} key={discipline.name} data-empty={count === 0}>
+                  <div className={styles.summary}>
                     <span className={styles.icon}><discipline.icon size={26} strokeWidth={1.5} aria-hidden="true" /></span>
                     <strong className={styles.count}>{count}</strong>
                     <h3>{discipline.name}</h3>
                     <p>{discipline.description}</p>
                     <span className={styles.share} aria-hidden="true"><span style={{ width: `${share}%` }} /></span>
-                    <span className={styles.shareMeta}><span>{Math.round(share)}% of {scope === "all" ? "total" : scope}</span>{expandable && <span className={styles.toggle}>Roles <ChevronDown size={16} aria-hidden="true" /></span>}</span>
-                  </Top>
-                  {expandable && <dl className={styles.roles}>
-                    {discipline.roles.map(([role, value]) => <div key={role} data-empty={pick(value, scope) === 0}><dt>{role}</dt><dd>{pick(value, scope)}</dd></div>)}
-                  </dl>}
-                </Card>
+                    <span className={styles.shareMeta}>{Math.round(share)}% of {scope === "all" ? "total" : scope}</span>
+                  </div>
+                </article>
               );
             })}
           </div>

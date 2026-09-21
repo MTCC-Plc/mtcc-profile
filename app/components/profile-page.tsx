@@ -70,7 +70,6 @@ function SiteHeader() {
       <div className="shell header-inner">
         <Link href="/#top" className="brand" aria-label="MTCC home">
           <Image src="/assets/mtcc-logo.png" width={140} height={94} alt="MTCC" priority />
-          <span><strong>MTCC</strong><small>Maldives Transport & Contracting Company</small></span>
         </Link>
         <div className="header-actions"><CurrencyToggle /><MobileMenu /></div>
       </div>

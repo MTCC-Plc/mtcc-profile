@@ -36,7 +36,7 @@ export const companyProfile: ProfilePageData = {
     title: "Building a connected nation since 1980",
     description: "Maldives Transport and Contracting Company reclaims land, builds harbours, airports and roads, runs the country's public ferries, buses and taxis, repairs its vessels and supplies its marine engines.",
     metrics: [
-      { value: annualReport2025.governmentProjects, label: "Government projects underway · Annual Report 2025" },
+      { value: "878", label: "Total projects" },
       { value: annualReport2025.totalAssets, label: "Total assets · 2025" },
       { value: annualReport2025.passengers, label: "Passengers carried in 2025" },
       { value: annualReport2025.employees, label: `Employees as at ${annualReport2025.employeeDate}` },
