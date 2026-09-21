@@ -30,6 +30,9 @@ import brands_yanmar_transparent from "./brands/yanmar-transparent.webp";
 import brands_yanmar from "./brands/yanmar.webp";
 import bridge from "./bridge.webp";
 import business_tab_hero from "./business-tab-hero.webp";
+import business_hero_1 from "./business-hero-1.webp";
+import business_hero_2 from "./business-hero-2.webp";
+import business_hero_3 from "./business-hero-3.webp";
 import business_tab_landscape from "./business-tab-landscape.webp";
 import contact_site from "./contact-site.webp";
 import conventional_ferry from "./conventional-ferry.webp";
@@ -133,6 +136,9 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/brands/yanmar.webp": brands_yanmar,
   "/assets/bridge.webp": bridge,
   "/assets/business-tab-hero.webp": business_tab_hero,
+  "/assets/business-hero-1.webp": business_hero_1,
+  "/assets/business-hero-2.webp": business_hero_2,
+  "/assets/business-hero-3.webp": business_hero_3,
   "/assets/business-tab-landscape.webp": business_tab_landscape,
   "/assets/contact-site.webp": contact_site,
   "/assets/conventional-ferry.webp": conventional_ferry,

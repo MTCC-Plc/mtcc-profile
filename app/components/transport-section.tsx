@@ -8,7 +8,7 @@ export function TransportSection({ section }: { section: Extract<ProfileSection,
   return <section id={section.id} className="transport-section" aria-labelledby="transport-title">
     <header className="transport-opening">
       <div className="shell transport-opening-copy"><p className="eyebrow">{section.eyebrow}</p><h2 id="transport-title">{section.title}<span>.</span></h2><p>A nation in motion.</p></div>
-      <div className="shell"><div className="transport-opening-scene"><div className="transport-hero-image" aria-hidden="true"><Image src="/assets/business-tab-hero.webp" alt="" fill sizes="(max-width: 760px) 100vw, 1200px" /></div><div className="transport-hero-shade" /><div className="transport-opening-caption"><span>Across the sea.<br />Along the road.</span><a href="#transport-fleet">Explore the network <ArrowDown size={18} aria-hidden="true" /></a></div></div></div>
+      <div className="shell"><div className="transport-opening-scene"><div className="transport-hero-image" aria-hidden="true"><Image src="/assets/business-hero-2.webp" alt="" fill sizes="(max-width: 760px) 100vw, 1200px" /></div><div className="transport-hero-shade" /><div className="transport-opening-caption"><span>Across the sea.<br />Along the road.</span><a href="#transport-fleet">Explore the network <ArrowDown size={18} aria-hidden="true" /></a></div></div></div>
     </header>
     <div className="shell transport-content">
       {section.blocks.map((block, index) => {
