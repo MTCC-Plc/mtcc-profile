@@ -49,3 +49,6 @@ next-env.d.ts
 *.tsbuildinfo
 
 /.pnpm-store/
+
+# Raw source images/video (originals live outside the repo; the app uses app/assets and public/assets)
+/assets/
