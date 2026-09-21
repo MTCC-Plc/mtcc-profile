@@ -68,6 +68,15 @@ import leadership_17 from "./leadership/17.webp";
 import leadership_18 from "./leadership/18.webp";
 import leadership_19 from "./leadership/19.webp";
 import leadership_20 from "./leadership/20.webp";
+import leadership_21 from "./leadership/21.webp";
+import leadership_22 from "./leadership/22.webp";
+import leadership_23 from "./leadership/23.webp";
+import leadership_24 from "./leadership/24.webp";
+import leadership_25 from "./leadership/25.webp";
+import leadership_26 from "./leadership/26.webp";
+import leadership_27 from "./leadership/27.webp";
+import leadership_28 from "./leadership/28.webp";
+import leadership_29 from "./leadership/29.webp";
 import maldives_atolls_light from "./maldives-atolls-light.svg";
 import male_taxi_fleet from "./male-taxi-fleet.webp";
 import milestones_company_construction_and_dredging from "./milestones/company-construction-and-dredging.webp";
@@ -162,6 +171,15 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/leadership/18.webp": leadership_18,
   "/assets/leadership/19.webp": leadership_19,
   "/assets/leadership/20.webp": leadership_20,
+  "/assets/leadership/21.webp": leadership_21,
+  "/assets/leadership/22.webp": leadership_22,
+  "/assets/leadership/23.webp": leadership_23,
+  "/assets/leadership/24.webp": leadership_24,
+  "/assets/leadership/25.webp": leadership_25,
+  "/assets/leadership/26.webp": leadership_26,
+  "/assets/leadership/27.webp": leadership_27,
+  "/assets/leadership/28.webp": leadership_28,
+  "/assets/leadership/29.webp": leadership_29,
   "/assets/maldives-atolls-light.svg": maldives_atolls_light,
   "/assets/male-taxi-fleet.webp": male_taxi_fleet,
   "/assets/milestones/company-construction-and-dredging.webp": milestones_company_construction_and_dredging,

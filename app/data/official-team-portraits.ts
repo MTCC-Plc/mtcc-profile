@@ -20,5 +20,14 @@ export const officialTeamPortraits: Record<string, string> = {
   "/assets/leadership/17.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Wahid-300x300.jpg",
   "/assets/leadership/18.webp": "https://mtcc.mv/wp-content/uploads/2024/12/CRO-Mohamed-Shamil-300x300.jpg",
   "/assets/leadership/19.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Bushra-300x300.jpg",
-  "/assets/leadership/20.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Umar-Zahir-300x300.jpg"
+  "/assets/leadership/20.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Umar-Zahir-300x300.jpg",
+  "/assets/leadership/21.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Khalid-300x300.jpg",
+  "/assets/leadership/22.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Ahsan-300x300.jpg",
+  "/assets/leadership/23.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Ali-Jabeen-300x300.jpg",
+  "/assets/leadership/24.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Aishath-Savy-Jamal-300x300.jpg",
+  "/assets/leadership/25.webp": "https://mtcc.mv/wp-content/uploads/2025/01/GMAli-Shareef-Moosa2-300x300.jpg",
+  "/assets/leadership/26.webp": "https://mtcc.mv/wp-content/uploads/2024/12/GM-Ali-Shahid-300x300.jpg",
+  "/assets/leadership/27.webp": "https://mtcc.mv/wp-content/uploads/2025/01/GM-Fathmath-Inasha2-300x300.jpg",
+  "/assets/leadership/28.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Azka-300x300.jpg",
+  "/assets/leadership/29.webp": "https://mtcc.mv/wp-content/uploads/2025/04/Shazleen-300x300.jpg"
 };

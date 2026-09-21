@@ -140,14 +140,14 @@ export function ProfilePage({ data: original, businesses }: { data: ProfilePageD
     <SiteHeader />
     <main id="profile-content">
       <Hero data={data} />
-      <CompanyAbout section={getSection(data, "about-mtcc", "content")} />
       <ValuesSection section={getSection(data, "purpose", "values")} />
+      <CompanyAbout section={getSection(data, "about-mtcc", "content")} />
+      <MilestonesSection section={getSection(data, "milestones", "timeline")} />
       <BusinessExplorer sections={businessData} />
-      <ProjectPortfolio projects={getSection(data, "projects", "projects")} />
       <AtollPresenceSection />
+      <ProjectPortfolio projects={getSection(data, "projects", "projects")} />
       <FleetSection />
       <PrivateProjectsSection />
-      <MilestonesSection section={getSection(data, "milestones", "timeline")} />
       <PartnershipOverview reasons={getSection(data, "competitive-differentiators", "content")} sustainability={getSection(data, "sustainability", "content")} financials={getSection(data, "financials", "content")} strategy={getSection(data, "strategy", "strategy")} />
       <DigitalTransformationSection />
       <WorkforceSection />

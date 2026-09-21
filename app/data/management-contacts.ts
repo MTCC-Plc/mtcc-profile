@@ -186,6 +186,7 @@ export const managementContacts: ManagementContact[] = [
     email: "mohamed.khalid@mtcc.com.mv",
     phone: "3001180",
     group: "senior-management",
+    image: "/assets/leadership/21.webp",
   },
   {
     name: "Mohamed Ahsan Ali",
@@ -193,6 +194,7 @@ export const managementContacts: ManagementContact[] = [
     email: "mohamed.ahsan@mtcc.com.mv",
     phone: "3001213",
     group: "senior-management",
+    image: "/assets/leadership/22.webp",
   },
   {
     name: "Ali Jabeen",
@@ -200,6 +202,7 @@ export const managementContacts: ManagementContact[] = [
     email: "ali.jabeen@mtcc.com.mv",
     phone: "3001191",
     group: "senior-management",
+    image: "/assets/leadership/23.webp",
   },
   {
     name: "Aishath Savy Jameel",
@@ -207,6 +210,7 @@ export const managementContacts: ManagementContact[] = [
     email: "aishath.savy@mtcc.com.mv",
     phone: "3001492",
     group: "senior-management",
+    image: "/assets/leadership/24.webp",
   },
   {
     name: "Ali Shareef Moosa",
@@ -214,6 +218,7 @@ export const managementContacts: ManagementContact[] = [
     email: "ali.shareef@mtcc.com.mv",
     phone: "3001156",
     group: "senior-management",
+    image: "/assets/leadership/25.webp",
   },
   {
     name: "Ali Shahid",
@@ -221,6 +226,7 @@ export const managementContacts: ManagementContact[] = [
     email: "Ali.Shahid@mtcc.com.mv",
     phone: "3025580",
     group: "senior-management",
+    image: "/assets/leadership/26.webp",
   },
   {
     name: "Fathmath Inasha",
@@ -228,6 +234,7 @@ export const managementContacts: ManagementContact[] = [
     email: "inasha.fr@mtcc.com.mv",
     phone: "3001181",
     group: "senior-management",
+    image: "/assets/leadership/27.webp",
   },
   {
     name: "Fathimath Azka Mohamed",
@@ -235,6 +242,7 @@ export const managementContacts: ManagementContact[] = [
     email: "fathimath.azka@mtcc.com.mv",
     phone: "3001242",
     group: "senior-management",
+    image: "/assets/leadership/28.webp",
   },
   {
     name: "Shazleen Ahmed",
@@ -242,5 +250,6 @@ export const managementContacts: ManagementContact[] = [
     email: "shazleen.ahmed@mtcc.com.mv",
     phone: "3001141",
     group: "senior-management",
+    image: "/assets/leadership/29.webp",
   },
 ];
