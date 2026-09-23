@@ -15,7 +15,7 @@ const categories = [
 ];
 const sectors: Record<string, number[]> = {
   "1980": [0], "1981": [3], "1987": [3], "1994": [3], "1995": [1],
-  "2002": [1, 2], "2003": [0], "2006": [2], "2007": [1], "2008": [3],
+  "2000": [2], "2002": [1], "2003": [0], "2006": [2], "2007": [1], "2008": [3],
   "2009": [2], "2012": [1], "2015": [3], "2016": [2], "2017": [0, 1],
   "2019": [1], "2020": [1], "2022": [2], "2023": [0, 2, 3], "2024": [3],
   "2025": [1], "2026": [1, 2],
@@ -27,6 +27,9 @@ const sectors: Record<string, number[]> = {
  * `sectors` below. Two rows named files that were not delivered
  * 2026's dredging.png has since been supplied. 2022's transport2.png has not,
  * so it still falls back to the existing transport shot.
+ *
+ * The 2000 Malé–Villimalé ferry milestone takes the archive launch photo that
+ * used to sit on both 1987 and 2006; 1987 now uses the Yanmar partnership shot.
  */
 const milestonePhotos: Record<string, string> = {
   "2026": "/assets/milestones/dredging.webp",
@@ -46,10 +49,11 @@ const milestonePhotos: Record<string, string> = {
   "2006": "/assets/milestones/public-transport4.webp",
   "2003": "/assets/milestones/2003.webp",
   "2002": "/assets/milestones/construction-and-dredging-public-transport.webp",
+  "2000": "/assets/milestones/public-transport4.webp",
   "1995": "/assets/milestones/construction-and-dredging4.webp",
   "1994": "/assets/milestones/trading-and-engineering3.webp",
-  "1987": "/assets/milestones/trading-and-engineering4.webp",
-  "1981": "/assets/milestones/trading-and-engineering5.webp",
+  "1987": "/assets/milestones/trading-and-engineering5.webp",
+  "1981": "/assets/milestones/1981.webp",
   "1980": "/assets/milestones/company2.webp",
 };
 

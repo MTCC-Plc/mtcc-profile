@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { Anchor, ArrowUpRight, Building2, Check, Flag, House, Leaf, Play, Ship } from "lucide-react";
+import { Anchor, ArrowUpRight, Building2, Check, Flag, House, Leaf, Play, Ship, Waves } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { economicHub, staffHousing } from "../data/featured-investments";
+import { bookletProjects, economicHub, staffHousing } from "../data/featured-investments";
 import type { ProfileSection } from "../types/profile";
 import { currencyMetrics, MVR_PER_USD, type Currency } from "../../lib/currency";
 import { CurrencyText } from "./currency-symbol";
@@ -12,9 +12,21 @@ import { SectionLink } from "./section-link";
 import { HlsVideo, type HlsHandle } from "./hls-video";
 import styles from "./potential-partnerships-section.module.css";
 
+/* Fleet expansion is flagged in the review but has no booklet entry yet, so it stays at overview level. */
+const reclamationFleet = {
+  id: "reclamation-fleet",
+  title: "Land Reclamation Fleet Enhancement",
+  detail: "Expanding the country's largest dredging fleet",
+  kicker: "Dredging and reclamation",
+  overview: "Expansion of MTCC's dredging and reclamation fleet, already the largest in the country, to meet the growing national pipeline of reclamation work.",
+} as const;
+
+const bookletIcons = [Building2, Ship];
 const opportunities = [
-  { id: "economic-hub", title: "Integrated Economic Hub", detail: "Five independently investable projects", icon: Anchor },
+  { id: "economic-hub", title: "Gaadhoo Integrated Economic Hub", detail: "Five independently investable projects", icon: Anchor },
   { id: "staff-housing", title: "MTCC Hiya Housing Project", detail: "Homes for the people behind MTCC", icon: House },
+  ...bookletProjects.map((project, index) => ({ id: project.id, title: project.title, detail: project.detail, icon: bookletIcons[index] })),
+  { id: reclamationFleet.id, title: reclamationFleet.title, detail: reclamationFleet.detail, icon: Waves },
 ] as const;
 const projectIcons = [Anchor, Ship, Flag, Leaf, Building2];
 
@@ -133,7 +145,7 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
               handle={hubFilm}
               src="/assets/investments/economic-hub/index.m3u8"
               poster="/assets/investments/economic-hub-poster.webp"
-              label="Concept film for the Integrated Economic Hub"
+              label="Concept film for the Gaadhoo Integrated Economic Hub"
             />
             {!filmPlaying && <button type="button" className={styles.hubPlay} onClick={playFilmFullscreen} aria-label={`Play the ${economicHub.title} film`}>
               <span className={styles.hubPlayIcon}><Play size={20} aria-hidden="true" /></span>
@@ -141,7 +153,7 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
             </button>}
           </figure>
         </div>
-        <ol className={styles.projectList} aria-label="Integrated Economic Hub investment projects">
+        <ol className={styles.projectList} aria-label="Gaadhoo Integrated Economic Hub investment projects">
           {economicHub.projects.map((project, index) => {
             const Icon = projectIcons[index];
             return <li className={styles.project} key={project.id}>
@@ -199,6 +211,49 @@ export function PotentialPartnershipsSection({ section }: { section: Extract<Pro
           <h4>Strategic Value</h4>
           <p>{staffHousing.strategicValue}</p>
           <SectionLink href="#contact" className={styles.action}>Explore a housing partnership<ArrowUpRight size={19} aria-hidden="true" /></SectionLink>
+        </div>
+      </div>
+
+      {bookletProjects.map((project, index) => <div key={project.id} id={panelId(project.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(project.id)} tabIndex={0} hidden={active !== index + 2}>
+        <header className={styles.housingHeader}>
+          <div className={styles.housingCopy}>
+            <p className={styles.kicker}>0{index + 3} / {project.kicker}</p>
+            <h3>{project.title}</h3>
+            <h4>Project Overview</h4>
+            {project.overview.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+          </div>
+          <dl className={styles.investmentCallout}><div><dt>Estimated Investment Value</dt><dd><InvestmentValue investment={project.investment} /></dd></div></dl>
+        </header>
+        <CurrencyNote originalCurrency="USD" />
+        {"scale" in project && <div className={styles.housingScale}>
+          <h4>Project Scale</h4>
+          <p>{project.scale}</p>
+          <dl className={styles.scaleStats}>{project.stats.map(stat => <div key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl>
+        </div>}
+        <div className={styles.components}>
+          <h4>Key Components</h4>
+          <ul className={styles.componentList}>{project.components.map(component => <li key={component}><Check className={styles.componentIcon} size={18} aria-hidden="true" /><span>{component}</span></li>)}</ul>
+        </div>
+        <div className={styles.strategicValue}>
+          <h4>Investment Opportunity</h4>
+          {project.opportunity.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+          <SectionLink href="#contact" className={styles.action}>Discuss an investment<ArrowUpRight size={19} aria-hidden="true" /></SectionLink>
+        </div>
+      </div>)}
+
+      <div id={panelId(reclamationFleet.id)} className={styles.panel} role="tabpanel" aria-labelledby={tabId(reclamationFleet.id)} tabIndex={0} hidden={active !== opportunities.length - 1}>
+        <header className={styles.housingHeader}>
+          <div className={styles.housingCopy}>
+            <p className={styles.kicker}>0{opportunities.length} / {reclamationFleet.kicker}</p>
+            <h3>{reclamationFleet.title}</h3>
+            <h4>Project Overview</h4>
+            <p>{reclamationFleet.overview}</p>
+          </div>
+        </header>
+        <div className={styles.strategicValue}>
+          <h4>Investment Opportunity</h4>
+          <p>MTCC welcomes strategic investors, developers and operators for this project. Contact our team for the investment proposal.</p>
+          <SectionLink href="#contact" className={styles.action}>Discuss an investment<ArrowUpRight size={19} aria-hidden="true" /></SectionLink>
         </div>
       </div>
     </div>

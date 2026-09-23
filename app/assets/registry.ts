@@ -20,19 +20,21 @@ import brands_donaldson from "./brands/donaldson.webp";
 import brands_kashavaru from "./brands/kashavaru.webp";
 import brands_marol_transparent from "./brands/marol-transparent.webp";
 import brands_marol from "./brands/marol.webp";
+import brands_multiflex_transparent from "./brands/multiflex-transparent.webp";
 import brands_nakashima_transparent from "./brands/nakashima-transparent.webp";
 import brands_nakashima from "./brands/nakashima.webp";
 import brands_ppg_transparent from "./brands/ppg-transparent.webp";
 import brands_ppg from "./brands/ppg.webp";
+import brands_raywin_transparent from "./brands/raywin-transparent.webp";
 import brands_suzuki_transparent from "./brands/suzuki-transparent.webp";
 import brands_suzuki from "./brands/suzuki.webp";
 import brands_yanmar_transparent from "./brands/yanmar-transparent.webp";
 import brands_yanmar from "./brands/yanmar.webp";
 import bridge from "./bridge.webp";
-import business_tab_hero from "./business-tab-hero.webp";
 import business_hero_1 from "./business-hero-1.webp";
 import business_hero_2 from "./business-hero-2.webp";
 import business_hero_3 from "./business-hero-3.webp";
+import business_tab_hero from "./business-tab-hero.webp";
 import business_tab_landscape from "./business-tab-landscape.webp";
 import contact_site from "./contact-site.webp";
 import conventional_ferry from "./conventional-ferry.webp";
@@ -51,13 +53,6 @@ import investments_ship_repair from "./investments/ship-repair.webp";
 import investments_staff_housing from "./investments/staff-housing.webp";
 import investments_tourism_hospitality from "./investments/tourism-hospitality.webp";
 import investments_transshipment_port from "./investments/transshipment-port.webp";
-import milestones_2003 from "./milestones/2003.webp";
-import milestones_2008 from "./milestones/2008.webp";
-import milestones_2015 from "./milestones/2015.webp";
-import milestones_2019 from "./milestones/2019.webp";
-import milestones_2020 from "./milestones/2020.webp";
-import milestones_2024 from "./milestones/2024.webp";
-import milestones_2025 from "./milestones/2025.webp";
 import leadership_01 from "./leadership/01.webp";
 import leadership_02 from "./leadership/02.webp";
 import leadership_03 from "./leadership/03.webp";
@@ -89,6 +84,14 @@ import leadership_28 from "./leadership/28.webp";
 import leadership_29 from "./leadership/29.webp";
 import maldives_atolls_light from "./maldives-atolls-light.svg";
 import male_taxi_fleet from "./male-taxi-fleet.webp";
+import milestones_1981 from "./milestones/1981.webp";
+import milestones_2003 from "./milestones/2003.webp";
+import milestones_2008 from "./milestones/2008.webp";
+import milestones_2015 from "./milestones/2015.webp";
+import milestones_2019 from "./milestones/2019.webp";
+import milestones_2020 from "./milestones/2020.webp";
+import milestones_2024 from "./milestones/2024.webp";
+import milestones_2025 from "./milestones/2025.webp";
 import milestones_company_construction_and_dredging from "./milestones/company-construction-and-dredging.webp";
 import milestones_company1 from "./milestones/company1.webp";
 import milestones_company2 from "./milestones/company2.webp";
@@ -133,19 +136,21 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/brands/kashavaru.webp": brands_kashavaru,
   "/assets/brands/marol-transparent.webp": brands_marol_transparent,
   "/assets/brands/marol.webp": brands_marol,
+  "/assets/brands/multiflex-transparent.webp": brands_multiflex_transparent,
   "/assets/brands/nakashima-transparent.webp": brands_nakashima_transparent,
   "/assets/brands/nakashima.webp": brands_nakashima,
   "/assets/brands/ppg-transparent.webp": brands_ppg_transparent,
   "/assets/brands/ppg.webp": brands_ppg,
+  "/assets/brands/raywin-transparent.webp": brands_raywin_transparent,
   "/assets/brands/suzuki-transparent.webp": brands_suzuki_transparent,
   "/assets/brands/suzuki.webp": brands_suzuki,
   "/assets/brands/yanmar-transparent.webp": brands_yanmar_transparent,
   "/assets/brands/yanmar.webp": brands_yanmar,
   "/assets/bridge.webp": bridge,
-  "/assets/business-tab-hero.webp": business_tab_hero,
   "/assets/business-hero-1.webp": business_hero_1,
   "/assets/business-hero-2.webp": business_hero_2,
   "/assets/business-hero-3.webp": business_hero_3,
+  "/assets/business-tab-hero.webp": business_tab_hero,
   "/assets/business-tab-landscape.webp": business_tab_landscape,
   "/assets/contact-site.webp": contact_site,
   "/assets/conventional-ferry.webp": conventional_ferry,
@@ -164,13 +169,6 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/investments/staff-housing.webp": investments_staff_housing,
   "/assets/investments/tourism-hospitality.webp": investments_tourism_hospitality,
   "/assets/investments/transshipment-port.webp": investments_transshipment_port,
-  "/assets/milestones/2003.webp": milestones_2003,
-  "/assets/milestones/2008.webp": milestones_2008,
-  "/assets/milestones/2015.webp": milestones_2015,
-  "/assets/milestones/2019.webp": milestones_2019,
-  "/assets/milestones/2020.webp": milestones_2020,
-  "/assets/milestones/2024.webp": milestones_2024,
-  "/assets/milestones/2025.webp": milestones_2025,
   "/assets/leadership/01.webp": leadership_01,
   "/assets/leadership/02.webp": leadership_02,
   "/assets/leadership/03.webp": leadership_03,
@@ -202,6 +200,14 @@ export const imageRegistry: Record<string, StaticImageData> = {
   "/assets/leadership/29.webp": leadership_29,
   "/assets/maldives-atolls-light.svg": maldives_atolls_light,
   "/assets/male-taxi-fleet.webp": male_taxi_fleet,
+  "/assets/milestones/1981.webp": milestones_1981,
+  "/assets/milestones/2003.webp": milestones_2003,
+  "/assets/milestones/2008.webp": milestones_2008,
+  "/assets/milestones/2015.webp": milestones_2015,
+  "/assets/milestones/2019.webp": milestones_2019,
+  "/assets/milestones/2020.webp": milestones_2020,
+  "/assets/milestones/2024.webp": milestones_2024,
+  "/assets/milestones/2025.webp": milestones_2025,
   "/assets/milestones/company-construction-and-dredging.webp": milestones_company_construction_and_dredging,
   "/assets/milestones/company1.webp": milestones_company1,
   "/assets/milestones/company2.webp": milestones_company2,

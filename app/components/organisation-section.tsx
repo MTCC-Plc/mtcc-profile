@@ -11,7 +11,7 @@ import styles from "./organisation-section.module.css";
 
 type Leadership = Extract<ProfileSection, { type: "leadership" }>;
 type Person = Leadership["people"][number];
-type TeamView = "organisation" | "senior" | "all";
+type TeamView = "organisation" | "all";
 const businessDivisions = new Set(["Transport Services", "Engineering & Repair", "Trading", "Construction & Dredging Division"]);
 
 export function OrganisationSection({ section }: { section: Leadership }) {
@@ -30,15 +30,14 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   const business = management.filter(person => businessDivisions.has(person.division ?? ""));
   const corporate = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && (person.division || person.role === "Chief Financial Officer"));
   const otherManagement = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && !corporate.includes(person));
-  const category = selected && (selected.group === "senior-management" ? "Senior management" : selected.group === "special-advisor" ? "Special advisors" : selected === managing || executives.includes(selected) ? "Executive leadership" : business.includes(selected) ? "Business divisions" : corporate.includes(selected) ? "Corporate services" : governance.includes(selected) || selected === risk ? "Governance & risk" : "Management");
-  const directoryGroups = view === "senior" ? [{ title: "Senior Management", people: seniorManagement }] : [{ title: "Management", people: management }, { title: "Senior Management", people: seniorManagement }, { title: "Special Advisors", people: specialAdvisors }];
+  const category = selected && (selected.group === "senior-management" ? "Senior management" : selected.group === "special-advisor" ? "Special advisors" : selected === managing || executives.includes(selected) ? "Executive leadership" : business.includes(selected) ? "Business divisions" : corporate.includes(selected) ? "Corporate services" : governance.includes(selected) || selected === risk ? "Governance & risk" : "Executive Management");
+  const directoryGroups = [{ title: "Executive Management", people: management }, { title: "Senior Management", people: seniorManagement }, { title: "Special Advisors", people: specialAdvisors }];
 
   useEffect(() => {
     let frame = 0;
     const views: Record<string, TeamView> = {
       [section.id]: "organisation",
       "management-team": "all",
-      "senior-management": "senior",
     };
     const viewForHash = (hash: string) => {
       let id: string;
@@ -114,8 +113,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
     <header className="organisation-heading"><p className="eyebrow">Management team</p><h2 id="organisation-title">{section.title}</h2><p>Meet the people leading MTCC. Select a role in the organisation chart or explore the management team to view a business card and contact details.</p></header>
     <div className="organisation-toolbar"><span>{section.people.length} people. Shared purpose.</span><div className={`organisation-view ${styles.viewSwitch}`} role="group" aria-label="Team view">
       <button type="button" aria-pressed={view === "organisation"} onClick={() => changeView("organisation")}>Organisation</button>
-      {seniorManagement.length > 0 && <button type="button" aria-pressed={view === "senior"} onClick={() => changeView("senior")}>Senior management</button>}
-      <button type="button" aria-pressed={view === "all"} onClick={() => changeView("all")}>All people</button>
+      <button type="button" aria-pressed={view === "all"} onClick={() => changeView("all")}>View all</button>
     </div></div>
     <div className={styles.layout}>
       {view === "organisation" ? <div className={`org-chart ${styles.chart}`} role="group" aria-label="Organisation chart">
@@ -131,7 +129,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
           <div className="org-group org-division-group org-corporate" role="group" aria-labelledby="org-corporate-title"><header className="org-group-heading"><h3 id="org-corporate-title">Corporate services</h3><span>{corporate.length} divisions</span></header><div>{corporate.map(person => node(person, person.role === "Chief Financial Officer" ? "Finance & Accounts" : person.division))}</div></div>
         </div>
         {otherManagement.length > 0 && <div className={`org-group ${styles.additionalManagement}`} role="group" aria-labelledby="org-management-title"><header className="org-group-heading"><h3 id="org-management-title">Management</h3></header><div className={styles.additionalNodes}>{otherManagement.map(person => node(person, person.role))}</div></div>}
-      </div> : <div id={view === "senior" ? "senior-management" : "management-team"} className={styles.directory} role="region" aria-label={view === "senior" ? "Senior management directory" : "Management team directory"} tabIndex={-1}>
+      </div> : <div id="management-team" className={styles.directory} role="region" aria-label="Management team directory" tabIndex={-1}>
         {directoryGroups.filter(group => group.people.length > 0).map(group => <section key={group.title} className={styles.directoryGroup} aria-label={group.title}>
           <header><h3>{group.title}</h3><p>{group.people.length} people · Select a person for contact details.</p></header>
           <div className={styles.directoryGrid}>{group.people.map(person => <article className="organisation-person" key={person.name}>

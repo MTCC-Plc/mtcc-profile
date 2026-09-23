@@ -120,7 +120,7 @@ export const corporateProfile: ProfilePageData = {
           "body": [
             "MTCC’s transport services began in 1980 with the rental of speedboats to cater to the growing demands of the tourism sector and corporate travel. In 2001, we expanded into public marine transport by introducing scheduled ferry services to connect Male’ and Villimale’. Today, our transport network has grown to become an integral part of daily life in the Maldives, facilitating connectivity and accessibility across the nation.",
             "Our marine transport services include the RTL High-Speed Ferry Network and Comprehensive Transport Network (CTN), which provide seamless connectivity between dispersed islands and atolls, addressing the unique geographical challenges of the Maldives.",
-            "In addition to marine transport, we operate land-based public transport services under the RTL umbrella. Our RTL bus services include operations within Male’ City and routes connecting Male’, Hulhumale’, and Velana International Airport. Beyond the capital, RTL bus services are available in Ha. Dhidhdhoo, Kulhudhuffushi City, Gan and Isdhoo in Laamu Atoll, Addu City, and Fuvahmulah City.",
+            "In addition to marine transport, we operate land-based public transport services under the RTL umbrella. Our RTL bus services include operations within Male’ City and routes connecting Male’, Hulhumale’, and Velana International Airport. Beyond the capital, RTL bus services are available in Ha. Dhidhdhoo, Kulhudhuffushi City, Gan and Isdhoo in Laamu Atoll, Addu City, and Fuvahmulah City. MTCC also operates RTL bus services in N. Kendhikulhudhoo, R. Dhuvaafaru and S. Hulhumeedhoo.",
             "As the largest public transport network in the Maldives, we are committed to providing safe, affordable, and convenient transportation services by sea and land, ensuring connectivity and accessibility for all."
           ]
         },
@@ -149,15 +149,16 @@ export const corporateProfile: ProfilePageData = {
             "Outboard Marine Engines",
             "Castrol Lubricants",
             "Fibre Resin",
-            "Marine Protective Coatings",
+            "Marine and Protective Coatings",
             "Marine Propellers",
             "Steering Systems",
             "Waterjet Propulsion Drive",
-            "Filteration Solution"
+            "Filteration Solution",
+            "Industrial Gas"
           ],
           "body": [
             "MTCC’s trading business began shortly after the company’s incorporation, with the mechanization of dhonis (traditional Maldivian fishing vessels). This initiative was supported by the provision of Yanmar engines, which revolutionized the local fishing industry. Alongside the engines, we introduced a supply of spare parts to ensure the smooth operation of mechanized fishing fleets, laying the foundation for the company’s trading portfolio.",
-            "As the industry evolved, we expanded our offerings to include products tailored to the fisheries sector, such as lube oils, marine coatings, and outboard marine engines. Today, MTCC provides a wide range of high-quality products from leading global brands to the Maldivian market. These products are complemented by exceptional aftersales services delivered by our highly trained professional technicians. Trusted and well-established in the Maldives, our products play a vital role in supporting key economic sectors across the nation. Our current product range includes:"
+            "As the industry evolved, we expanded our offerings to include products tailored to the marine and industrial sector, such as lube oils, marine coatings, and outboard marine engines. Today, MTCC provides a wide range of high-quality products from leading global brands to the Maldivian market. These products are complemented by exceptional aftersales services delivered by our highly trained professional technicians. Trusted and well-established in the Maldives, our products play a vital role in supporting key economic sectors across the nation. Our current product range includes:"
           ]
         }
       ]
@@ -194,7 +195,7 @@ export const corporateProfile: ProfilePageData = {
             },
             {
               "name": "PPG",
-              "product": "Marine Protective Coatings",
+              "product": "Marine and Protective Coatings",
               "image": "/assets/brands/ppg-transparent.webp"
             },
             {
@@ -216,6 +217,16 @@ export const corporateProfile: ProfilePageData = {
               "name": "Donaldson",
               "product": "Filteration Solution",
               "image": "/assets/brands/donaldson-transparent.webp"
+            },
+            {
+              "name": "Raywin Power",
+              "product": "Diesel Engines & Generators",
+              "image": "/assets/brands/raywin-transparent.webp"
+            },
+            {
+              "name": "Multiflex Marine",
+              "product": "Steering Systems & Control Cables",
+              "image": "/assets/brands/multiflex-transparent.webp"
             }
           ]
         }
@@ -511,9 +522,14 @@ export const investorProfile: ProfilePageData = {
           "detail": "MTCC Tower construction work completed."
         },
         {
+          "year": "2000",
+          "title": "Malé–Villimalé public ferry",
+          "detail": "Public ferry service between Malé and Villimalé introduced."
+        },
+        {
           "year": "2002",
-          "title": "Ferry services & cutter dredger",
-          "detail": "1st public ferry services from Malé to Villimalé introduced; 1st cutter dredger introduced for reclamation."
+          "title": "First cutter dredger",
+          "detail": "1st cutter dredger introduced for reclamation."
         },
         {
           "year": "2003",
@@ -538,7 +554,7 @@ export const investorProfile: ProfilePageData = {
         {
           "year": "2009",
           "title": "Bus & regional ferry services",
-          "detail": "Commenced Hulhumalé Bus Service; commenced North Central Region Ferry Service."
+          "detail": "Commenced Hulhumalé Bus Service; commenced North Central Region Ferry Service; conventional ferry service commenced in Zone 3 (K, Aa, Adh, V)."
         },
         {
           "year": "2012",
@@ -578,7 +594,7 @@ export const investorProfile: ProfilePageData = {
         {
           "year": "2023",
           "title": "Network & digital expansion",
-          "detail": "Expanded RTL Ferry Network to Zone 5 & Zone 6; MTCC introduced Yanmar Fishing Cruiser; digitalization of transport operations; staff strength reaches 4500."
+          "detail": "Expanded RTL Ferry Network to Zone 2 (Lh); Hulhumalé–Malé ferry service introduced; MTCC introduced Yanmar Fishing Cruiser; digitalization of transport operations; staff strength reaches 4500."
         },
         {
           "year": "2024",
@@ -588,7 +604,7 @@ export const investorProfile: ProfilePageData = {
         {
           "year": "2025",
           "title": "RTL network expansion",
-          "detail": "Expansion of RTL Network in Zone 2 and 3; commenced RTL bus services in R. Dhuvaafaru."
+          "detail": "Expansion of RTL Ferry Network to Zone 2 (N, R, B); commenced RTL bus services in R. Dhuvaafaru."
         },
         {
           "year": "2026",
@@ -1285,7 +1301,7 @@ export const investorProfile: ProfilePageData = {
             },
             {
               "name": "PPG",
-              "product": "Marine Protective Coatings",
+              "product": "Marine and Protective Coatings",
               "image": "/assets/brands/ppg-transparent.webp"
             },
             {
@@ -1307,6 +1323,16 @@ export const investorProfile: ProfilePageData = {
               "name": "Donaldson",
               "product": "Filteration Solution",
               "image": "/assets/brands/donaldson-transparent.webp"
+            },
+            {
+              "name": "Raywin Power",
+              "product": "Diesel Engines & Generators",
+              "image": "/assets/brands/raywin-transparent.webp"
+            },
+            {
+              "name": "Multiflex Marine",
+              "product": "Steering Systems & Control Cables",
+              "image": "/assets/brands/multiflex-transparent.webp"
             }
           ]
         }

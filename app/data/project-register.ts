@@ -3,7 +3,7 @@
 // "Register" is the full portfolio as it stood on 9 September 2026 — a different
 // scope from the Annual Report 2025 government-projects count, which is why the
 // two totals do not reconcile. "Record" splits work on hand from work completed
-// since 2021.
+// since 2018.
 
 export type RegisterSector = {
   name: string;
@@ -19,7 +19,7 @@ export type RecordSector = {
   /** On-hand value, MVR millions. */
   onHandValue: number;
   completedProjects: number;
-  /** Value completed since 2021, MVR millions. */
+  /** Value completed since 2018, MVR millions. */
   completedValue: number;
 };
 

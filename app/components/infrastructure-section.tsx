@@ -1,17 +1,20 @@
 import { BusinessDetails } from "./business-details";
 import { CurrencyText } from "./currency-symbol";
 import Image from "./site-image";
-import { Anchor, ScanLine, Plane, ArrowDownRight } from "lucide-react";
+import { Anchor, Building2, Plane, Road, Waves, ArrowDownRight } from "lucide-react";
 import type { ProfileSection } from "../types/profile";
 
 const capabilities = [
-  { title: "Shape the shoreline.", Icon: Anchor },
-  { title: "Precision from the start.", Icon: ScanLine },
   { title: "Open new horizons.", Icon: Plane },
+  { title: "Connect the islands.", Icon: Road },
+  { title: "Bridge the lagoon.", Icon: Waves },
+  { title: "Build for communities.", Icon: Building2 },
+  { title: "Shape the shoreline.", Icon: Anchor },
 ];
 
 export function InfrastructureSection({ section }: { section: Extract<ProfileSection, { type: "content" }> }) {
-  const fleet = section.blocks.find(block => block.type === "metrics" && block.title === "Fleet capacity");
+  // The lead metrics block: dredging fleet capacity on the investor profile, the built portfolio on the company profile.
+  const fleet = section.blocks.find(block => block.type === "metrics" && block.title !== "Project statistics");
   const projects = section.blocks.find(block => block.type === "metrics" && block.title === "Project statistics");
   return <section id={section.id} className="infra-section" aria-labelledby="infra-title"><div className="shell">
     <header className="infra-heading"><p className="eyebrow">{section.eyebrow}</p><h2 id="infra-title">Infrastructure &amp;<br /><span>marine construction.</span></h2></header>
@@ -23,7 +26,7 @@ export function InfrastructureSection({ section }: { section: Extract<ProfileSec
       <dl className="infra-vessels">{fleet.metrics.slice(1).map(metric => <div key={metric.label}><dd><CurrencyText value={metric.value} /></dd><dt>{metric.label}<span><CurrencyText value={metric.note ?? ""} /></span></dt></div>)}</dl>
     </div>}
     {section.blocks.filter(block => block.type === "text").map((block, index) => block.title === "Capabilities" ? <div id="infra-capabilities" className="infra-capabilities" key={index}>
-      <div className="infra-block-heading"><p className="eyebrow">From the seabed to the runway</p><h3>{block.title}</h3></div>
+      <div className="infra-block-heading"><p className="eyebrow">From the runway to the reef</p><h3>{block.title}</h3></div>
       <div className="infra-capability-grid">{block.items?.map((item, i) => {const {title, Icon} = capabilities[i % capabilities.length]; return <article key={item}><Icon size={38} strokeWidth={1.3} aria-hidden="true" /><h4>{title}</h4><p>{item}</p></article>;})}</div>
       {block.paragraphs?.map(text => <p key={text}>{text}</p>)}
     </div> : <article className="infra-firsts" key={index}><div><p className="eyebrow">{block.title}</p><h3>Experience that<br />moves us forward.</h3></div><div>{block.items?.map((item, i) => <p key={item}><span aria-hidden="true">0{i + 1}</span>{item}</p>)}{block.paragraphs?.map(text => <p key={text}>{text}</p>)}</div></article>)}

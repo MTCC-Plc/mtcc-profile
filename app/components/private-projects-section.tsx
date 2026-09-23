@@ -16,12 +16,12 @@ const capabilities = [
   ["400", "L-blocks cast per month in our own yards"],
   ["300", "L-blocks installed per month for quay walls"],
   ["20+ years", "As the leading shore protection contractor in the Maldives"],
-  ["In house", "Bathymetric, geotechnical and aerial survey teams"],
+  ["In house", "Multibeam, sand search, bathymetric, geotechnical and aerial surveys, plus coastal design"],
   ["One team", "Engineers, designers, environmental consultants and project managers"],
 ];
 
 const deliverySteps = [
-  ["Survey and design", "Our hydrographic and land surveyors map the lagoon. Our engineers and architects shape the island, the channel and the coastal defences."],
+  ["Survey and design", "Our hydrographic and land surveyors map the lagoon, with multibeam and sand search surveys to find the borrow areas. Our coastal design engineers and architects shape the island, the channel and the coastal defences."],
   ["Environmental approvals", "In-house environmental consultancy prepares the assessment and sees it through."],
   ["Dredge and reclaim", "The right dredger for the site, from shallow lagoon work to deep borrow areas, backed by our own pipelines, barges and excavators."],
   ["Protect and build", "Rock revetments and breakwaters profiled by dedicated teams and machines, L-block quay walls, sheet piling, beach replenishment and jetties."],
@@ -34,9 +34,11 @@ const works = [
   { id: "quay", title: "Quay walls", detail: "Our own concrete yards cast 400 L-blocks a month, with teams installing 300 a month for quay walls." },
   { id: "jetties", title: "Jetties and harbours", detail: "Marine construction, sheet piling and engineering teams for jetties and harbours." },
   { id: "beach", title: "Beach replenishment", detail: "Dredging equipment and coastal engineering teams for beach replenishment." },
-  { id: "survey", title: "Survey and design", detail: "In-house bathymetric, geotechnical and aerial surveys, with engineers and architects to shape your project." },
+  { id: "survey", title: "Survey and design", detail: "In-house multibeam, sand search, bathymetric, geotechnical and aerial surveys, with coastal design engineers and architects to shape your project." },
   { id: "environment", title: "Environmental assessment", detail: "In-house environmental consultants prepare the assessment and see it through approvals." },
   { id: "buildings", title: "Buildings and roads", detail: "Civil engineering and construction teams for buildings and roads." },
+  { id: "airports", title: "Airports", detail: "Runways, taxiways, aprons and terminal buildings, delivered as design-and-build projects." },
+  { id: "bridges", title: "Bridges and causeways", detail: "Causeway and bridge construction teams to link neighbouring islands." },
 ] as const;
 
 export function PrivateProjectsSection() {
@@ -63,7 +65,7 @@ export function PrivateProjectsSection() {
       <header className={styles.heading}>
         <p className={styles.eyebrow}><span aria-hidden="true" />Now taking on private projects</p>
         <h2 id="private-projects-title">Partner with us<br />on your reclamation project<span>.</span></h2>
-        <p>Resort developers, investors and island owners: MTCC is actively looking for private projects. You get the country&apos;s largest dredging fleet, our own rock and concrete works, and survey, design and engineering teams under one contract, from first sounding to handover.</p>
+        <p>Resort developers, investors and island owners: MTCC is actively looking for private projects. You get the country&apos;s largest dredging fleet, our own rock and concrete works, and survey, design and engineering teams under one contract, from first sounding to handover, all under our ISO 9001:2015 certified quality management system.</p>
       </header>
 
       <dl className={styles.capabilities}>{capabilities.map(([value, label]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>

@@ -1,6 +1,7 @@
 import { archivedCompanyProfile } from "./archived-company-profile";
 import { managementContacts } from "./management-contacts";
 import { annualReport2025 } from "./annual-report-2025";
+import { registerDate } from "./project-register";
 import type { ProfilePageData, ProfileSection } from "../types/profile";
 
 function original<T extends ProfileSection["type"]>(id: string, type: T): Extract<ProfileSection, { type: T }> {
@@ -14,9 +15,32 @@ function original<T extends ProfileSection["type"]>(id: string, type: T): Extrac
 export const businessSections = ["infrastructure", "transport-network", "shipbuilding", "general-trading"]
   .map(id => {
     const section = original(id, "content");
-    if (id === "infrastructure") return { ...section, blocks: section.blocks.filter(block =>
-      !(block.type === "metrics" && block.title === "Project statistics")
-    ) };
+    if (id === "infrastructure") return { ...section, blocks: section.blocks.flatMap(block => {
+      if (block.type === "metrics" && block.title === "Project statistics") return [];
+      // Dredging has its own tab; the infrastructure tab leads with the built portfolio instead.
+      if (block.type === "metrics" && block.title === "Fleet capacity") return [{
+        ...block,
+        title: "Infrastructure on the register",
+        metrics: [
+          { value: "66", label: "Road, airport and causeway projects", note: `Project register, ${registerDate}` },
+          { value: "16", label: "Airports", note: "Runways, taxiways and aprons" },
+          { value: "37", label: "Roads", note: "Island road networks and city roads" },
+          { value: "7", label: "Causeways and bridges", note: "Linking neighbouring islands" },
+          { value: "455", label: "Buildings", note: "Schools, health, sports, mosques and civic buildings" },
+        ],
+      }];
+      if (block.type === "text" && block.title === "Capabilities") return [{
+        ...block,
+        items: [
+          "Airport facilities — runways, taxiways, aprons and terminal buildings.",
+          "Road construction — island road networks and city roads, including Boduthakurufaanu Magu in Malé.",
+          "Causeway and bridge construction linking neighbouring islands.",
+          "Building construction — housing, schools, health facilities, mosques and civic buildings.",
+          "Harbour and marine construction, sheet piling, shore protection and beach replenishment.",
+        ],
+      }];
+      return [block];
+    }) };
     if (id !== "transport-network") return section;
     return { ...section, blocks: section.blocks.filter(block => block.type !== "bars").map(block => {
       if (block.type === "metrics" && block.title === "RTL network") return {
@@ -68,7 +92,7 @@ export const companyProfile: ProfilePageData = {
       if (item.year === "1999") return { year: "1995", title: "Dredging begins", detail: "MTCC started dredging with a few excavators." };
       if (item.year === "1980") return { ...item, detail: "MTCC was incorporated in December 1980." };
       if (item.year === "2020") return { ...item, label: "Resort development project", title: "Completion of Centara Three Island Reclamation Project", detail: "Centara project is the biggest private project conducted by MTCC." };
-      if (item.year === "2025") return { ...item, label: "Infrastructure Projects", title: "Redevelopment of Izzudheen Jetty", detail: "Izzudheen jetty or the presidential jetty is a significant landmark of the Male' city." };
+      if (item.year === "2025") return { ...item, label: "Infrastructure Projects", title: "Redevelopment of Izzudheen Jetty", detail: "Izzudheen jetty or the presidential jetty is a significant landmark of the Male' city. RTL Ferry Network expanded to Zone 2 (N, R, B)." };
       if (item.year === "2026") return { ...item, title: "This year", detail: "Malé Taxi Line introduced. Boduthakurufaanu Magu phase 1 completed. RTL ferries begin in F and Dh atolls." };
       return item;
     }) },
@@ -82,7 +106,7 @@ export const companyProfile: ProfilePageData = {
     ] }] },
     { type: "content", id: "sustainability", eyebrow: "Our commitments", title: "Sustainability", blocks: [
       { type: "metrics", metrics: [{ value: annualReport2025.communitySpending, label: "CSR and community spending · 2025" }] },
-      { type: "text", items: ["Electric vehicle fleet for Malé Taxi Line", "Electric bus service introduced", "Free public transport for elders and people with disabilities", "30-metre extension of the swimming area at B. Eydhafushi", "Jumhooree fountain redevelopment"] },
+      { type: "text", items: ["Eco-friendly vehicle fleet for Malé Taxi Line", "Eco-friendly bus service introduced", "Free public transport for elders and people with disabilities", "30-metre extension of the swimming area at B. Eydhafushi", "Jumhooree fountain redevelopment"] },
     ] },
     { type: "content", id: "financials", eyebrow: "Financial position", title: "Financial position, 2025", blocks: [{ type: "metrics", metrics: [
       { value: annualReport2025.totalAssets, label: "Total assets" },

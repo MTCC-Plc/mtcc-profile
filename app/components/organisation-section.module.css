@@ -5,7 +5,8 @@
 .chart :global(.org-executives) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .chart :global(.org-divisions) { grid-template-columns: 1fr; gap: 24px; }
 .chart :global(.org-division-group)::before { display: none; }
-.chart :global(.org-chart-node) { padding-inline: 12px; }
+.chart :global(.org-chart-node) { padding-inline: 12px; text-align: center; }
+.chart :global(.org-group-heading) { justify-content: center; text-align: center; }
 .chart :global(.org-managing) strong { font-size: 1rem; }
 .chart :global(.org-group-heading) { gap: 6px; }
 .chart :global(.org-group-heading) h3 { font-size: .87rem; }

@@ -53,7 +53,7 @@ export function ProjectPortfolio({ projects }: ProjectPortfolioProps) {
     <div className="shell">
       <header className={styles.heading}>
         <h2 id="portfolio-title">The project<br /><span>portfolio</span></h2>
-        <p>Two ways to read it: the full register as it stood on {registerDate}, or work on hand against work completed since 2021.</p>
+        <p>Two ways to read it: the full register as it stood on {registerDate}, or work on hand against work completed since 2018.</p>
       </header>
 
       <div className={styles.viewSwitch} role="group" aria-label="Portfolio view">
@@ -87,7 +87,7 @@ export function ProjectPortfolio({ projects }: ProjectPortfolioProps) {
           <p className={styles.note}>Tap a sector to see the project types inside it. The register is a wider scope than the {annualReport2025.governmentProjects} government projects underway in Annual Report {annualReport2025.year}.</p>
         </div>
       ) : (
-        <div id="portfolio-view" role="region" aria-label="Work on hand against work completed since 2021">
+        <div id="portfolio-view" role="region" aria-label="Work on hand against work completed since 2018">
           <dl className={styles.totals}>
             <div><dt>on hand across {recordTotals.onHandProjects} projects</dt><dd><CurrencyText value={millions(recordTotals.onHandValue, currency)} /></dd></div>
             <div><dt>Total projects completed between 2018 to 2026</dt><dd>270</dd></div>
@@ -108,12 +108,12 @@ export function ProjectPortfolio({ projects }: ProjectPortfolioProps) {
                 </summary>
                 <dl className={styles.projectTypes}>
                   <div><dt>on hand, {sector.onHandProjects} projects</dt><dd><CurrencyText value={millions(sector.onHandValue, currency)} /></dd></div>
-                  <div><dt>completed since 2021, {sector.completedProjects} projects</dt><dd><CurrencyText value={millions(sector.completedValue, currency)} /></dd></div>
+                  <div><dt>completed since 2018, {sector.completedProjects} projects</dt><dd><CurrencyText value={millions(sector.completedValue, currency)} /></dd></div>
                 </dl>
               </details>
             ))}
           </div>
-          <p className={styles.note}><i className={styles.keyOnHand} aria-hidden="true" /> On hand <i className={styles.keyDone} aria-hidden="true" /> Completed since 2021</p>
+          <p className={styles.note}><i className={styles.keyOnHand} aria-hidden="true" /> On hand <i className={styles.keyDone} aria-hidden="true" /> Completed since 2018</p>
         </div>
       )}
 
