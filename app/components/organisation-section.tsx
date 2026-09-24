@@ -115,7 +115,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
     <header className="organisation-heading"><p className="eyebrow">Management team</p><h2 id="organisation-title">{section.title}</h2><p>Meet the people leading MTCC. Select a role in the organisation chart or explore the management team to view a business card and contact details.</p></header>
     <div className="organisation-toolbar"><span>{section.people.length} people. Shared purpose.</span><div className={`organisation-view ${styles.viewSwitch}`} role="group" aria-label="Team view">
       <button type="button" aria-pressed={view === "organisation"} onClick={() => changeView("organisation")}>Organisation</button>
-      <button type="button" aria-pressed={view === "all"} onClick={() => changeView("all")}>View all</button>
+      <button type="button" aria-pressed={view === "all"} onClick={() => changeView("all")}>Team</button>
     </div></div>
     <div className={styles.layout}>
       {view === "organisation" ? <div className={`org-chart ${styles.chart}`} role="group" aria-label="Organisation chart">

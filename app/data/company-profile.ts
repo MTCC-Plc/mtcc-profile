@@ -63,7 +63,7 @@ export const companyProfile: ProfilePageData = {
       { value: "878", label: "Total projects" },
       { value: annualReport2025.totalAssets, label: "Total assets · 2025" },
       { value: annualReport2025.passengers, label: "Passengers carried in 2025" },
-      { value: annualReport2025.employees, label: `Employees as at ${annualReport2025.employeeDate}` },
+      { value: "6,672", label: "Total Employees" },
     ],
   },
   sections: [
