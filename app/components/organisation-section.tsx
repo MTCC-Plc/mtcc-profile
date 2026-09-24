@@ -13,6 +13,8 @@ type Leadership = Extract<ProfileSection, { type: "leadership" }>;
 type Person = Leadership["people"][number];
 type TeamView = "organisation" | "all";
 const businessDivisions = new Set(["Transport Services", "Engineering & Repair", "Trading", "Construction & Dredging Division"]);
+// Named exceptions for the executive committee whose title does not carry "Managing Director" or "Operating Officer".
+const excoOverrides = new Set(["Ibrahim Latheef"]);
 
 export function OrganisationSection({ section }: { section: Leadership }) {
   const [selectedName, setSelectedName] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   const seniorManagement = section.people.filter(person => person.group === "senior-management");
   const specialAdvisors = section.people.filter(person => person.group === "special-advisor");
   const managing = management.find(person => person.role === "Managing Director")!;
-  const executives = management.filter(person => /Managing Director|Operating Officer/.test(person.role) && person !== managing);
+  const executives = management.filter(person => (/Managing Director|Operating Officer/.test(person.role) || excoOverrides.has(person.name)) && person !== managing);
   const risk = management.find(person => person.division === "Risk Management");
   const governance = management.filter(person => /Secretary|Auditor/.test(person.role));
   const business = management.filter(person => businessDivisions.has(person.division ?? ""));

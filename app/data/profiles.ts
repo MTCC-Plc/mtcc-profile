@@ -537,11 +537,6 @@ export const investorProfile: ProfilePageData = {
           "detail": "MTCC Tower construction work completed."
         },
         {
-          "year": "2006",
-          "title": "Integrated transport network",
-          "detail": "Commenced Integrated Transport Network to connect the whole of Maldives."
-        },
-        {
           "year": "2007",
           "title": "Housing in L. Gan",
           "detail": "Completed 160 housing units in L. Gan."

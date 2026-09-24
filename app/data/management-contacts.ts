@@ -131,7 +131,7 @@ export const managementContacts: ManagementContact[] = [
     role: "Senior General Manager",
     email: "ibrahim.latheef@mtcc.com.mv",
     phone: "3001277",
-    group: "senior-management",
+    group: "management",
     image: "/assets/leadership/15.webp",
     division: "Training & Strategic Development",
   },
