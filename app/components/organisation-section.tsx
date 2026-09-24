@@ -30,7 +30,8 @@ export function OrganisationSection({ section }: { section: Leadership }) {
   const risk = management.find(person => person.division === "Risk Management");
   const governance = management.filter(person => /Secretary|Auditor/.test(person.role));
   const business = management.filter(person => businessDivisions.has(person.division ?? ""));
-  const corporate = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && (person.division || person.role === "Chief Financial Officer"));
+  // Exco overrides (e.g. Ibrahim Latheef) keep their division listed here too, alongside their Executive leadership card.
+  const corporate = management.filter(person => person !== managing && (!executives.includes(person) || excoOverrides.has(person.name)) && !governance.includes(person) && person !== risk && !business.includes(person) && (person.division || person.role === "Chief Financial Officer"));
   const otherManagement = management.filter(person => person !== managing && !executives.includes(person) && !governance.includes(person) && person !== risk && !business.includes(person) && !corporate.includes(person));
   const category = selected && (selected.group === "senior-management" ? "Senior management" : selected.group === "special-advisor" ? "Special advisors" : selected === managing || executives.includes(selected) ? "Executive leadership" : business.includes(selected) ? "Business divisions" : corporate.includes(selected) ? "Corporate services" : governance.includes(selected) || selected === risk ? "Governance & risk" : "Executive Management");
   const directoryGroups = [{ title: "Executive Management", people: management }, { title: "Senior Management", people: seniorManagement }, { title: "Special Advisors", people: specialAdvisors }];

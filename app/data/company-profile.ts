@@ -99,7 +99,9 @@ export const companyProfile: ProfilePageData = {
     { type: "content", id: "competitive-differentiators", eyebrow: "Why MTCC", title: "Why partner with MTCC", blocks: [{ type: "text", items: [
       "Longest-serving public company in the Maldives, incorporated in 1980",
       "Largest fleet of dredging and construction equipment in the country",
-      "ISO 9001:2015 certified",
+      "ISO 9001:2015 certified for Quality Management",
+      "ISO 45001:2018 certified for Occupational Health & Safety",
+      "ISO 14001:2015 certified for Environment Management",
       "The only company operating an integrated nationwide land and sea transport network",
       "Trading and transport revenue reduces reliance on the government project cycle",
       "First contractor to bring rock boulder breakwaters, revetments and L-section concrete quay walls to the Maldives",

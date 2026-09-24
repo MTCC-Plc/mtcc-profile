@@ -24,8 +24,14 @@ export function currencyMetrics(metrics: Metric[], currency: Currency): Metric[]
     });
     if (partnerIndex !== undefined && originalCurrency !== currency) return [];
     if (originalCurrency === currency) return [{ ...metric, value: `${currencySymbols[currency]} ${amount}${suffix}` }];
-    const converted = Number(amount.replaceAll(",", "")) * (currency === "USD" ? 1 / MVR_PER_USD : MVR_PER_USD);
-    return [{ ...metric, value: `≈ ${currencySymbols[currency]} ${converted.toLocaleString("en-US", { maximumFractionDigits: 2 })}${suffix}`,
+    let converted = Number(amount.replaceAll(",", "")) * (currency === "USD" ? 1 / MVR_PER_USD : MVR_PER_USD);
+    // Re-derive the magnitude suffix so a conversion never reads like "0.39B" —
+    // crossing a threshold moves the value into the neighbouring unit instead.
+    let convertedSuffix = suffix;
+    let fractionDigits = 2;
+    if (suffix === "B" && converted < 1) { converted *= 1000; convertedSuffix = "M"; fractionDigits = 0; }
+    else if (suffix === "M" && converted >= 1000) { converted /= 1000; convertedSuffix = "B"; }
+    return [{ ...metric, value: `≈ ${currencySymbols[currency]} ${converted.toLocaleString("en-US", { maximumFractionDigits: fractionDigits })}${convertedSuffix}`,
       note: [metric.note, "Approximate equivalent · $1 = Rf 15.42"].filter(Boolean).join(" · ") }];
   });
 }
